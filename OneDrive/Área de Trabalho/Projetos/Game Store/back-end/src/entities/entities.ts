@@ -15,6 +15,7 @@ class Games {
   @Column()
   name: string;
 
+
   @Column()
   img: string;
 
@@ -26,9 +27,6 @@ class Games {
 
   @Column()
   category: string;
-
-  @Column({ default: true })
-  isActive: boolean;
 
   @CreateDateColumn({ type: "date" })
   createdAt: Date;

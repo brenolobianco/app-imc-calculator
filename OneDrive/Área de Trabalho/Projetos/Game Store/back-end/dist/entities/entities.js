@@ -38,10 +38,6 @@ __decorate([
     __metadata("design:type", String)
 ], Games.prototype, "category", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: true }),
-    __metadata("design:type", Boolean)
-], Games.prototype, "isActive", void 0);
-__decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "date" }),
     __metadata("design:type", Date)
 ], Games.prototype, "createdAt", void 0);
