@@ -1,0 +1,202 @@
+@import url(https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i);
+@import url(https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i);
+@import url(https://fonts.googleapis.com/css?family=Abel:400);
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:300,300i,400,400i,700,700i,900,900i);');
+@charset "utf-8";
+/*--contact start here--*/
+.contact {
+  background: url(../images/con-ban.jpg)no-repeat;
+  min-height: 500px;
+  background-size: cover;
+}
+.contact {
+  padding: 3em 0em;
+}
+.contact-top h3 {
+  font-size: 2.4em; font-weight:bold;
+  color: #306e43;
+  margin: 0em 0em 0.2em 0em;
+  font-family: 'Merriweather'; text-align:center;
+}
+.contact-top {
+  text-align: center;
+  padding: 0em 0em 2.5em 0em;
+}
+.contact-left h4 {
+  font-size: 2.2em;
+  color: #306e43;
+  margin: 0em 0em 0.3em 0em;
+  font-family: 'Merriweather';
+}
+.contact-left h5 {
+  font-size: 0.95em;
+  color: #306e43;
+  line-height: 1.8em;
+  width: 95%;
+  margin: 0em 0em 2em 0em;
+}
+.contact-left p {
+  font-size: 1em;
+  color: #304e70;
+  line-height: 1.8em;
+}
+.contact-right input[type="text"] {
+  font-size: 1em;
+  color: #304e70;
+  outline: none;
+  width: 100%;
+  height: 50px;
+  margin: 0em 0em 0.6em 0em;
+  padding: 0.4em 1em 0.4em 1em;
+  border-radius: 10px;
+  border: 1px solid #88E450;
+  background: #fff;
+  font-family: 'Montserrat', sans-serif;
+}
+.contact-right textarea {
+  font-size: 1em;
+  color: #304e70;
+  outline: none;
+  width: 100%; 
+  height: 50px;
+  height: 11em;
+  resize: none;
+  border-radius: 10px;
+  border: 1px solid #88E450;
+  background: #fff;
+  padding: 0.5em 1em 0.5em 1em;
+  font-family: 'Montserrat', sans-serif;
+}
+.contact-right input[type="submit"] {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+  padding: 0.4em 1em 0.4em 1em;
+  background-image: linear-gradient(#aaaaaa, #ffffff);
+  border-color: #fafafa !important;
+  color: #0d0d0f !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  border: none;
+  width: 200px; 
+  height: 50px;
+  outline: none;
+  margin: 0.6em auto 0em;
+  display: block;
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+}
+.contact-right input[type="submit"]:hover {
+	background-color: transparent !important;
+    border-color: #fafafa !important;
+    color: #fafafa !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+	color: #304e70;
+	border: 2px solid #304e70;
+	transition: 0.5s all;
+	-webkit-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-o-transition: 0.5s all;
+	
+}
+.map {
+  background: rgba(153, 153, 153, 0.2);
+}
+.map iframe {
+  width: 100%;
+  height: 450px;
+  border: none;
+}
+@media(max-width:1440px){
+
+}
+@media(max-width:1336px){
+	
+}
+@media(max-width:1280px){
+}
+@media(max-width:1024px){
+}
+@media(max-width:768px){
+.contact-top h3 {
+  font-size: 2.5em;
+}
+.contact {
+  padding: 2em 0em;
+}
+.contact-top {
+  padding: 0em 0em 1.5em 0em;
+}
+.contact-left {
+  margin: 0em 0em 2em 0em;
+}
+}
+@media(max-width:640px){
+}
+@media(max-width:480px){
+.map iframe {
+  height: 205px;
+}
+.contact-top h3 {
+  font-size: 2em;
+}
+.contact-left h4 {
+  font-size: 1.5em;
+}
+.contact {
+  padding: 1.5em 0em;
+}
+.contact-left h5 {
+  font-size: 0.9em;
+  line-height: 1.6em;
+  width: 100%;
+  margin: 0em 0em 1em 0em;
+}
+.contact-left p {
+  font-size: 0.9em;
+  line-height: 1.6em;
+}
+.contact-right input[type="text"] {
+  font-size: 0.9em;
+  padding: 0.3em 1em 0.3em 1em;
+}
+.contact-right textarea {
+  font-size: 0.9em;
+  height: 9em;
+}
+.contact-right input[type="submit"] {
+  font-size: 0.9em;
+  padding: 0.4em 1em 0.3em 1em; #79bafc
+}
+}
+@media(max-width:320px){
+.map iframe {
+  height: 150px;
+}
+.contact {
+  padding: 1em 0em;
+}
+.contact-left {
+  padding: 0em;
+}
+.contact-top h3 {
+  font-size: 1.5em;
+}
+.contact-top {
+  padding: 0em 0em 1em 0em;
+}
+.contact-left h5 {
+  font-size: 0.8em;
+}
+.contact-left p {
+  font-size: 0.83em;
+}
+.contact-left {
+  margin: 0em 0em 1em 0em;
+}
+.contact-right {
+  padding: 0px;
+}
+.contact-right textarea {
+  height: 6em;
+}
+}
