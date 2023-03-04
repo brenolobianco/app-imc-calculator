@@ -93,6 +93,11 @@ include ("header.php");
 		if($acao=='novo-modulo'){include("views/modulo/insert.php");}	
 		if($acao=='editar-modulo'){include("views/modulo/update.php");}	
 
+		/*--- QUIZ ---*/
+		if($acao=='quiz'){include("views/quiz/index.php");}
+		if($acao=='novo-quiz'){include("views/quiz/insert.php");}
+
+
 		/*--- PROFESSORES ---*/
 		if($acao=='professores'){include("views/professor/index.php");}
 		if($acao=='professor'){include("views/professor/select.php");}
