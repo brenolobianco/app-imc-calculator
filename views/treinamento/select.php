@@ -44,73 +44,36 @@ include_once('controllers/treinamento/ControllerModulo.php');
 
 
         <div class="modulos">
-
-            <div class="modulo">
-                <div class="content d-flex justify-content-center mt-3">
-                    <div class="row align-items-center clique" style="width: 90%;" data-toggle="collapse"
-                        data-target="#collapseOne" aria-expanded="true" aria-controls="">
-                        <div class="col-md-12 col-sm-12 " style="background: #737373;">
-                            <p class="mt-3 texto-modulo" style="color: #88E450; font-weight: 800; text-align:left;">
-                                MODULO 0'.$num.' -
-                                '.$mostra->nome_mod.'</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content mt-3 d-flex justify-content-center clique">
-                    <div style="width: 90%; text-align: center;" id="collapseOne" class="collapse"
-                        aria-labelledby="headingOne" data-id-aula="1">
-                        <div class="d-flex content" onclick="hiddenLeft(this)">
-
-                            <div class="aula bg-white" class="d-flex" style="width: 24%; margin-right: 1%;">
-                                <div class="d-flex alinhar" style="text-align: center;">
-                                    <span class="alinhar texto-mudulo-accordion">1° semana</span>
-                                </div>
-                            </div>
-
-                            <div data-toggle="collapse" data-target="#collapseOne1" aria-expanded="false"
-                                class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
-                                <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="1">Protocolo de
-                                    Sepse</span>
-                            </div>
+            <!---
+            -->
 
 
-                            <div class="mr-auto bg-white ml-n3">
-                                <div class="max" style="max-width: 42px;">
-                                    <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
-                                </div>
-                            </div>
+            <?php 
+                
 
-                        </div>
+                $modulos = getModulos($conexao, $id_est);
+                $modulosCount = $modulos->rowCount();
+                if($modulosCount>0){
+                    $estagios = [];
+                    while($mostra = $modulos->FETCH(PDO::FETCH_OBJ)){
+                        $est_id_mod = $mostra->est_id_mod;
+                        $id_mod = $mostra->id_mod;
+                        array_push($estagios, $estagios_id_mod);
+                        $num = count($estagios);
+                        $aulas = getAulasModulos($conexao, $id_mod);
+                        while($fetchAula = $aulas->FETCH(PDO::FETCH_OBJ)) {
+                            $nome_aula = $fetchAula->nome_aula;
+                        }
 
+                        $aulas = '';
+                        $aulasFetch = getAulasModulos($conexao, $id_mod);
+                        while($fetchAula = $aulasFetch->FETCH(PDO::FETCH_OBJ)) {
+                            $arq_vid = $fetchAula->arq_vid;
+                            $id_vid = $fetchAula->id_vid;
+                            $id_aula = $fetchAula->id_aula;
 
-
-                        <div class="collapse w-100 bottom" id="collapseOne1" aria-expanded="false">
-                            <div class="content d-flex justify-content-center clique">
-                                <div class="w-100" style="text-align: center; background-color: white;">
-                                    <div class="ml-3 mr-3 mb-3 mt-1 pt-5" style="background-color: black;">
-                                        <video width="80%" height="300" controls>
-                                            <source src="video.mp4" type="video/mp4">
-                                            Seu navegador não suporta video.
-                                        </video>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content d-flex clique mt-2" data-toggle="collapse" data-target="#collapseQuiz"
-                                aria-expanded="false">
-                                <div class="d-flex w-100" style="background-color: white;">
-                                    <div class="d-flex w-100 p-3">
-                                        <span class="mr-auto ml-3 texto-modulo-accordion-minusculo">
-                                            Quiz de fixação
-                                        </span>
-                                        <span class="mr-3 texto-modulo-accordion-minusculo">
-                                            X
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
+                            $quizBox = '
+                            
                             <div class="quiz-box d-flex" style="justify-content: center;align-content: center;">
                                 <div class="collapse" id="collapseQuiz" aria-expanded="false" style="width: 95%;">
                                     <div class="d-flex flex-row box bg-white mt-2" style="border-radius: 7px 7px 7px;">
@@ -124,35 +87,7 @@ include_once('controllers/treinamento/ControllerModulo.php');
 
 
                                             <div class="questoes mt-5">
-                                                <div class="d-flex flex-row texto-modulo-accordion ml-2 p-2"
-                                                    style="color: #88E450; font-size: 2vh;">
-                                                    <input type="checkbox" name="" id="" style="width: 50px;">
-                                                    <span class="titulo-quiz mt-1">QUESTÂO <span
-                                                            class="titulo-quiz">01</span></span>
-                                                </div>
 
-                                                <div class="d-flex flex-row texto-modulo-accordion ml-2 p-2"
-                                                    style="color: #88E450; font-size: 2vh;">
-                                                    <input type="checkbox" name="" id="" style="width: 50px;">
-                                                    <span class="titulo-quiz mt-1">QUESTÂO <span
-                                                            class="titulo-quiz">01</span></span>
-                                                </div>
-
-
-                                                <div class="d-flex flex-row texto-modulo-accordion ml-2 p-2"
-                                                    style="color: #88E450; font-size: 2vh;">
-                                                    <input type="checkbox" name="" id="" style="width: 50px;">
-                                                    <span class="titulo-quiz mt-1">QUESTÂO <span
-                                                            class="titulo-quiz">01</span></span>
-                                                </div>
-
-
-                                                <div class="d-flex flex-row texto-modulo-accordion ml-2 p-2"
-                                                    style="color: #88E450; font-size: 2vh;">
-                                                    <input type="checkbox" name="" id="" style="width: 50px;">
-                                                    <span class="titulo-quiz mt-1">QUESTÂO <span
-                                                            class="titulo-quiz">01</span></span>
-                                                </div>
                                             </div>
 
 
@@ -174,72 +109,114 @@ include_once('controllers/treinamento/ControllerModulo.php');
                                     </div>
                                 </div>
                             </div>
+                            ';
+
+                            $quiz = '
+                            
+                            <div class="content d-flex clique mt-1 mb-2" data-toggle="collapse" data-target="#collapseQuiz"
+                            aria-expanded="false">
+                            <div class="d-flex w-100" style="background-color: white;">
+                                <div class="d-flex w-100 p-3">
+                                    <span class="mr-auto ml-3 texto-modulo-accordion-minusculo">
+                                        Quiz de fixação
+                                    </span>
+                                    <span class="mr-3 texto-modulo-accordion-minusculo">
+                                        X
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <?php 
-            if($contar>0){
-                $estagios = [];
-                while($mostra = $result->FETCH(PDO::FETCH_OBJ)){
-                    $est_id_mod = $mostra->est_id_mod;
-                    array_push($estagios, $estagios_id_mod);
-                    $num = count($estagios);
-                    echo '
-                        <div class="modulo">
+                            ';
+                            
+                            $collapseAula = '
+                            <div class="collapse w-100 bottom" id="aula'.$id_aula.'" aria-expanded="false">
+                                <div class="content d-flex justify-content-center clique">
+                                    <div class="w-100" style="text-align: center; background-color: white;">
+                                        <div class="ml-3 mr-3 mb-3 mt-1 pt-5" style="background-color: black;">
+                                            <video width="80%" height="300" controls>
+                                                <source src="get_video.php?id='.$id_aula.'" type="video/mp4">
+                                                Seu navegador não suporta video.
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                                '.$quiz.'
+                                '.$quizBox.'
+                                </div>
                     ';
-                    $modulo = '            
-                    <div class="content d-flex justify-content-center mt-3">
-                        <div class="row align-items-center clique" style="width: 90%;" data-toggle="collapse"
-                            data-target="#accordion-'.$num.'" aria-expanded="true" aria-controls="#accordion-'.$num.'">
-                            <div class="col-md-12 col-sm-12 " style="background: #737373;">
-                                <p class="mt-3 texto-modulo"
-                                    style="color: #88E450; font-weight: 800; text-align:left;">MODULO 0'.$num.' -
-                                    '.$mostra->nome_mod.'</p>
+
+
+                            $aulas .= '
+                            <div class="mt-3">
+                                <div class="d-flex content" onclick="hiddenLeft(this)">
+
+                                    <div class="aula bg-white" class="d-flex" style="width: 24%; margin-right: 1%;">
+                                        <div class="d-flex alinhar" style="text-align: center;">
+                                            <span class="alinhar texto-mudulo-accordion">1° semana</span>
+                                        </div>
+                                    </div>
+
+                                    <div data-toggle="collapse" data-target="#aula'.$id_aula.'" aria-expanded="false"
+                                        class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
+                                        <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
+                                    </div>
+
+
+                                    <div class="mr-auto bg-white ml-n3">
+                                        <div class="max" style="max-width: 42px;">
+                                            <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                '.$collapseAula.'
                             </div>
-                        </div>
-                    </div>
-                ';
-                echo $modulo;
-                
-                $acordionModulo = '
-                <div class="content mt-3 d-flex justify-content-center clique">
-                <div style="width: 90%; text-align: center;" id="accordion-'.$num.'" class="collapse"
-                    aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="d-flex content">
-                    
-                        <div class="d-flex" style="background-color: white; width: 24%; margin-right: 1%;">
-                            <div class="d-flex alinhar" style="text-align: center;">
-                                <h2 class="alinhar texto-mudulo-accordion">1° semana</h2>
+                            ';
+
+                        }
+                        $modulo = '
+                        <div class="modulo">
+                            <div class="content d-flex justify-content-center mt-3">
+                                <div class="row align-items-center clique" style="width: 90%;" data-toggle="collapse"
+                                    data-target="#modulo'.$id_mod.'" aria-expanded="true" aria-controls="">
+                                    <div class="col-md-12 col-sm-12 " style="background: #737373;">
+                                        <p class="mt-3 texto-modulo" style="color: #88E450; font-weight: 800; text-align:left;">
+                                            MODULO '.$num.' -
+                                            '.$mostra->nome_mod.'</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="d-flex alinhar" style="background-color: white; width: 75%;">
-                            <h2  class="alinhar texto-modulo-accordion-minusculo">Protocolo de sepse</h2>
-                        
-                        </div>
 
-                        <div class="mr-auto bg-white ml-n3">
-                            <div class="max" style="max-width: 42px;">
-                                <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
+                        <!--- INICIO AULA --->
+                        <div class="content mt-3 d-flex justify-content-center clique">
+                            
+                            <div style="width: 90%; text-align: center;" id="modulo'.$id_mod.'" class="collapse"
+                                aria-labelledby="headingOne" data-id-aula="1">
+                                <!--- INICIO LISTA AULAS--->
+                                '.$aulas.'
+                                <!--- FIM LISTA AULAS--->
                             </div>
+                                    
+
+
+                            
+                            </div>
+
+                            </div>
+
                         </div>
-
+                        <!--- FIM AULA --->
                     </div>
-                    </div>
-                </div>
-            ';
-
-            echo $acordionModulo;
-            echo "</div>";
+        
+                        ';
+                    echo $modulo;
+                    }
                 }
-            }
             ?>
 
+        </div>
 
     </div>
 </div>
@@ -308,6 +285,28 @@ include_once('controllers/treinamento/ControllerModulo.php');
             aula.classList.remove('d-none');
         }
 
+    }
+
+    function onlyOne(checkbox) {
+    var checkboxes = document.getElementsByName('check')
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) item.checked = false
+    });
+    }
+
+    function proximo() {
+        let marcado = document.querySelector("[name='check']:checked");
+        if(marcado) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', '/controllers/quiz/verificar_resposta.php');
+            xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+            };
+            xhr.send();
+
+        }
     }
 </script>
 

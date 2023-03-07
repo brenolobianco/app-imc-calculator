@@ -70,6 +70,7 @@ include ("includes/header.php");
 		if($acao=='aprovado8Efr3Ww1'){include("views/pagamento/apro.php");}
 		
 		if($acao=='aprovado'){include("views/pagamento/apro.php");}	
+		if($acao=='verificar-quiz-resposta'){include("views/quiz/verificar_resposta.php");}			
 		if($acao=='analise'){include("views/pagamento/analise.php");}	
 		if($acao=='erro-no-processo'){include("views/pagamento/em-pro.php");}
 		

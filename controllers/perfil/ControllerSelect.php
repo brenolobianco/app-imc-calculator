@@ -29,7 +29,6 @@ if(!isset($_GET['id_acad'])){ header("Location: home.php?acao=pagina-nao-existe"
             $rua_acad    = $mostra->rua_acad;
             $num_acad    = $mostra->num_acad;
             $img_acad    = $mostra->img_acad;
-
         }
         }else{
           echo '<div class="alert alert-info">
