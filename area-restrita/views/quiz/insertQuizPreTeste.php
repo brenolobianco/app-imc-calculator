@@ -5,7 +5,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <?php include_once 'controllers/quiz/ControllerInsert.php';?>
+                    <?php include_once 'controllers/quiz/ControllerInsertPreTeste.php';?>
                 </div>
                 <div class="col-md-12">
                     <div class="card-box">
@@ -175,15 +175,6 @@
                     <!-- Accordion Using List Group -->
                     <div class="col-md-6 col-md-offset-3">
                         <div id="accordion">
-                            <div class="panel list-group">
-                                <!-- panel class must be in -->
-
-
-
-
-            
-                            </div>
-
 
                         </div>
                     </div>

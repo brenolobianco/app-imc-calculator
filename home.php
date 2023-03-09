@@ -14,6 +14,7 @@ include ("includes/header.php");
 		if($acao=='curso-video'){include("views/curso/selectVideo.php");} 
 		
 		if($acao=='treinamento'){include("views/treinamento/select.php");}	
+		if($acao=='treinamento-video'){include("views/treinamento/selectVideo.php");}	
 		
 		
 		if($acao=='certificado'){include("views/cert-pdf.php");}

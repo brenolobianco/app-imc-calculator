@@ -227,6 +227,7 @@
                                 <li><a href="home.php?acao=cursos">Cursos</a></li>
                                 <li><a href="home.php?acao=modulos">Módulos</a></li>
                                 <li><a href="home.php?acao=quiz">Quiz</a></li>
+                                <li><a href="home.php?acao=quiz-pre-teste">Quiz pre-teste</a></li>
                                 <!--<li>
                                         <a href="javascript: void(0);" aria-expanded="false">Aulas
                                             <span class="menu-arrow"></span>

@@ -204,7 +204,24 @@
                                                     }
                                                     ?> 
                                                 </select>
-                                            </div>      
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <select class="form-control" name="cronograma_semanas">
+                                                    <option value="1">1 Semana</option>
+                                                    <option value="2">2 Semana</option>
+                                                    <option value="3">3 Semana</option>
+                                                    <option value="4">4 Semana</option>
+                                                    <option value="5">5 Semana</option>
+                                                    <option value="6">6 Semana</option>
+                                                    <option value="7">7 Semana</option>
+                                                    <option value="8">8 Semana</option>
+                                                    <option value="9">9 Semana</option>
+                                                    <option value="10">10 Semana</option>
+                                                </select>
+                                            </div>
+
+                                            
                                         </div>
                                         <div class="form-group mb-0 justify-content-end row">
                                             <div class="col-sm-10">

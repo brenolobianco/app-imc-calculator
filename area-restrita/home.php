@@ -95,6 +95,9 @@ include ("header.php");
 
 		/*--- QUIZ ---*/
 		if($acao=='quiz'){include("views/quiz/index.php");}
+		if($acao=='quiz-pre-teste'){include("views/quiz/index.php");}
+		
+		if($acao=='novo-quiz-pre-teste'){include("views/quiz/insertQuizPreTeste.php");}
 		if($acao=='novo-quiz'){include("views/quiz/insert.php");}
 
 

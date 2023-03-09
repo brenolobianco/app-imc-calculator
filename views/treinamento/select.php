@@ -82,7 +82,7 @@ include_once('controllers/treinamento/ControllerModulo.php');
 
                                             <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
                                                 <span class="titulo-quiz">QUESTÂO <span class="titulo-quiz">01</span> -
-                                                    <span class="titulo-quiz">SEPSE</span></span>
+                                                    <span class="titulo-quiz">'.$fetchAula->nome_aula.'</span></span>
                                             </div>
 
 
@@ -140,11 +140,12 @@ include_once('controllers/treinamento/ControllerModulo.php');
                                         </div>
                                     </div>
                                 </div>
-                                 
+                                                                  
                                 '.$quiz.'
                                 '.$quizBox.'
+                                '.$collapseAula.'
                                 </div>
-                    ';
+                            ';
 
 
                             $aulas .= '
@@ -157,7 +158,7 @@ include_once('controllers/treinamento/ControllerModulo.php');
                                         </div>
                                     </div>
 
-                                    <div data-toggle="collapse" data-target="#aula'.$id_aula.'" aria-expanded="false"
+                                    <div data-toggle="collapse" onclick="redirect('.$id_vid.')" aria-expanded="false"
                                         class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
                                         <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
                                     </div>
@@ -165,16 +166,15 @@ include_once('controllers/treinamento/ControllerModulo.php');
 
                                     <div class="mr-auto bg-white ml-n3">
                                         <div class="max" style="max-width: 42px;">
-                                            <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
+                                            <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
                                         </div>
                                     </div>
                                 </div>
                                 
-                                '.$collapseAula.'
                             </div>
                             ';
-
                         }
+
                         $modulo = '
                         <div class="modulo">
                             <div class="content d-flex justify-content-center mt-3">
@@ -208,7 +208,11 @@ include_once('controllers/treinamento/ControllerModulo.php');
 
                         </div>
                         <!--- FIM AULA --->
-                    </div>
+                        
+
+
+
+                        </div>
         
                         ';
                     echo $modulo;
@@ -307,6 +311,10 @@ include_once('controllers/treinamento/ControllerModulo.php');
             xhr.send();
 
         }
+    }
+
+    function redirect(id) {
+        location.href = "home.php?acao=treinamento-video&id_vid=" + id;
     }
 </script>
 

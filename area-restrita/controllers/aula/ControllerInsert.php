@@ -7,6 +7,7 @@
         $mod_id_aula  = trim(strip_tags($_POST["mod_id_aula"]));  
         $est_id_aula  = trim(strip_tags($_POST["est_id_aula"]));
         $prof_id_aula  = trim(strip_tags($_POST["prof_id_aula"]));
+        $cronograma_semanas = trim(strip_tags($_POST["cronograma_semanas"]));;
         
         $est_id_aula_treinamento  = $_POST["est_id_aula_treinamento"];
         $treinamento = null;
@@ -16,18 +17,20 @@
         }
 
         $insert = "INSERT into aula ( nome_aula, desc_aula, curso_id_aula, mod_id_aula, est_id_aula, prof_id_aula ) 
-        VALUES ( :nome_aula, :desc_aula, :curso_id_aula, :mod_id_aula, :est_id_aula, :prof_id_aula )";  
+        VALUES ( :nome_aula, :desc_aula, :curso_id_aula, :mod_id_aula, :est_id_aula, :prof_id_aula)";  
         if($treinamento == "sim") {
-            $insert = "INSERT into aula ( nome_aula,desc_aula, mod_id_aula, est_id_aula, prof_id_aula, treinamento ) 
-            VALUES ( :nome_aula, :desc_aula, :mod_id_aula, :est_id_aula, :prof_id_aula, :treinamento )";  
+            $insert = "INSERT INTO aula (nome_aula, desc_aula, mod_id_aula, est_id_aula, prof_id_aula, treinamento, cronograma_semanas) 
+            VALUES ( :nome_aula, :desc_aula, :mod_id_aula, :est_id_aula, :prof_id_aula, :treinamento, :cronograma_semanas)";
         }
             try{
                 $result = $conexao->prepare($insert);
                 $result ->bindParam(':nome_aula',$nome_aula, PDO::PARAM_STR);
                 $result ->bindParam(':desc_aula',$desc_aula, PDO::PARAM_STR);
                 if($treinamento != "sim") {
-                    $result ->bindParam(':curso_id_aula',$curso_id_aula, PDO::PARAM_INT);
+                    $result->bindParam(':curso_id_aula',$curso_id_aula, PDO::PARAM_INT);
                 }
+                $result->bindParam(':cronograma_semanas', $cronograma_semanas, PDO::PARAM_INT);
+                
                 $result ->bindParam(':mod_id_aula',$mod_id_aula, PDO::PARAM_INT);
                 $result ->bindParam(':est_id_aula',$est_id_aula, PDO::PARAM_INT);
                 $result ->bindParam(':prof_id_aula',$prof_id_aula, PDO::PARAM_INT);  

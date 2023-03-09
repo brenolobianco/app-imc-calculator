@@ -7,7 +7,7 @@
                                 <?php include_once 'controllers/professor/ControllerDelete.php';?>
                             </div>
                             <div class="col-12">
-                                <a href="home.php?acao=novo-quiz" class="btn btn-primary">Novo Quiz</a>
+                                <a href="home.php?acao=novo-quiz-pre-teste" class="btn btn-primary">Novo Quiz</a>
                             </div>
                             <br /><br />
                             <div class="col-12">
