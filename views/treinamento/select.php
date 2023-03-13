@@ -2,6 +2,9 @@
 
 include_once('controllers/treinamento/ControllerModulo.php');
 
+
+
+
 ?>
 <div class="content mt-5" style="padding-top: 20px; padding-bottom: 20px;">
     <div class="wrap m-5 mt-5">
@@ -292,10 +295,10 @@ include_once('controllers/treinamento/ControllerModulo.php');
     }
 
     function onlyOne(checkbox) {
-    var checkboxes = document.getElementsByName('check')
-    checkboxes.forEach((item) => {
-        if (item !== checkbox) item.checked = false
-    });
+        var checkboxes = document.getElementsByName('check')
+        checkboxes.forEach((item) => {
+            if (item !== checkbox) item.checked = false
+        });
     }
 
     function proximo() {
@@ -309,9 +312,9 @@ include_once('controllers/treinamento/ControllerModulo.php');
             }
             };
             xhr.send();
-
         }
     }
+
 
     function redirect(id) {
         location.href = "home.php?acao=treinamento-video&id_vid=" + id;

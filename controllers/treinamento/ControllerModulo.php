@@ -2,13 +2,15 @@
 
 
 function getAulasModulos($conexao, $id_mod){
-    $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim'";
+    $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':mod_id_aula', $id_mod, PDO::PARAM_INT);
     $result ->execute();
     return $result;
 }
+
+
 
 function getModulos($conexao, $id_est) {
 
@@ -24,7 +26,7 @@ if(!isset($_GET['id_est'])){ header("Location: home.php?acao=pagina-nao-existe")
    
 
     $id_est = $_GET['id_est'];
-    $select = "SELECT * from modulo WHERE est_id_mod=:est_id_mod AND treinamento = 'sim'";
+    $select = "SELECT * from modulo WHERE est_id_mod=:est_id_mod AND treinamento = 'sim' ";
 
     try{
         $result = $conexao->prepare($select);
@@ -36,8 +38,6 @@ if(!isset($_GET['id_est'])){ header("Location: home.php?acao=pagina-nao-existe")
     }catch(PDOException $e){
         echo $e;
     }
-
-
 
 
 

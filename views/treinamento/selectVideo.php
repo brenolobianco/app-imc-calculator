@@ -3,7 +3,7 @@
 include_once 'controllers/aulaVideo/ControllerSelect.php';
 
 function getAulasModulos($conexao, $id_mod){
-    $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim'";
+    $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':mod_id_aula', $id_mod, PDO::PARAM_INT);
@@ -12,7 +12,7 @@ function getAulasModulos($conexao, $id_mod){
 }
 
 function getAulasByAulaVid($conexao, $id_vid){
-    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid";
+    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $id_vid, PDO::PARAM_INT);
@@ -22,7 +22,7 @@ function getAulasByAulaVid($conexao, $id_vid){
 
 
 function getModuloByAulaVid($conexao, $aula_vid_id){
-    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY aula.cronograma_semanas ASC";
+    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $aula_vid_id, PDO::PARAM_INT);
@@ -62,11 +62,11 @@ function getModulo($conexao, $id_est) {
                 $modulos = getModuloByAulaVid($conexao, $id_vid);
                 $modulosCount = $modulos->rowCount();
                 if($modulosCount>0){
-                    $estagios = [];
+                    $estagios = []; // contar modulo 1, 2, 3 -> 01, 02, 03
                     while($mostra = $modulos->FETCH(PDO::FETCH_OBJ)){
                         $est_id_mod = $mostra->est_id_aula;
                         $id_mod = $mostra->mod_id_aula;
-                        array_push($estagios, $estagios_id_mod);
+                        array_push($estagios, $est_id_mod);
                         $num = count($estagios);
                         $aulas = getModuloByAulaVid($conexao, $id_vid);
 
@@ -102,14 +102,14 @@ function getModulo($conexao, $id_est) {
                                     </div>
 
                                     <div class="botoes d-flex col-md-12">
-                                        <button class="radius-quiz btn bg-white w-25">
+                                        <button class="radius-quiz btn bg-white w-25 ">
                                             <div style="width: 20%; text-align: left;">
                                                 <img class="ml-n5" src="/assets/images/voltar-dark.png" alt=""
                                                     style="max-width: 100%;">
                                             </div>
                                             <span style="font-size: 1em;">VOLTAR</span>
                                         </button>
-                                        <button class="radius-quiz btn bg-white w-25">PRÓXIMO</button>
+                                        <button class="radius-quiz btn bg-white w-25 btn-proximo-quiz">PRÓXIMO</button>
                                         <button class="radius-quiz btn bg-white w-25"
                                             style="margin-left: 20%;">FINALIZAR</button>
                                     </div>
@@ -122,20 +122,23 @@ function getModulo($conexao, $id_est) {
                                 <div class="collapse" id="collapsePreTeste" aria-expanded="false" style="width: 95%;">
                                     <div class="d-flex flex-row box bg-white mt-2" style="border-radius: 7px 7px 7px;">
 
-                                        <div class="d-flex flex-column mt-3 p-3">
+                                        <div class="d-flex flex-column mt-1 p-3">
 
                                             <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
-                                                <span class="titulo-quiz">QUESTÂO <span class="titulo-quiz">01</span> -
-                                                    <span class="titulo-quiz-pre-teste">TESTE</span>
-                                                </span>
                                             </div>
 
 
-                                            <div class="questoes-pre-teste mt-5">
-                                                <div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;">
-                                                    <input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="1" id="" style="width: 50px;">
-                                                    <span class="titulo-quiz mt-1">QUESTÂO <span
-                                                        class="titulo-quiz">01</span></span>
+                                            <div class="quizes">
+                                                <div>
+                                                    <span class="texto-modulo-accordion titulo-quiz-pre-teste" style="color: #88E450; font-size: 3vh;">
+                                                    </span>
+                                                    
+                                                        <div class="questoes-pre-teste mt-3 mb-3">
+                                                            <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
+                                                            <span class="titulo-quiz mb-3">QUESTÂO <span class="numero-quiz">01</span> -
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -152,7 +155,7 @@ function getModulo($conexao, $id_est) {
                                             </div>
                                             <span style="font-size: 1em;">VOLTAR</span>
                                         </button>
-                                        <button class="radius-quiz btn bg-white w-25">PRÓXIMO</button>
+                                        <button class="radius-quiz btn bg-white w-25 btn-proximo-pre-teste">PRÓXIMO</button>
                                         <button class="radius-quiz btn bg-white w-25"
                                             style="margin-left: 20%;">FINALIZAR</button>
                                     </div>
@@ -182,8 +185,8 @@ function getModulo($conexao, $id_est) {
                                 <div class="content d-flex justify-content-center clique">
                                     <div class="w-100" style="text-align: center; background-color: white;">
                                         <div class="pt-5" style="background-color: black;">
-                                            <video width="80%" height="300" controls>
-                                                <source src="get_video.php?id='.$id_aula.'" type="video/mp4">
+                                            <video width="80%" height="300" data-id-vid-aula="'.$aula_id_vid.'" controls>
+                                                <source src="video.mp4" type="video/mp4">
                                                 Seu navegador não suporta video.
                                             </video>
                                         </div>
@@ -192,7 +195,6 @@ function getModulo($conexao, $id_est) {
                                                                   
                                 '.$quiz.'
                                 '.$quizBox.'
-                                '.$collapseAula.'
                             </div>
                             ';
 
@@ -364,6 +366,9 @@ function getModulo($conexao, $id_est) {
 </style>
 
 <script>
+    let c1 = 0;
+    let quizId = 0;
+
     function hiddenLeft(element) {
         let nomeAula = element.querySelector('.nome-aula')
         let aula = element.querySelector('.aula');
@@ -389,62 +394,95 @@ function getModulo($conexao, $id_est) {
 
     }
 
-    function proximo() {
-        let marcado = document.querySelector("[name='check']:checked");
+    function proximo(btn) {
+        if(c1 === 3) {
+
+        }
+
+        let marcado = document.querySelector("[name='check']:checked").value;
+        console.log(marcado);
         if(marcado) {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', '/controllers/quiz/verificar_resposta.php');
+            xhr.open('GET', 'get_perguntas_pre_teste.php?id_quiz=' + quizId + "&resposta=" + marcado + "&acao=verificar-quiz-pre-teste");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
+                c1 += 1;
                 console.log(xhr.responseText);
+                insertPreTeste(aulaId);
             }
             };
-            xhr.send();
 
+            xhr.send();
         }
     }
 
+    document.querySelector('.btn-proximo-pre-teste').addEventListener('click', (el) => proximo(el));
+
     function insertPreTeste(aulaId) {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=get');
+        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=get-pre-teste');
         xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response = JSON.parse(this.response)[0];
             let res = response['result'];
+            let resLast = res.length - 1;
             let success = response['success'];
             let questoes = '';
             let titulo = document.querySelector('.titulo-quiz-pre-teste');
+            titulo.innerHTML = '';
             if(success) {
-                res.forEach(key => {
-                    let id = key['id_pre_teste'];
+                document.querySelector('.questoes-pre-teste').innerHTML = '';      
 
-                    let alternativaA = key['alternativa_a'];
-                    let alternativaB = key['alternativa_b'];
-                    let alternativaC = key['alternativa_c'];
-                    let alternativaD = key['alternativa_d'];
-                    let alternativaE = key['alternativa_e'];
+                let key = res[c1];
+                let id = key['id_pre_teste'];
+                quizId = id;
 
-                    let pergunta = key['pergunta'];
-                    titulo.innerHTML = pergunta;
+                let alternativaA = key['alternativa_a'];
+                let alternativaB = key['alternativa_b'];
+                let alternativaC = key['alternativa_c'];
+                let alternativaD = key['alternativa_d'];
+                let alternativaE = key['alternativa_e'];
 
-                    questoes += '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="1" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">01</span> </span></div>';
-                });
+                let pergunta = key['pergunta'];
+                titulo.innerHTML = pergunta;
+                
+                let a = '<div data-questao-id="'+ id +'" class="mt-3"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="A" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaA +'</span> </span></div>';
+                document.querySelector('.questoes-pre-teste').innerHTML += a;
+                let b = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="B" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaB +'</span> </span></div>';
+                document.querySelector('.questoes-pre-teste').innerHTML += b;
+                let c = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="C" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaC +'</span> </span></div>';
+                document.querySelector('.questoes-pre-teste').innerHTML += c;
+
+
+                if(alternativaD) {
+                    d = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="D" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
+                    document.querySelector('.questoes-pre-teste').innerHTML += d;
+                }
+
+                if(alternativaE) {
+                        let e = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="E" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
+                        document.querySelector('.questoes-pre-teste').innerHTML += e;
+                }
+        
+
             }
-            document.querySelector('.questoes-pre-teste').innerHTML = questoes;
             }
         };
         xhr.send();
     }
 
-    /*
-    <div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;">
-        <input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="1" id="" style="width: 50px;">
-        <span class="titulo-quiz mt-1">QUESTÂO <span class="titulo-quiz">01</span></span>
-    </div>
-    */
+    document.querySelector("video").onended = function() {
+        if(this.played.end(0) - this.played.start(0) === this.duration) {
+            let attr = this.getAttribute('data-id-vid-aula');
+            alert(attr);
+        }else {
+            console.log("Some parts were skipped");
+        }
+    }
+
     let header = document.querySelector(".pre-teste");
+    let aulaId = header.getAttribute('data-id-aula');
     header.addEventListener('click', () => {
-        let aulaId = header.getAttribute('data-id-aula');
         insertPreTeste(aulaId);
     });
 
@@ -455,3 +493,6 @@ function getModulo($conexao, $id_est) {
 
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+<!-- https://stackoverflow.com/questions/64566873/how-to-check-a-user-watched-the-full-video-in-html5-video-player-without-skippin --->
