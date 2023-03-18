@@ -24,11 +24,11 @@ require_once($dir);
             <div class="col-sm-12 col-md-5 mt-5 ml-2" style="margin-right: 5%;">
                 <div class="d-flex row progress w-100 " style="position: absolute; height: 50px;">
                     <div class="progress-bar color-success" role="progressbar"
-                        style="width: 25%; background-color: #88E450;" aria-valuenow="25" aria-valuemin="0"
+                        style="width: <?php echo porcentagem_conclusao($conexao, $idLog);?>%; background-color: #88E450;" aria-valuenow="<?php echo porcentagem_conclusao($conexao, $idLog);?>" aria-valuemin="0"
                         aria-valuemax="100"></div>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <div style="z-index: 1; margin-top: 10px; font-weight: 600; font-size: 16pt;">50%</div>
+                    <div style="z-index: 1; margin-top: 10px; font-weight: 600; font-size: 16pt;"><?php echo porcentagem_conclusao($conexao, $idLog);?>%</div>
                 </div>
             </div>
 

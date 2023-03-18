@@ -428,6 +428,7 @@ if(isset($_GET['nome_modulo'])){
 
     }
 
+
     function canOpenCollapseQuiz() {
         let forOpen = document.querySelector("#forOpenQuiz");
         
@@ -440,6 +441,11 @@ if(isset($_GET['nome_modulo'])){
 
     function removeWatchedVideo() {
         localStorage.removeItem('watchedVideo');
+    }
+
+    function liberarAula() {
+        let aula = document.querySelector("#toCollapseAula");
+        aula.setAttribute('data-toggle', 'collapse');
     }
 
     function getWatchedVideo() {
@@ -552,7 +558,6 @@ if(isset($_GET['nome_modulo'])){
         };
 
         xhr.send();
-        
     }
 
 
@@ -610,6 +615,10 @@ if(isset($_GET['nome_modulo'])){
                 let quiz = response.quiz;
                 let collapsePreTeste = document.getElementById('collapsePreTeste');
                 
+                if(preTeste && quiz) {
+                    watchVideo();
+                }
+
                 if(preTeste) {
                     let header = document.querySelector('.pre-teste-status-header');
                     header.innerHTML = `
@@ -652,8 +661,7 @@ if(isset($_GET['nome_modulo'])){
 
 
                 if(preTeste && quiz) {
-                    setWatchedVideo();
-                    watchVideo();
+                    liberarAula();
                 }
 
 
@@ -873,7 +881,7 @@ if(isset($_GET['nome_modulo'])){
     function inputNotaAula() {
         // Digite sua nota
         Swal.fire({
-            title: 'Avalie esta aula com sua nota e comentário ',
+            title: 'De 0 a 10 o quanto você recomendaria essa aula.',
             confirmButtonText: 'Confirmar',
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,

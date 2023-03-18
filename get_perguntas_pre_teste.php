@@ -26,6 +26,7 @@ try{
 
 include_once 'controllers/log/logado.php';
 
+
 if(isset($_GET['acao'])) {
 
     $acao = $_GET['acao'];
@@ -129,6 +130,13 @@ if(isset($_GET['acao'])) {
                     echo $e;
                 }
             }
+        } elseif($acao == "nova-tentativa-quiz") {
+            $count = nova_tentativa_quiz($conexao, $idLog, $id_aula);
+            if($count >= 1) {
+                echo json_encode(["success" => true, "text" => "Nova tentativa!"]);
+            } else {
+                echo json_encode(["success" => false, "text" => "Ocorreu um erro!"]);
+            }
         } elseif($acao == "finalizar-quiz") {
             $aprovado = foi_aprovado_quiz($conexao, $idLog, $id_aula);
             $count = finalizar_quiz($conexao, $idLog, $id_aula, $aprovado);
@@ -187,8 +195,18 @@ if(isset($_GET['acao'])) {
 
 
 function incrementNovaTentativa($conexao, $idLog, $id_aula) {
+    $select = "UPDATE quiz_treinamento_num_erros SET num_tentativas = num_tentativas + 1 WHERE id_usuario = :id_usuario AND id_vid_aula = :id_vid_aula";
+}
+
+
+function nova_tentativa_quiz($conexao, $idLog, $id_aula) {
     $select = "INSERT INTO quiz_treinamento_num_erros (id_usuario, id_vid_aula, data_tentativa) VALUES (:id_usuario, :id_vid_aula, NOW())";
-    
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_usuario', $idLog, PDO::PARAM_INT);
+    $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
+    $result ->execute();
+    $count = $result->rowCount();
+    return $count;
 }
 
 
@@ -515,6 +533,7 @@ function get_aulas($conexao, $idLog) {
     $user_est = get_user_est($conexao, $idLog);
     $modulos = get_modulos($conexao, $user_est);
     $modulosCount = $modulos->rowCount();
+
     if($modulosCount>0){
         $resp = [];
         while($mostra = $modulos->FETCH(PDO::FETCH_OBJ)){
@@ -523,6 +542,8 @@ function get_aulas($conexao, $idLog) {
 
             $aulasMod = ["id_mod" => $id_mod, "aulas" => []];
             while($fetchAula = $aulas->FETCH(PDO::FETCH_OBJ)) {
+                $fetchAula->finalizado_pre_teste = finalizado_pre_teste($conexao, $fetchAula->id_aula, $idLog);
+                $fetchAula->finalizado_quiz = finalizado_quiz($conexao, $fetchAula->id_aula, $idLog);
                 array_push($aulasMod['aulas'], $fetchAula);
             }
 
@@ -531,6 +552,33 @@ function get_aulas($conexao, $idLog) {
 
         return array_values($resp);
     }
+}
+
+
+function porcentagem_conclusao($conexao, $idLog) {
+    /**
+     * 
+     * Verifica a porcentagem de conclusão do treinamento
+     * 
+     */
+    $aulas = get_aulas($conexao, $idLog);
+    $totalAulas = 0;
+    $totalAulasFinalizadas = 0;
+    foreach($aulas as $modulo) {
+        foreach($modulo['aulas'] as $aula) {
+            $totalAulas++;
+            if($aula->finalizado_pre_teste == 1 && $aula->finalizado_quiz == 1) {
+                $totalAulasFinalizadas++;
+            } elseif($aula->finalizado_pre_teste == 1 && $aula->finalizado_quiz == 0) {
+                $totalAulasFinalizadas += 0.5;
+            } elseif($aula->finalizado_pre_teste == 0 && $aula->finalizado_quiz == 1) {
+                $totalAulasFinalizadas += 0.5;
+            }
+        }
+    }
+
+
+    return ($totalAulasFinalizadas / $totalAulas) * 100;
 }
 
 
@@ -836,7 +884,7 @@ function tem_pre_teste($conexao, $id_vid, $id_usuario) {
 
 
 function get_aulas_modulos($conexao, $id_mod){
-    $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim'";
+    $select = "SELECT * FROM aula LEFT JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim'";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':mod_id_aula', $id_mod, PDO::PARAM_INT);
@@ -847,7 +895,7 @@ function get_aulas_modulos($conexao, $id_mod){
 
 
 function getAulasByAulaVid($conexao, $id_vid){
-    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $id_vid, PDO::PARAM_INT);
@@ -857,7 +905,7 @@ function getAulasByAulaVid($conexao, $id_vid){
 
 
 function getModuloByAulaVid($conexao, $aula_vid_id){
-    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $aula_vid_id, PDO::PARAM_INT);
