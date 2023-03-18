@@ -782,15 +782,31 @@ if(isset($_GET['nome_modulo'])){
         finalizarQuiz(event);
     });
 
-    function mensagemTentarDnv() {
+    function mensagemTentarDnv(text) {
+        let novaTentativa = () => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=nova-tentativa-quiz&quiz_id=' + quizId);
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(this.response);
+                    let success = response['success'];
+                    if(success) {
+                    }
+                }
+            };
+        }
+
         
-        Swal.fire({
+        return Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Você não atingiu os 100% exigido.Você precisa tentar novamente!',
+            text: text,
             footer: '<a href>Why do I have this issue?</a>'
         });
     }
+
+
 
     function isLast() {
         if(c1 === res.length - 1) {
@@ -807,6 +823,7 @@ if(isset($_GET['nome_modulo'])){
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response = JSON.parse(this.response);
             let success = response['success'];
+            let aprovado 
             if(success) {
                 document.querySelector('.quiz-status-header').innerHTML = `
                     <div class="mr-auto bg-white ml-n3">
@@ -830,6 +847,13 @@ if(isset($_GET['nome_modulo'])){
                 }).fire({
                     icon: 'success',
                     title: 'Quiz finalizado com sucesso!'
+                });
+            } else {
+
+                mensagemTentarDnv(response).then((result) => {
+                    if(result.isConfirmed) {
+                        novaTentativa();
+                    }
                 });
             }
         };
