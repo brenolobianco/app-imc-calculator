@@ -2,7 +2,7 @@
 
 
 function getAulasModulos($conexao, $id_mod){
-    $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula LEFT JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':mod_id_aula', $id_mod, PDO::PARAM_INT);
@@ -40,7 +40,6 @@ if(!isset($_GET['id_est'])){ header("Location: home.php?acao=pagina-nao-existe")
     }
 
 
-
     function getQuizes($conexao, $id_est) {
         $select = "SELECT * FROM quiz_treinamento INNER JOIN aula ON aula.id_aula = quiz_treinamento.id_vid_aula WHERE aula.treinamento = 'sim' AND aula.est_id_aula = :id_est";
         try{
@@ -65,5 +64,3 @@ if(!isset($_GET['id_est'])){ header("Location: home.php?acao=pagina-nao-existe")
         }
     }
 
-
-?>

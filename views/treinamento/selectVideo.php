@@ -3,7 +3,7 @@
 include_once 'controllers/aulaVideo/ControllerSelect.php';
 
 function getAulasModulos($conexao, $id_mod){
-    $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula LEFT JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':mod_id_aula', $id_mod, PDO::PARAM_INT);
@@ -12,7 +12,7 @@ function getAulasModulos($conexao, $id_mod){
 }
 
 function getAulasByAulaVid($conexao, $id_vid){
-    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $id_vid, PDO::PARAM_INT);
@@ -22,7 +22,7 @@ function getAulasByAulaVid($conexao, $id_vid){
 
 
 function getModuloByAulaVid($conexao, $aula_vid_id){
-    $select = "SELECT * FROM aula_vid INNER JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $aula_vid_id, PDO::PARAM_INT);
@@ -39,6 +39,18 @@ function getModulo($conexao, $id_est) {
     $result ->bindParam(':est_id_mod', $id_est, PDO::PARAM_INT);
     $result ->execute();
     return $result;
+}
+
+function preventToXSS($text) {
+    $text = trim($text);
+    $text = stripslashes($text);
+    $text = htmlspecialchars($text);
+    return $text;
+}
+
+$nome_modulo = null;
+if(isset($_GET['nome_modulo'])){
+    $nome_modulo = preventToXSS($_GET['nome_modulo']);
 }
 
 
@@ -79,10 +91,29 @@ function getModulo($conexao, $id_est) {
                             $id_aula = $fetchAula->id_aula;
                             $aula_id_vid = $fetchAula->aula_id_vid;
 
+                            $collpaseMaterialApoio = '
+                                <div>
+                                    <div class="collapse" data-toggle="collapse" id="collapseMaterialApoio" aria-expanded="false" style="width: 95%;">
+                                        <div class="d-flex flex-row box bg-white mt-2" style="border-radius: 7px 7px 7px;">
+                                            <div class="d-flex flex-column mt-1 p-3">
+                                                <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
+                                                    <span class="titulo-quiz mb-3">MATERIAL DE APOIO</span>
+                                                </div>
+                                                <div class="material-apoio">
+                                                    <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
+                                                        <span class="titulo-quiz mb-3">MATERIAL DE APOIO</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ';
 
                             $quizBox = '
                             <div class="quiz-box d-flex" style="justify-content: center;align-content: center;">
-                                <div class="collapse" data-toggle="collapse" id="collapseQuiz" aria-expanded="false" style="width: 95%;">
+                                
+                            <div class="collapse" id="collapseQuiz" style="width: 95%;" aria-expanded="false">
                                     
                                     <div class="d-flex flex-row box bg-white mt-2" style="border-radius: 7px 7px 7px;">
                                         <div class="d-flex flex-column mt-1 p-3">
@@ -162,15 +193,15 @@ function getModulo($conexao, $id_est) {
 
                             $quiz = '
                             
-                            <div class="content d-flex clique mt-1 mb-2" data-target="#collapseQuiz" aria-expanded="false">
+                            <div class="content d-flex clique mt-1 mb-2" id="forOpenQuiz" aria-expanded="false">
                             <div class="d-flex w-100 quiz-fixacao-header" style="background-color: white;">
                                     <div class="d-flex w-100 p-3">
                                         <span class="mr-auto ml-3 texto-modulo-accordion-minusculo">
                                             Quiz de fixação
                                         </span>
+
                                         <span class="mr-3 texto-modulo-accordion-minusculo info-res">
                                         </span>
-
                                         <div class="quiz-status-header" class="max" style="max-width: 30px;">
                                             
                                         </div>
@@ -197,8 +228,7 @@ function getModulo($conexao, $id_est) {
 
                             $collapseTeste = '';
                             $preTeste = '
-                            <div class="content d-flex clique mt-1 mb-2" data-toggle="collapse" data-target="#collapsePreTeste"
-                            aria-expanded="false">
+                            <div class="content d-flex clique mt-1 mb-2" data-toggle="collapse" data-target="#collapsePreTeste" aria-expanded="false">
                             <div class="d-flex w-100 pre-teste header-preteste" data-id-aula="'.$aula_id_vid.'" style="background-color: white;">
                                     <div class="d-flex w-100 p-3">
                                         <span class="mr-auto ml-3 texto-modulo-accordion-minusculo">
@@ -247,7 +277,7 @@ function getModulo($conexao, $id_est) {
                                      aria-expanded="true" aria-controls="">
                                     <div class="col-md-12 col-sm-12 show" style="background: #737373;">
                                         <p class="mt-3 texto-modulo" style="color: #88E450; font-weight: 800; text-align:left;">
-                                            MODULO 01
+                                            '.$nome_modulo.'
                                         </p>
                                     </div>
                                 </div>
@@ -298,6 +328,8 @@ function getModulo($conexao, $id_est) {
                                 </div>
                             </div>
                             <!--- FIM MATERIAL DE APOIO --->
+
+
                             
                         </div>
                         <!--- FIM AULA --->
@@ -378,9 +410,9 @@ function getModulo($conexao, $id_est) {
     let c1 = 0;
     let quizId = 0;
     let res = [];
-    let watchedVideo = true;
     let header = document.querySelector(".pre-teste");
     let aulaId = header.getAttribute('data-id-aula');
+    let forOpenQuiz = document.querySelector("#forOpenQuiz");
 
     function hiddenLeft(element) {
         let nomeAula = element.querySelector('.nome-aula')
@@ -396,6 +428,27 @@ function getModulo($conexao, $id_est) {
 
     }
 
+    function canOpenCollapseQuiz() {
+        let forOpen = document.querySelector("#forOpenQuiz");
+        
+    }
+
+
+    function setWatchedVideo() {
+        localStorage.setItem('watchedVideo', true);
+    }
+
+    function removeWatchedVideo() {
+        localStorage.removeItem('watchedVideo');
+    }
+
+    function getWatchedVideo() {
+        return localStorage.getItem('watchedVideo');
+    }
+
+    function hasWatchedVideo() {
+        return getWatchedVideo() === 'true';
+    }
 
 
     function onlyOne(checkbox) {
@@ -521,7 +574,7 @@ function getModulo($conexao, $id_est) {
             xhr.open('GET', 'get_perguntas_pre_teste.php?id_quiz=' + quizId + "&resposta=" + "&acao=verificar-quiz-pre-teste");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(this.response);
+                updateInfo();
             }
             };
 
@@ -542,6 +595,7 @@ function getModulo($conexao, $id_est) {
         };
 
         xhr.send();
+
     }
 
     function updateInfo() {
@@ -567,18 +621,25 @@ function getModulo($conexao, $id_est) {
                     document.querySelector('[data-target="#collapsePreTeste"]').removeAttribute('data-toggle');
                     collapsePreTeste.classList.remove('show');
                     let toCollapaseAula = document.getElementById('toCollapseAula');
-                    if(!quiz && !watchedVideo) {
+                    if(!quiz && !hasWatchedVideo()) {
                         toCollapaseAula.setAttribute('data-toggle', 'collapse');
                     }
                     
                     if(quiz) {
-                        document.querySelector('[data-target="#collapseQuiz"]').removeAttribute('data-toggle');
+                        forOpenQuiz.removeAttribute('data-toggle');
                     } else {
-                        // clicado no quiz
+                        forOpenQuiz.setAttribute('data-toggle', 'collapse');
                     }
+                    
                 } 
+
+                if(!preTeste && hasWatchedVideo()) {
+                    removeWatchedVideo();
+                }
+
+
                 if(quiz) {
-                    document.querySelector('[data-target="#collapseQuiz"]').removeAttribute('data-target');
+                    forOpenQuiz.removeAttribute('data-target');
                     document.getElementById('collapseQuiz').classList.remove('show');
                     document.querySelector('.quiz-status-header').innerHTML = `
                     <div class="mr-auto bg-white ml-n3">
@@ -590,6 +651,12 @@ function getModulo($conexao, $id_est) {
                 }
 
 
+                if(preTeste && quiz) {
+                    setWatchedVideo();
+                    watchVideo();
+                }
+
+
                 let quizFixacao = response.quiz;
             }
         };
@@ -598,10 +665,18 @@ function getModulo($conexao, $id_est) {
         xhr.send();
     }
 
-    document.querySelector('[data-target="#collapseQuiz"]').addEventListener('click', (event) => {
+    function openCollpse() {
+        let collapse = document.getElementById('collapseQuiz');
+        collapse.classList.add('show'); 
+    }
+
+    forOpenQuiz.addEventListener('click', (event) => {
+        if(hasWatchedVideo()) {
+            openCollpse();
+        }
         updateInfo();
         // verificar se o video foi assistido
-        if(!watchedVideo) {
+        if(!hasWatchedVideo()) {
             Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -624,10 +699,10 @@ function getModulo($conexao, $id_est) {
     });
 
     function watchVideo() {
-        if(watchedVideo) {
+        if(hasWatchedVideo()) {
             document.querySelector('.collapseAula').classList.remove('show');
             document.getElementById('toCollapseAula').removeAttribute('data-toggle');
-            document.querySelector('[data-target="#collapseQuiz"]').setAttribute('data-toggle', 'collapse');
+            // document.querySelector('[data-target="#collapseQuiz"]').setAttribute('data-toggle', 'collapse');
 
             let headerToCollapseAula = document.querySelector('.aula-status-header');
             headerToCollapseAula.innerHTML = `
@@ -666,7 +741,10 @@ function getModulo($conexao, $id_est) {
     }); 
 
 
-    document.querySelector('.btn-finalizar-pre-teste').addEventListener('click', (event) => finalizarPreTeste(event));
+    document.querySelector('.btn-finalizar-pre-teste').addEventListener('click', (event) => {
+        finalizarPreTeste(event);
+        updateInfo();
+    });
 
     document.querySelector('.btn-proximo-pre-teste').addEventListener('click', (event) => {
 
@@ -704,6 +782,16 @@ function getModulo($conexao, $id_est) {
         finalizarQuiz(event);
     });
 
+    function mensagemTentarDnv() {
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Você não atingiu os 100% exigido.Você precisa tentar novamente!',
+            footer: '<a href>Why do I have this issue?</a>'
+        });
+    }
+
     function isLast() {
         if(c1 === res.length - 1) {
             return true;
@@ -720,6 +808,13 @@ function getModulo($conexao, $id_est) {
             let response = JSON.parse(this.response);
             let success = response['success'];
             if(success) {
+                document.querySelector('.quiz-status-header').innerHTML = `
+                    <div class="mr-auto bg-white ml-n3">
+                        <div class="max" style="max-width: 42px;">
+                            <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
+                        </div>
+                    </div`;
+
                 closeFinalizarQuiz();
 
                 Swal.mixin({
@@ -740,6 +835,7 @@ function getModulo($conexao, $id_est) {
         };
     };
 
+        updateInfo();
         xhr.send();
     }
 
@@ -747,12 +843,13 @@ function getModulo($conexao, $id_est) {
         let collapseQuiz = document.getElementById('collapseQuiz');
         collapseQuiz.classList.remove('show');
         document.querySelector('[data-target="#collapseQuiz"]').removeAttribute('data-toggle');
+        updateInfo();
     }
 
     function inputNotaAula() {
         // Digite sua nota
         Swal.fire({
-            title: 'Digite sua nota e comentário',
+            title: 'Avalie esta aula com sua nota e comentário ',
             confirmButtonText: 'Confirmar',
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
@@ -939,7 +1036,9 @@ function getModulo($conexao, $id_est) {
     document.querySelector("video").onended = function() {
         if(this.played.end(0) - this.played.start(0) === this.duration) {
             let attr = this.getAttribute('data-id-vid-aula');
-            watchedVideo = true;
+            setWatchedVideo();
+
+            inputNotaAula();
         }else {
             watchedVideo = null;
         }
@@ -958,12 +1057,8 @@ function getModulo($conexao, $id_est) {
     }
 
 
-
 </script>
 
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-<!-- https://stackoverflow.com/questions/64566873/how-to-check-a-user-watched-the-full-video-in-html5-video-player-without-skippin --->

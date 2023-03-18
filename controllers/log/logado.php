@@ -73,25 +73,3 @@ try {
 }
 
 
-function getMatriculas($conexao, $idLog) {
-    $selecionaLogado = "SELECT * from matricula WHERE acad_id_mat=:acad_id_mat";
-
-    try {
-        $result = $conexao->prepare($selecionaLogado);
-        $result->bindParam('acad_id_mat', $idLog, PDO::PARAM_STR);
-        $result->execute();
-        $contar = $result->rowCount();
-        $res = array();
-
-        if ($contar = 1) {
-            $loop = $result->fetchAll();
-            foreach ($loop as $show) {
-                $insert = ['acad_id_mat' => $show['acad_id_mat'], 'est_id_mat' => $show['est_id_mat'], 'curso_id_mat' => $show['curso_id_mat']];
-                array_push($res, $insert);
-            }
-        }
-        return $res;
-    } catch (PDOException $erro) {
-        echo $erro;
-    }
-}

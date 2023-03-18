@@ -1,8 +1,9 @@
 <?php
 
+
 include_once('controllers/treinamento/ControllerModulo.php');
-
-
+$dir = __DIR__ . '/../../get_perguntas_pre_teste.php';
+require_once($dir);
 
 
 ?>
@@ -44,8 +45,6 @@ include_once('controllers/treinamento/ControllerModulo.php');
     </div>
 
     <div class="">
-
-
         <div class="modulos">
             <!---
             -->
@@ -74,6 +73,7 @@ include_once('controllers/treinamento/ControllerModulo.php');
                             $arq_vid = $fetchAula->arq_vid;
                             $id_vid = $fetchAula->id_vid;
                             $id_aula = $fetchAula->id_aula;
+                            $semana = $fetchAula->cronograma_semanas;
 
                             $quizBox = '
                             
@@ -151,31 +151,80 @@ include_once('controllers/treinamento/ControllerModulo.php');
                             ';
 
 
-                            $aulas .= '
-                            <div class="mt-3">
-                                <div class="d-flex content" onclick="hiddenLeft(this)">
+                                if(aulaConcluida($conexao, $id_aula, $idLog)) {
+                                    $aulas .= '
+                                    <div class="mt-3">
+                                        <div class="d-flex content" onclick="hiddenLeft(this)">
+        
+                                            <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
+                                                <div class="d-flex alinhar" style="text-align: center;">
+                                                    <span class="alinhar texto-mudulo-accordion">'.$semana.'° semana</span>
+                                                </div>
+                                            </div>
+        
+                                            <div data-toggle="collapse" onclick="redirect('.$id_vid.', \'MODULO '.$num.' - '.$mostra->nome_mod.' - '.$fetchAula->nome_aula.'\' )" aria-expanded="false"
+                                                class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
+                                                <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
+                                            </div>
 
-                                    <div class="aula bg-white" class="d-flex" style="width: 24%; margin-right: 1%;">
-                                        <div class="d-flex alinhar" style="text-align: center;">
-                                            <span class="alinhar texto-mudulo-accordion">1° semana</span>
+                                            
+                                            <div class="mr-auto bg-white ml-n3">
+                                                <div class="max" style="max-width: 42px;">
+                                                    <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
+                                    ';
+                                } elseif (aulaLiberada($conexao, $id_aula, $idLog)) {
+                                    $aulas .= '
+                                    <div class="mt-3">
+                                        <div class="d-flex content" onclick="hiddenLeft(this)">
+        
+                                            <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
+                                                <div class="d-flex alinhar" style="text-align: center;">
+                                                    <span class="alinhar texto-mudulo-accordion">'.$semana.'° semana</span>
+                                                </div>
+                                            </div>
+        
+                                            <div data-toggle="collapse" onclick="redirect('.$id_vid.', \'MODULO '.$num.' - '.$mostra->nome_mod.' - '.$fetchAula->nome_aula.'\' )" aria-expanded="false"
+                                                class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
+                                                <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
+                                            </div>
+                                        
 
-                                    <div data-toggle="collapse" onclick="redirect('.$id_vid.')" aria-expanded="false"
-                                        class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
-                                        <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
-                                    </div>
-
-
-                                    <div class="mr-auto bg-white ml-n3">
-                                        <div class="max" style="max-width: 42px;">
-                                            <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
                                         </div>
                                     </div>
-                                </div>
+                                    ';
+                                } else {
+                                    $aulas .= '
+                                    <div class="mt-3">
+                                        <div class="d-flex content" onclick="erroAulaAnterior()">
+        
+                                            <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
+                                                <div class="d-flex alinhar" style="text-align: center;">
+                                                    <span class="alinhar texto-mudulo-accordion">'.$semana.'° semana</span>
+                                                </div>
+                                            </div>
+        
+                                            <div data-toggle="collapse" aria-expanded="false"
+                                                class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
+                                                <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
+                                            </div>
+        
+                                            <div class="mr-auto bg-white ml-n3">
+                                                <div class="max" style="max-width: 42px;">
+                                                    <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                    </div>
+                                    ';
+                                }
                                 
-                            </div>
-                            ';
+
                         }
 
                         $modulo = '
@@ -291,7 +340,6 @@ include_once('controllers/treinamento/ControllerModulo.php');
             nomeAula.classList.remove('w-100');
             aula.classList.remove('d-none');
         }
-
     }
 
     function onlyOne(checkbox) {
@@ -316,10 +364,22 @@ include_once('controllers/treinamento/ControllerModulo.php');
     }
 
 
-    function redirect(id) {
-        location.href = "home.php?acao=treinamento-video&id_vid=" + id;
+    function redirect(id, nome_modulo) {
+        location.href = "home.php?acao=treinamento-video&id_vid=" + id + "&nome_modulo=" + nome_modulo;
     }
+
+    
+    function erroAulaAnterior() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Você precisa concluir a aula anterior para ter acesso a essa aula!',
+            footer: '<a href>Why do I have this issue?</a>'
+        });
+    }
+
 </script>
 
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -1,6 +1,5 @@
 <?php
 
-use FontLib\Table\Type\head;
 
 include 'controllers/log/logado.php'; 
 
@@ -49,7 +48,8 @@ if(isset($_GET['acao'])) {
 
 
         if($acao == "get-pre-teste") {
-            if(pode_fazer_pre_teste($idLog, $conexao, $id_aula)) {
+            $autorizado = pode_fazer_pre_teste($idLog, $conexao, $id_aula);
+            if($autorizado) {
                 $select = "SELECT * FROM treinamento_pre_teste WHERE id_vid_aula = :id_vid_aula ORDER BY id_pre_teste";  
                 try{
                     $result = $conexao->prepare($select);
@@ -168,7 +168,8 @@ if(isset($_GET['acao'])) {
                 }
             }
         } elseif($acao == "finalizar-pre-teste") {
-            $aprovado = foi_aprovado_pre_teste($conexao, $idLog, $id_aula);
+            // $aprovado = foi_aprovado_pre_teste($conexao, $idLog, $id_aula);
+            $aprovado = 1; // sempre será aprovado
             $count = finalizar_pre_teste($conexao, $idLog, $id_aula, $aprovado);
             if($count >= 1) {
                 echo json_encode(["success" => true, "text" => "Finalizao!"]);
@@ -182,6 +183,12 @@ if(isset($_GET['acao'])) {
             echo json_encode($resp);
         }
     } 
+}
+
+
+function incrementNovaTentativa($conexao, $idLog, $id_aula) {
+    $select = "INSERT INTO quiz_treinamento_num_erros (id_usuario, id_vid_aula, data_tentativa) VALUES (:id_usuario, :id_vid_aula, NOW())";
+    
 }
 
 
@@ -213,18 +220,25 @@ function ja_tentou($id, $conexao, $id_aula) {
 
 
 function pode_fazer_pre_teste($id_usuario, $conexao, $id_aula) {
+    /**
+     * 
+     * Verifica se pode fazer o pre teste
+     * 
+     */
+
+    // libere caso seja a primeira aula
     if(e_primeira_aula($conexao, $id_aula)) {
         return true;
     }
 
+    // verifica se já fez o pre teste anterior
     if(!fez_pre_teste_anterior($conexao, $id_aula, $id_usuario)) {
         return false;
     } else {
         return true;
     }
-
-
 }
+
 
 
 function pode_fazer_quiz($conexao, $id_aula, $id_usuario) {
@@ -262,31 +276,42 @@ function fez_quiz_anterior($conexao, $id_aula, $idLog) {
 }
 
 
-function __verificar_aulas_($conexao, $id_aula, $idLog) {
-    $modulos = get_aulas($conexao, $idLog);
-    $aula = get_aula($conexao, $id_aula);
-    $progresso = get_progresso_pre_teste($conexao, $idLog);
-    $ate = array();
-    $assistidas = 1;
+function aulaLiberada($conexao, $idAula, $idLog) {
+    /**
+     * 
+     * Verifica se a aula está liberada para assistir
+     * 
+     * 
+     */
 
+    if(e_primeira_aula($conexao, $idAula)) {
+        return true;
+    }
 
-    foreach ($modulos as $modulo) {
-        $aulas = $modulo['aulas'];
-        foreach ($aulas as $aula) {
-            array_push($ate, $aula);
-            foreach ($progresso as $key) {
-                $assitida = $key->id_aula;
-                if($assitida == $aula->id_aula) {
-                    print_r($aula);
-                }
-            }
-        }
+    // Aula está concluida, então não pode assistir
+    if(aulaConcluida($conexao, $idAula, $idLog)) {
+        return false;
     }
 
 
-    // echo json_encode($ate);
+    if(pode_fazer_pre_teste($idLog, $conexao, $idAula) && pode_fazer_quiz($conexao, $idAula, $idLog)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
+function aulaConcluida($conexao, $idAula, $idLog) {
+    $preTeste = get_progresso_pre_teste_by_aula($conexao, $idAula, $idLog);
+    $quiz = get_progresso_quiz($conexao, $idAula, $idLog);
+    $count = $preTeste->rowCount();
+    $count2 = $quiz->rowCount();
+    if($count >= 1 && $count2 >= 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function pode_fazer($conexao, $idLog, $idAula) {
     $select = "SELECT DISTINCT acad_id_mat FROM matricula INNER JOIN aula ON aula.est_id_aula = matricula.est_id_mat WHERE matricula.acad_id_mat = :id_usuario AND aula.id_aula = :id_aula";
@@ -350,7 +375,7 @@ function aula_anterior($conexao, $id_aula) {
 
 
 function get_progresso_quiz($conexao, $id_aula , $idLog) {
-    $select = "SELECT * FROM progresso_usuario_quiz WHERE id_usuario = :id_usuario AND id_aula = :id_aula";
+    $select = "SELECT * FROM progresso_usuario_quiz WHERE id_usuario = :id_usuario AND id_aula = :id_aula AND aprovado = 1";
     $result = $conexao->prepare($select);
     $result->bindParam(":id_usuario", $idLog, PDO::PARAM_INT);
     $result->bindParam(":id_aula", $id_aula, PDO::PARAM_INT);
@@ -488,13 +513,13 @@ function get_user_est($conexao, $idLog) {
  
 function get_aulas($conexao, $idLog) {
     $user_est = get_user_est($conexao, $idLog);
-    $modulos = getModulos($conexao, $user_est);
+    $modulos = get_modulos($conexao, $user_est);
     $modulosCount = $modulos->rowCount();
     if($modulosCount>0){
         $resp = [];
         while($mostra = $modulos->FETCH(PDO::FETCH_OBJ)){
             $id_mod = $mostra->id_mod;
-            $aulas = getAulasModulos($conexao, $id_mod);
+            $aulas = get_aulas_modulos($conexao, $id_mod);
 
             $aulasMod = ["id_mod" => $id_mod, "aulas" => []];
             while($fetchAula = $aulas->FETCH(PDO::FETCH_OBJ)) {
@@ -810,7 +835,7 @@ function tem_pre_teste($conexao, $id_vid, $id_usuario) {
 
 
 
-function getAulasModulos($conexao, $id_mod){
+function get_aulas_modulos($conexao, $id_mod){
     $select = "SELECT * FROM aula INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim'";
 
     $result = $conexao->prepare($select);
@@ -852,7 +877,7 @@ function getModulo($conexao, $id_est) {
 }
 
 
-function getModulos($conexao, $est_id_mod) {
+function get_modulos($conexao, $est_id_mod) {
 
 
     $select = "SELECT * FROM modulo WHERE treinamento = 'sim' AND est_id_mod = :est_id_mod";
@@ -862,16 +887,6 @@ function getModulos($conexao, $est_id_mod) {
 
     return $result;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
