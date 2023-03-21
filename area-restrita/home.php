@@ -100,7 +100,12 @@ include ("header.php");
 		if($acao=='novo-quiz-pre-teste'){include("views/quiz/insertQuizPreTeste.php");}
 		if($acao=='novo-quiz'){include("views/quiz/insert.php");}
 
+		// treinamento-v2
+		if($acao=='aulas-treinamento-v2'){include("views/treinamento/aulas.php");}
+		if($acao=='aula-treinamento-v2'){include("views/treinamento/select.php");}
+		if($acao=='editar-aula-treinamento'){include("views/treinamento/update.php");}
 
+		
 		/*--- PROFESSORES ---*/
 		if($acao=='professores'){include("views/professor/index.php");}
 		if($acao=='professor'){include("views/professor/select.php");}

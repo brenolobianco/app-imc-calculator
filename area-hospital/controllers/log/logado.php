@@ -33,4 +33,18 @@ if(!isset($_SESSION['emailHosp']) && (!isset($_SESSION['senhaHosp']))){
             
             }catch (PDOException $erro){ echo $erro;}
     
+        function getUserEstagio($conexao, $idLog) {
+            $select = "SELECT est_id_mat FROM `matricula` WHERE acad_id_mat = :idLog";
+            try{
+                $result = $conexao->prepare($select);
+                $result ->bindParam(':idLog', $idLog, PDO::PARAM_INT);
+                $result ->execute();
+                $contar = $result->rowCount();
+                if($contar>0){
+                    return $result->fetchAll();
+                }
+            }catch(PDOException $e){
+                echo $e;
+            }
+        }
 ?>

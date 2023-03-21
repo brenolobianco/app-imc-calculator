@@ -2,7 +2,7 @@
 <?php
     $select = "SELECT * from aula a 
     JOIN modulo m ON m.id_mod = a.mod_id_aula 
-    JOIN estagio e ON e.id_est = a.est_id_aula";  
+    JOIN estagio e ON e.id_est = a.est_id_aula WHERE a.treinamento IS NULL or a.treinamento = 'nao' ORDER BY a.id_aula DESC";  
     try{
     $result = $conexao->prepare($select);
     $result ->execute();

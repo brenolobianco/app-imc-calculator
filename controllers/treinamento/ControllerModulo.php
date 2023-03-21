@@ -22,6 +22,7 @@ function getModulos($conexao, $id_est) {
     return $result;
 }
 
+
 if(!isset($_GET['id_est'])){ header("Location: home.php?acao=pagina-nao-existe"); exit;}
    
 

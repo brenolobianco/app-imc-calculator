@@ -3,7 +3,7 @@
 include_once 'controllers/aulaVideo/ControllerSelect.php';
 
 function getAulasModulos($conexao, $id_mod){
-    $select = "SELECT * FROM aula LEFT JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula LEFT JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':mod_id_aula', $id_mod, PDO::PARAM_INT);
@@ -12,7 +12,7 @@ function getAulasModulos($conexao, $id_mod){
 }
 
 function getAulasByAulaVid($conexao, $id_vid){
-    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid GROUP BY aula.id_aula ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $id_vid, PDO::PARAM_INT);
@@ -22,7 +22,7 @@ function getAulasByAulaVid($conexao, $id_vid){
 
 
 function getModuloByAulaVid($conexao, $aula_vid_id){
-    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid ORDER BY `aula`.`cronograma_semanas` ASC";
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid GROUP BY aula.id_aula ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_vid', $aula_vid_id, PDO::PARAM_INT);
@@ -33,7 +33,7 @@ function getModuloByAulaVid($conexao, $aula_vid_id){
 
 function getModulo($conexao, $id_est) {
 
-    $select = "SELECT * FROM modulo WHERE est_id_mod=:est_id_mod AND treinamento = 'sim'";
+    $select = "SELECT * FROM modulo WHERE est_id_mod=:est_id_mod AND treinamento = 'sim";
 
     $result = $conexao->prepare($select);
     $result ->bindParam(':est_id_mod', $id_est, PDO::PARAM_INT);
@@ -55,6 +55,8 @@ if(isset($_GET['nome_modulo'])){
 
 
 ?>
+<link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+
 <div class="container">
     <div class="row">
         <a class="set-volt nav-link link btn btn-default mb-4 display-2" onclick="javascript:window.history.back()">
@@ -91,23 +93,53 @@ if(isset($_GET['nome_modulo'])){
                             $id_aula = $fetchAula->id_aula;
                             $aula_id_vid = $fetchAula->aula_id_vid;
 
-                            $collpaseMaterialApoio = '
-                                <div>
-                                    <div class="collapse" data-toggle="collapse" id="collapseMaterialApoio" aria-expanded="false" style="width: 95%;">
-                                        <div class="d-flex flex-row box bg-white mt-2" style="border-radius: 7px 7px 7px;">
-                                            <div class="d-flex flex-column mt-1 p-3">
-                                                <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
-                                                    <span class="titulo-quiz mb-3">MATERIAL DE APOIO</span>
-                                                </div>
-                                                <div class="material-apoio">
-                                                    <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
-                                                        <span class="titulo-quiz mb-3">MATERIAL DE APOIO</span>
+                            $materialApoioBox = '
+                            <div class="quiz-box d-flex" style="justify-content: center;align-content: center;">
+                                <div class="collapse" data-toggle="collapse" id="collapseMaterialApoio" aria-expanded="false" style="width: 95%;">
+                                    <div class="d-flex flex-row box bg-white mt-2" style="border-radius: 7px 7px 7px;">
+                                        <div class="col-md-12 d-flex flex-column mt-1 p-3">
+                                            
+                                            <div class="content d-flex justify-content-center">
+                                                <div class="row align-items-center clique" style="width: 90%;" data-toggle="collapse" aria-expanded="true" aria-controls="">
+                                                    <div class="col-md-12 col-sm-12" >
+
+
+                                                        <p class="mt-3" style="color: #88E450; font-weight: 800; text-align:left;">
+                                                            
+                                                        </p>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                            
+                                        
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        ';
+
+
+                            $collpaseMaterialApoio = '
+                            <div style="width: 90%; text-align: center;">
+                            <div class="content d-flex clique mt-1 mb-2" data-toggle="collapse" data-target="#collapseMaterialApoio" aria-expanded="false">
+                                    <div class="d-flex w-100 pre-teste" class="header-material-apoio" style="background-color: white;">
+                                        <div class="d-flex w-100 p-3">
+                                            <div>
+                                                <div class="mr-auto ml-3 texto-modulo-accordion-minusculo">
+                                                    <span class="titulo-quiz" style="color: #88E450; font-size: 3vh;">MATERIAL DE APOIO</span>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- BLOQUEADO -->
+                                                                                        
+                                            <!-- BLOQUEADO -->
+
+                                        </div>
+                                </div>
+                            </div>
                             ';
 
                             $quizBox = '
@@ -214,11 +246,29 @@ if(isset($_GET['nome_modulo'])){
                             <div class="collapse bottom collapseAula" id="aula'.$id_aula.'" aria-expanded="false" style="width: 90%; background: white;">
                                 <div class="content d-flex justify-content-center clique">
                                     <div class="w-100" style="text-align: center; background-color: white;">
-                                        <div class="pt-5" style="background-color: black;">
-                                            <video width="80%" height="300" data-id-vid-aula="'.$aula_id_vid.'" controls>
-                                                <source src="video.mp4" type="video/mp4">
-                                                Seu navegador não suporta video.
-                                            </video>
+                                        <div class="pt-5" style="background-color: black;"">
+
+                                            <video
+                                            id="video"
+                                            data-id-vid-aula="'.$aula_id_vid.'"
+                                            class="video-js"
+                                            preload="auto"
+                                            width="640"
+                                            height="264"
+                                            controls
+                                            data-setup="{}"
+                                            style="width: 100%; height: 300px;"
+                                            >
+                                            <source src="video.mp4" type="video/mp4" />
+                                            <p class="vjs-no-js">
+                                                To view this video please enable JavaScript, and consider upgrading to a
+                                                web browser that
+                                                <a href="https://videojs.com/html5-video-support/" target="_blank"
+                                                >supports HTML5 video</a
+                                                >
+                                            </p>
+                                                </video>
+                                  
                                         </div>
                                     </div>
                                 </div>
@@ -287,48 +337,31 @@ if(isset($_GET['nome_modulo'])){
                         <!--- INICIO AULA --->
                         <div class="content mt-3 d-flex justify-content-center clique">
                             
-                            <div style="width: 90%; text-align: center;" id="modulo'.$id_mod.'"
-                                aria-labelledby="headingOne" data-id-aula="1">
-                                '.$preTeste.'
-                                <!--- INICIO LISTA AULAS--->
-                                '.$aulas.'
+                                <div style="width: 90%; text-align: center;" id="modulo'.$id_mod.'"
+                                    aria-labelledby="headingOne" data-id-aula="1">
+                                    '.$preTeste.'
+                                    <!--- INICIO LISTA AULAS--->
+                                    '.$aulas.'
 
-                                <!--- FIM LISTA AULAS--->
-
-
-                            </div>
-                            
-                            
+                                    <!--- FIM LISTA AULAS--->
+                                </div>
                             
                             </div>
 
                             
-
                             </div>
                             '.$collapseAula.'
 
-                            <div class="mt-3 mb-5" style="width: 90%; text-align: center;">
+                            <div class="mt-3 mb-5" style="width: 90%; text-align: center;"> 
                             '.$quiz.'
                             
                             '.$quizBox.'
 
                             </div>
                             <!--- INICIO MATERIAL DE APOIO --->
-                            <div style="width: 90%; text-align: center;">
-                                <div class="content d-flex clique mt-1 mb-2" data-toggle="collapse" data-target="#collapseMaterialApoio" aria-expanded="false">
-                                    <div class="d-flex w-100 pre-teste" class="header-preteste" style="background-color: white;">
-                                        <div class="d-flex w-100 p-3">
-                                            <span class="mr-auto ml-3 texto-modulo-accordion-minusculo">
-                                                MATERIAL DE APOIO
-                                            </span>
-                                            <div class="max" style="max-width: 42px;">
-                                                <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            '.$collpaseMaterialApoio.'
                             <!--- FIM MATERIAL DE APOIO --->
-
+                            '.$materialApoioBox.'
 
                             
                         </div>
@@ -406,6 +439,7 @@ if(isset($_GET['nome_modulo'])){
     }
 </style>
 
+<script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
 <script>
     let c1 = 0;
     let quizId = 0;
@@ -413,6 +447,10 @@ if(isset($_GET['nome_modulo'])){
     let header = document.querySelector(".pre-teste");
     let aulaId = header.getAttribute('data-id-aula');
     let forOpenQuiz = document.querySelector("#forOpenQuiz");
+    var player = videojs('video');
+    
+    updateInfo();
+
 
     function hiddenLeft(element) {
         let nomeAula = element.querySelector('.nome-aula')
@@ -429,31 +467,70 @@ if(isset($_GET['nome_modulo'])){
     }
 
 
-    function canOpenCollapseQuiz() {
-        let forOpen = document.querySelector("#forOpenQuiz");
-        
+
+    function sendRequestAssistirAula() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=assistir-aula');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let response = JSON.parse(this.response);
+                let success = response['success'];
+                if(success) {
+                    updateInfo();
+                }
+            }
+        };
+
+        xhr.send();
     }
 
 
     function setWatchedVideo() {
-        localStorage.setItem('watchedVideo', true);
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=concluir-aula');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let response = JSON.parse(this.response);
+                let success = response['success'];
+                if(success) {
+                    alert('Aula assistida com sucesso!');
+                }
+            }
+        };
+
+        xhr.send();
     }
 
-    function removeWatchedVideo() {
-        localStorage.removeItem('watchedVideo');
-    }
 
     function liberarAula() {
         let aula = document.querySelector("#toCollapseAula");
         aula.setAttribute('data-toggle', 'collapse');
     }
 
+
     function getWatchedVideo() {
         return localStorage.getItem('watchedVideo');
     }
 
     function hasWatchedVideo() {
-        return getWatchedVideo() === 'true';
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=info-situacao-aula');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(this.response);
+                    let success = response['success'];
+                    let aula = response['aula'];
+                    if(aula) {
+                        resolve(true);
+                    } else {
+                        reject(false);
+                    }
+                }
+            };
+
+            xhr.send();
+        });
     }
 
 
@@ -472,7 +549,7 @@ if(isset($_GET['nome_modulo'])){
         if(marcado) {
 
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz-pre-teste");
+            xhr.open('GET', 'v2.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz-pre-teste");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 c1 += 1;
@@ -484,7 +561,7 @@ if(isset($_GET['nome_modulo'])){
             xhr.send();
         } else {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_perguntas_pre_teste.php?id_quiz=' + quizId + "&resposta=" + "&acao=verificar-quiz-pre-teste");
+            xhr.open('GET', 'v2.php?id_quiz=' + quizId + "&resposta=" + "&acao=verificar-quiz-pre-teste");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 c1 += 1;
@@ -497,12 +574,13 @@ if(isset($_GET['nome_modulo'])){
         }
     }
 
+
     function proximoQuiz(btn) {
         let marcado = document.querySelector("[name='check']:checked");
         if(marcado) {
 
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz");
+            xhr.open('GET', 'v2.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 c1 += 1;
@@ -514,7 +592,7 @@ if(isset($_GET['nome_modulo'])){
             xhr.send();
         } else {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_perguntas_pre_teste.php?id_quiz=' + res[0]['id_vid_aula'] + "&resposta=" + "&acao=verificar-quiz");
+            xhr.open('GET', 'v2.php?id_quiz=' + res[0]['id_vid_aula'] + "&resposta=" + "&acao=verificar-quiz");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 c1 += 1;
@@ -532,7 +610,7 @@ if(isset($_GET['nome_modulo'])){
         if(marcado) {
 
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz");
+            xhr.open('GET', 'v2.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
 
@@ -549,7 +627,7 @@ if(isset($_GET['nome_modulo'])){
 
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=get-pre-teste');
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=get-pre-teste');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 console.log(xhr.responseText);
@@ -566,7 +644,7 @@ if(isset($_GET['nome_modulo'])){
         let marcado = document.querySelector("[name='check']:checked");
         if(marcado) {
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz-pre-teste");
+                xhr.open('GET', 'v2.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz-pre-teste");
                 xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     console.log(this.response);
@@ -576,7 +654,7 @@ if(isset($_GET['nome_modulo'])){
             xhr.send();
         } else {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_perguntas_pre_teste.php?id_quiz=' + quizId + "&resposta=" + "&acao=verificar-quiz-pre-teste");
+            xhr.open('GET', 'v2.php?id_quiz=' + quizId + "&resposta=" + "&acao=verificar-quiz-pre-teste");
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 updateInfo();
@@ -588,7 +666,7 @@ if(isset($_GET['nome_modulo'])){
         
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + res[0]['id_vid_aula'] + '&acao=finalizar-pre-teste');
+        xhr.open('GET', 'v2.php?id_aula=' + res[0]['id_vid_aula'] + '&acao=finalizar-pre-teste');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let response = JSON.parse(this.responseText);
@@ -607,17 +685,16 @@ if(isset($_GET['nome_modulo'])){
         watchVideo();
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + "&acao=info-situacao-aula");
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + "&acao=info-situacao-aula");
         xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
                 let response = JSON.parse(this.responseText);
                 let preTeste = response.pre_teste;
                 let quiz = response.quiz;
+                let aula = response.aula;
                 let collapsePreTeste = document.getElementById('collapsePreTeste');
-                
-                if(preTeste && quiz) {
-                    watchVideo();
-                }
+                let toCollapaseAula = document.getElementById('toCollapseAula');
+                let paused = player.paused()
 
                 if(preTeste) {
                     let header = document.querySelector('.pre-teste-status-header');
@@ -627,29 +704,28 @@ if(isset($_GET['nome_modulo'])){
                             <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
                         </div>
                     </div>`;
+
                     document.querySelector('[data-target="#collapsePreTeste"]').removeAttribute('data-toggle');
                     collapsePreTeste.classList.remove('show');
-                    let toCollapaseAula = document.getElementById('toCollapseAula');
-                    if(!quiz && !hasWatchedVideo()) {
-                        toCollapaseAula.setAttribute('data-toggle', 'collapse');
-                    }
                     
-                    if(quiz) {
-                        forOpenQuiz.removeAttribute('data-toggle');
-                    } else {
-                        forOpenQuiz.setAttribute('data-toggle', 'collapse');
-                    }
+                    if(!quizEstaAberto()) {
+                        liberarAula();
+                    }                      
                     
-                } 
-
-                if(!preTeste && hasWatchedVideo()) {
-                    removeWatchedVideo();
                 }
 
+                if(aula) {
+                    document.querySelector('.aula-status-header').innerHTML = `
+                    <div class="mr-auto bg-white ml-n3">
+                        <div class="max" style="max-width: 42px;">
+                            <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
+                        </div>
+                    </div>
+                    `;
+                }
 
                 if(quiz) {
                     forOpenQuiz.removeAttribute('data-target');
-                    document.getElementById('collapseQuiz').classList.remove('show');
                     document.querySelector('.quiz-status-header').innerHTML = `
                     <div class="mr-auto bg-white ml-n3">
                         <div class="max" style="max-width: 42px;">
@@ -659,9 +735,8 @@ if(isset($_GET['nome_modulo'])){
                     `;
                 }
 
-
-                if(preTeste && quiz) {
-                    liberarAula();
+                if(preTeste && aula && !quiz) {
+                    abrirQuiz();
                 }
 
 
@@ -673,18 +748,53 @@ if(isset($_GET['nome_modulo'])){
         xhr.send();
     }
 
-    function openCollpse() {
-        let collapse = document.getElementById('collapseQuiz');
-        collapse.classList.add('show'); 
+    document.querySelector('#toCollapseAula').addEventListener('click', () => {
+        updateInfo();
+    });
+
+    function naoAbrirAula() {
+        let collapseAula = document.querySelector('#toCollapseAula');
+        collapseAula.classList.remove('show');
+        collapseAula.removeAttribute('data-toggle');
     }
 
+    function abrirAula() {
+        let collapseAula = document.querySelector('#toCollapseAula');
+        collapseAula.setAttribute('data-toggle', 'collapse');
+    }
+
+    function naoAbrirQuiz() {
+        let collapseQuiz = document.querySelector('#collapseQuiz');
+        collapseQuiz.classList.remove('show');
+        collapseQuiz.removeAttribute('data-toggle');
+    }
+
+    function abrirQuiz() {
+        forOpenQuiz.setAttribute('data-target', '#collapseQuiz');
+        forOpenQuiz.setAttribute('data-toggle', 'collapse');
+    }
+
+    function aulaEstaAberta() {
+        let aula = document.querySelector('#toCollapseAula');
+        return aula.classList.contains('show');
+    }
+
+    function quizEstaAberto() {
+        let quiz = document.querySelector('#collapseQuiz');
+        return quiz.classList.contains('show');
+    }
+
+    function wasWatchingVideo() {
+        let video = document.querySelector('video');
+        let time = video.currentTime;
+
+    }
+
+
     forOpenQuiz.addEventListener('click', (event) => {
-        if(hasWatchedVideo()) {
-            openCollpse();
-        }
         updateInfo();
         // verificar se o video foi assistido
-        if(!hasWatchedVideo()) {
+        hasWatchedVideo().catch(res => {
             Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -699,15 +809,13 @@ if(isset($_GET['nome_modulo'])){
                 icon: 'error',
                 title: 'Você precisa assistir o vídeo para continuar!'
             });
-
-            throw new Error("Você precisa assistir o vídeo para continuar!");
-        }
+        });
                             
         watchVideo();
     });
 
     function watchVideo() {
-        if(hasWatchedVideo()) {
+        hasWatchedVideo().then((res) => {
             document.querySelector('.collapseAula').classList.remove('show');
             document.getElementById('toCollapseAula').removeAttribute('data-toggle');
             // document.querySelector('[data-target="#collapseQuiz"]').setAttribute('data-toggle', 'collapse');
@@ -716,7 +824,7 @@ if(isset($_GET['nome_modulo'])){
             headerToCollapseAula.innerHTML = `
             <img src="/assets/images/check-mark-7-48.png" alt="" srcset="">
             `;
-        }
+        });
     }
 
 
@@ -790,20 +898,24 @@ if(isset($_GET['nome_modulo'])){
         finalizarQuiz(event);
     });
 
-    function mensagemTentarDnv(text) {
-        let novaTentativa = () => {
+    let novaTentativa = () => {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=nova-tentativa-quiz&quiz_id=' + quizId);
+            xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=nova-tentativa-quiz&quiz_id=' + quizId);
             
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let response = JSON.parse(this.response);
                     let success = response['success'];
                     if(success) {
+                        c1 = 0;
+                        insertQuiz(aulaId);
+
                     }
                 }
             };
         }
+
+    function mensagemTentarDnv(text) {
 
         
         return Swal.fire({
@@ -826,13 +938,14 @@ if(isset($_GET['nome_modulo'])){
     function finalizarQuiz(event) {
         let el = event.target;
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=finalizar-quiz&quiz_id=' + quizId);
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=finalizar-quiz&quiz_id=' + quizId);
         xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response = JSON.parse(this.response);
             let success = response['success'];
-            let aprovado 
-            if(success) {
+            let aprovado = response['aprovado'];
+            let message = response['text'];
+            if(aprovado) {
                 document.querySelector('.quiz-status-header').innerHTML = `
                     <div class="mr-auto bg-white ml-n3">
                         <div class="max" style="max-width: 42px;">
@@ -858,12 +971,13 @@ if(isset($_GET['nome_modulo'])){
                 });
             } else {
 
-                mensagemTentarDnv(response).then((result) => {
+                mensagemTentarDnv(message).then((result) => {
                     if(result.isConfirmed) {
                         novaTentativa();
                     }
                 });
             }
+        
         };
     };
 
@@ -878,10 +992,11 @@ if(isset($_GET['nome_modulo'])){
         updateInfo();
     }
 
+
     function inputNotaAula() {
         // Digite sua nota
         Swal.fire({
-            title: 'De 0 a 10 o quanto você recomendaria essa aula.',
+            title: 'De 0 a 10 o quanto você recomendaria esta aula.',
             confirmButtonText: 'Confirmar',
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
@@ -892,7 +1007,7 @@ if(isset($_GET['nome_modulo'])){
                 let comentario = document.getElementById('swal-input2').value;
 
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=input-nota-aula&nota=' + nota + "&comentario=" + comentario);
+                xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=input-nota&nota=' + nota + "&comentario=" + comentario);
                 xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let response = JSON.parse(this.response)[0];
@@ -920,42 +1035,21 @@ if(isset($_GET['nome_modulo'])){
             },
             showCancelButton: true,
         }).then((result) => {
+            console.log(result);
             if (result.value) {
-                let nota = result.value;
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=input-nota-aula&nota=' + nota);
-                xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    let response = JSON.parse(this.response)[0];
-                    let success = response['success'];
-                    if(success) {
-                        Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        }).fire({
-                            icon: 'success',
-                            title: 'Nota inserida com sucesso!'
-                        });
-                    }
-                };
+                Swal.fire({
+                    title: 'Nota inserida com sucesso!',
+                });
+                
             };
 
-                xhr.send();
-            }
         })
     }
 
 
     function insertPreTeste(aulaId) {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=get-pre-teste');
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=get-pre-teste');
         xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response = JSON.parse(this.response)[0];
@@ -998,8 +1092,6 @@ if(isset($_GET['nome_modulo'])){
                         let e = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="E" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
                         document.querySelector('.questoes-pre-teste').innerHTML += e;
                 }
-        
-
             }
             }
         };
@@ -1008,16 +1100,14 @@ if(isset($_GET['nome_modulo'])){
 
 
     function insertQuiz(aulaId) {
-        console.debug("AULA: " + aulaId);
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_perguntas_pre_teste.php?id_aula=' + aulaId + '&acao=get-quiz');
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=get-quiz');
         xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response = JSON.parse(this.response)[0];
             res = response['result'];
             let resLast = res.length - 1;
             let success = response['success'];
-            console.log(success);
             let questoes = '';
             let titulo = document.querySelector('.titulo-quiz-quiz');
             titulo.innerHTML = '';
@@ -1038,7 +1128,7 @@ if(isset($_GET['nome_modulo'])){
                 
                 let a = '<div data-questao-id="'+ id +'" class="mt-3"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="A" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaA +'</span> </span></div>';
                 document.querySelector('.questoes-quiz').innerHTML += a;
-                let b = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="B" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaB +'</span> </span></div>';
+                let b = '<div data-questao-id="'+ id +'"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="B" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaB +'</span> </span></div>';
                 document.querySelector('.questoes-quiz').innerHTML += b;
                 let c = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="C" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaC +'</span> </span></div>';
                 document.querySelector('.questoes-quiz').innerHTML += c;
@@ -1062,26 +1152,15 @@ if(isset($_GET['nome_modulo'])){
     }
 
     document.querySelector(".quiz-fixacao-header").addEventListener('click', () => {
+        updateInfo();
         insertQuiz(aulaId);
     });
-
-    document.querySelector("video").onended = function() {
-        if(this.played.end(0) - this.played.start(0) === this.duration) {
-            let attr = this.getAttribute('data-id-vid-aula');
-            setWatchedVideo();
-
-            inputNotaAula();
-        }else {
-            watchedVideo = null;
-        }
-    }
 
     
     header.addEventListener('click', () => {
         insertPreTeste(aulaId);
     });
 
-    updateInfo();
 
 
     function redirect(id) {
@@ -1089,6 +1168,18 @@ if(isset($_GET['nome_modulo'])){
     }
 
 
+    player.on('timeupdate', function() {
+    var duration = player.duration();
+    var currentTime = player.currentTime();
+    var threshold = duration * 1; // verificar se o usuário assistiu a 100% do vídeo
+    
+    if (currentTime >= threshold) {
+        
+        let attr = this.getAttribute('data-id-vid-aula');
+        setWatchedVideo();
+        inputNotaAula();
+    }
+    });
 </script>
 
 <script src="assets/popper/popper.min.js"></script>

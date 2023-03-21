@@ -177,11 +177,11 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <select class="form-control" name="mod_id_aula">
                                                     <option value="1">Selecionar o módulo</option>
                                                     <?php
-                                                        $select = "SELECT * from modulo WHERE treinamento = 'sim' ";  
+                                                        $select = "SELECT * FROM modulo WHERE treinamento = 'sim' ";  
                                                         try{
                                                         $result = $conexao->prepare($select);
                                                         $result ->execute();
@@ -206,7 +206,7 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <select class="form-control" name="cronograma_semanas">
                                                     <option value="1">1 Semana</option>
                                                     <option value="2">2 Semana</option>
@@ -221,8 +221,12 @@
                                                 </select>
                                             </div>
 
-                                            
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" name="taxa_acerto_quiz" placeholder="Taxa de acerto Quiz">
+                                            </div>
                                         </div>
+
+
                                         <div class="form-group mb-0 justify-content-end row">
                                             <div class="col-sm-10">
                                                 <button type="submit" name="cadastrar" class="btn btn-success waves-effect waves-light">Salvar</button>
@@ -244,7 +248,21 @@
         <script src="assets/js/app.min.js"></script>
         <script src="assets/libs/dropify/dropify.min.js"></script>
         <script src="assets/js/pages/form-fileupload.init.js"></script>
+        <script>
+            let input = document.querySelector('input[name="taxa_acerto_quiz"]');
+            input.addEventListener('keyup', function(e){
+                input.value = input.value.replace(/[^0-9]/g, '');
 
+                e.target.style.outline = '';
+                if(input.value >= 101) {
+                    e.target.style.outline = '1px solid red';
+                }
+                
+                if(input.value.length > 3) {
+                    input.value = input.value.slice(0, 3);
+                }
+            });
+        </script>
 
 
         

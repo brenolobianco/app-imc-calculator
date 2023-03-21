@@ -106,7 +106,7 @@
                                     <div class="col-auto">
                                         <div class="input-group mb-2">
                                             <div class="input-group-text">B</div>
-                                            <input type="text" name="B" name="alternativa_b" class="form-control" id="inlineFormInputGroup"
+                                            <input type="text" name="alternativa_b" class="form-control" id="inlineFormInputGroup"
                                                 placeholder="Alternativa">
                                         </div>
                                     </div>

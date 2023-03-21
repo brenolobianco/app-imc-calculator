@@ -8,7 +8,11 @@
         $est_id_aula  = trim(strip_tags($_POST["est_id_aula"]));
         $prof_id_aula  = trim(strip_tags($_POST["prof_id_aula"]));
         $cronograma_semanas = trim(strip_tags($_POST["cronograma_semanas"]));;
-        
+        $taxa_acerto_quiz = trim(strip_tags($_POST["taxa_acerto_quiz"]));
+        if($taxa_acerto_quiz > 100) {
+            $taxa_acerto_quiz = 100;
+        }
+
         $est_id_aula_treinamento  = $_POST["est_id_aula_treinamento"];
         $treinamento = null;
         if($est_id_aula_treinamento) {
@@ -19,8 +23,8 @@
         $insert = "INSERT into aula ( nome_aula, desc_aula, curso_id_aula, mod_id_aula, est_id_aula, prof_id_aula ) 
         VALUES ( :nome_aula, :desc_aula, :curso_id_aula, :mod_id_aula, :est_id_aula, :prof_id_aula)";  
         if($treinamento == "sim") {
-            $insert = "INSERT INTO aula (nome_aula, desc_aula, mod_id_aula, est_id_aula, prof_id_aula, treinamento, cronograma_semanas) 
-            VALUES ( :nome_aula, :desc_aula, :mod_id_aula, :est_id_aula, :prof_id_aula, :treinamento, :cronograma_semanas)";
+            $insert = "INSERT INTO aula (nome_aula, desc_aula, mod_id_aula, est_id_aula, prof_id_aula, treinamento, cronograma_semanas, taxa_acerto_quiz) 
+            VALUES ( :nome_aula, :desc_aula, :mod_id_aula, :est_id_aula, :prof_id_aula, :treinamento, :cronograma_semanas, :taxa_acerto_quiz)";
         }
             try{
                 $result = $conexao->prepare($insert);
@@ -29,11 +33,12 @@
                 if($treinamento != "sim") {
                     $result->bindParam(':curso_id_aula',$curso_id_aula, PDO::PARAM_INT);
                 }
+
                 $result->bindParam(':cronograma_semanas', $cronograma_semanas, PDO::PARAM_INT);
-                
                 $result ->bindParam(':mod_id_aula',$mod_id_aula, PDO::PARAM_INT);
                 $result ->bindParam(':est_id_aula',$est_id_aula, PDO::PARAM_INT);
-                $result ->bindParam(':prof_id_aula',$prof_id_aula, PDO::PARAM_INT);  
+                $result ->bindParam(':prof_id_aula',$prof_id_aula, PDO::PARAM_INT);
+                $result->bindParam(':taxa_acerto_quiz', $taxa_acerto_quiz, PDO::PARAM_INT);
                 $result ->bindParam(':treinamento',$treinamento, PDO::PARAM_STR);  
                 
                 $result ->execute();

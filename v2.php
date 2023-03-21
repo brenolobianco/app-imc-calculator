@@ -22,10 +22,12 @@ try{
     echo $e;
 }
 
-
-
-include_once 'controllers/log/logado.php';
-
+function preventToXSS($text) {
+    $text = trim($text);
+    $text = stripslashes($text);
+    $text = htmlspecialchars($text);
+    return $text;
+}
 
 if(isset($_GET['acao'])) {
 
@@ -42,15 +44,19 @@ if(isset($_GET['acao'])) {
             header("Location: /home.php?acao=hospital&id_est=35");
         }
 
+
         $temPreTeste = tem_pre_teste($conexao, $id_vid, $idLog);
         if(!$temPreTeste) {
             salvar_pre_teste($conexao, $id_vid, $idLog);
         }
 
 
+
         if($acao == "get-pre-teste") {
-            $autorizado = pode_fazer_pre_teste($idLog, $conexao, $id_aula);
+
+            $autorizado = pode_fazer_pre_teste($idLog, $conexao, $id_aula); // verificar se o usuário pode fazer o pre-teste
             if($autorizado) {
+
                 $select = "SELECT * FROM treinamento_pre_teste WHERE id_vid_aula = :id_vid_aula ORDER BY id_pre_teste";  
                 try{
                     $result = $conexao->prepare($select);
@@ -77,6 +83,7 @@ if(isset($_GET['acao'])) {
         } elseif($acao == "get-quiz") {
             $pode_fazer = pode_fazer_quiz($conexao, $id_aula, $idLog);
             if($pode_fazer) {
+                
                 $select = "SELECT * FROM quiz_treinamento WHERE id_vid_aula = :id_vid_aula ORDER BY id_quiz";  
                 try{
                     $result = $conexao->prepare($select);
@@ -130,6 +137,7 @@ if(isset($_GET['acao'])) {
                     echo $e;
                 }
             }
+
         } elseif($acao == "nova-tentativa-quiz") {
             $count = nova_tentativa_quiz($conexao, $idLog, $id_aula);
             if($count >= 1) {
@@ -139,11 +147,12 @@ if(isset($_GET['acao'])) {
             }
         } elseif($acao == "finalizar-quiz") {
             $aprovado = foi_aprovado_quiz($conexao, $idLog, $id_aula);
+            $minima = get_nota_minima($conexao, $id_aula);
             $count = finalizar_quiz($conexao, $idLog, $id_aula, $aprovado);
-            if($count >= 1) {
+            if($aprovado) {
                 echo json_encode(["success" => true, "text" => "Finalizao!"]);
             } else {
-                echo json_encode(["success" => false, "text" => "Ocorreu um erro!"]);
+                echo json_encode(["success" => false, "text" => "Você não foi aprovado! Você não atingiu a nota mínima de $minima%"]);
             }
 
         } elseif ($acao == "verificar-quiz-pre-teste") {
@@ -188,16 +197,60 @@ if(isset($_GET['acao'])) {
             $resp = [];
             $resp['pre_teste'] = aprovado_pre_teste($conexao, $id_aula, $idLog);
             $resp['quiz'] = aprovado_quiz($conexao, $id_aula, $idLog);
+            $resp['aula'] = assistiu_aula($conexao, $id_aula, $idLog);
             echo json_encode($resp);
+        } elseif ($acao == "concluir-aula") {
+            $concluida = concluir_aula($conexao, $id_aula, $idLog);
+            if($concluida) {
+                echo json_encode(["success" => true, "text" => "Aula concluída!"]);
+            } else {
+                echo json_encode(["success" => false, "text" => "Ocorreu um erro!"]);
+            }
+        } elseif($acao == "input-nota") {
+            $nota = ($_GET['nota']);
+            if($nota > 10) {
+                echo json_encode(["success" => false, "text" => "Nota inválida!"]);
+                exit(0);
+            }
+
+            $comentario = preventToXSS($_GET['comentario']);
+            $id_aula = $_GET['id_aula'];
+            $concluida = input_nota($conexao, $id_aula, $idLog, $nota, $comentario);
+            if($concluida) {
+                echo json_encode(["success" => true, "text" => "Nota inserida!"]);
+            } else {
+                echo json_encode(["success" => false, "text" => "Ocorreu um erro!"]);
+            }
         }
     } 
 }
 
 
-function incrementNovaTentativa($conexao, $idLog, $id_aula) {
-    $select = "UPDATE quiz_treinamento_num_erros SET num_tentativas = num_tentativas + 1 WHERE id_usuario = :id_usuario AND id_vid_aula = :id_vid_aula";
+function input_nota($conexao, $id_aula, $idLog, $nota, $comentario) {
+    $select = "INSERT INTO aula_treinamento_nota(id_usuario, id_aula, nota, comentario) VALUES (:id_usuario, :id_vid_aula, :nota, :comentario)";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_usuario', $idLog, PDO::PARAM_INT);
+    $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
+    $result->bindParam(':nota', $nota, PDO::PARAM_INT);
+    $result->bindParam(':comentario', $comentario, PDO::PARAM_STR);
+    
+    $result ->execute();
+    $count = $result->rowCount();
+    return $count;
 }
 
+function get_nota_minima($conexao, $id_aula) {
+    $select = "SELECT taxa_acerto_quiz FROM aula WHERE id_aula = :id_aula";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result ->execute();
+    $count = $result->rowCount();
+    if($count > 0) {
+        $mostra = $result->FETCH(PDO::FETCH_OBJ);
+        return $mostra->taxa_acerto_quiz;
+    }
+    return 0;
+}
 
 function nova_tentativa_quiz($conexao, $idLog, $id_aula) {
     $select = "INSERT INTO quiz_treinamento_num_erros (id_usuario, id_vid_aula, data_tentativa) VALUES (:id_usuario, :id_vid_aula, NOW())";
@@ -244,10 +297,9 @@ function pode_fazer_pre_teste($id_usuario, $conexao, $id_aula) {
      * 
      */
 
-    // libere caso seja a primeira aula
-    if(e_primeira_aula($conexao, $id_aula)) {
-        return true;
-    }
+     if(e_primeira_aula($conexao, $id_aula)) {
+         return true;
+     }
 
     // verifica se já fez o pre teste anterior
     if(!fez_pre_teste_anterior($conexao, $id_aula, $id_usuario)) {
@@ -302,17 +354,107 @@ function aulaLiberada($conexao, $idAula, $idLog) {
      * 
      */
 
+    
+     // Aula está bloqueada, então não pode assistir
+    if(verificarEstaBloqueada($conexao, $idAula, $idLog)) {
+        return false;
+    }
+
+
     if(e_primeira_aula($conexao, $idAula)) {
         return true;
     }
 
-    // Aula está concluida, então não pode assistir
+    // Verifica se já fez o pre teste anterior
+    if(!fez_pre_teste_anterior($conexao, $idAula, $idLog)) {
+        return false;
+    }
+
+    // Aula está concluida
     if(aulaConcluida($conexao, $idAula, $idLog)) {
         return false;
     }
 
 
+
     if(pode_fazer_pre_teste($idLog, $conexao, $idAula) && pode_fazer_quiz($conexao, $idAula, $idLog)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function verificarEstaBloqueada($conexao, $idAula, $idLog) {
+    /**
+     * 
+     * Verifica se a aula está bloqueada no PAINEL
+     * 
+     * 
+     */
+
+    if(esta_bloqueada($conexao, $idAula)) {
+        return true;
+    }
+
+     if(bloqueada_ate($conexao, $idAula, $idLog)) {
+        return true;
+     }
+
+    return false;
+}
+
+function esta_bloqueada($conexao, $idAula) {
+    $sql = "SELECT * FROM aula WHERE id_aula = :id_aula AND status = 'liberado'";
+    $result = $conexao->prepare($sql);
+    $result->bindParam(':id_aula', $idAula, PDO::PARAM_INT);
+    $result ->execute();
+    $count = $result->rowCount();
+    if($count >= 1) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+function bloqueada_acima($conexao, $idAula, $idLog) {
+    /**
+     * 
+     * Bloquear todas as aulas a anterior a esta
+     * 
+     */
+
+    $id_est = get_user_est($conexao, $idLog); // pega o id da estação do usuário
+
+    $sql = "SELECT * FROM aula WHERE id_aula > :id_aula AND est_id_aula = :id_est AND status != 'liberado' GROUP BY aula.id_aula ORDER BY aula.mod_id_aula DESC, aula.id_aula ASC";    
+    $result = $conexao->prepare($sql);
+    $result->bindParam(':id_aula', $idAula, PDO::PARAM_INT);
+    $result->bindParam(':id_est', $id_est, PDO::PARAM_INT);
+    $result ->execute();
+    $count = $result->rowCount();
+    if($count >= 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function bloqueada_ate($conexao, $idAula, $idLog) {
+    /**
+     * 
+     * Bloquear todas as aulas a posterior a esta
+     * 
+     */
+
+    $id_est = get_user_est($conexao, $idLog); // pega o id da estação do usuário
+
+    $sql = "SELECT * FROM aula WHERE id_aula < :id_aula AND est_id_aula = :id_est AND status != 'liberado' GROUP BY aula.id_aula ORDER BY aula.mod_id_aula DESC, aula.id_aula ASC";    
+    $result = $conexao->prepare($sql);
+    $result->bindParam(':id_aula', $idAula, PDO::PARAM_INT);
+    $result->bindParam(':id_est', $id_est, PDO::PARAM_INT);
+    $result ->execute();
+    $count = $result->rowCount();
+    if($count >= 1) {
         return true;
     } else {
         return false;
@@ -347,6 +489,7 @@ function pode_fazer($conexao, $idLog, $idAula) {
     }
 }
 
+
 function verificar_aulas($conexao, $id_aula, $idLog) {
     $modulos = get_aulas($conexao, $idLog);
     $aula = get_aula($conexao, $id_aula);
@@ -372,7 +515,7 @@ function verificar_aulas($conexao, $id_aula, $idLog) {
 
 
 function proxima_aula($conexao, $id_aula) {
-    $select = "SELECT * FROM aula WHERE aula.id_aula > :id_aula AND treinamento = 'sim' LIMIT 1";
+    $select = "SELECT * FROM aula WHERE id_aula > :id_aula AND treinamento = 'sim' GROUP BY aula.id_aula ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC LIMIT 1";
     
     $result = $conexao->prepare($select);
     $result ->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
@@ -382,13 +525,23 @@ function proxima_aula($conexao, $id_aula) {
 
 
 function aula_anterior($conexao, $id_aula) {
-    $select = "SELECT * FROM aula WHERE aula.id_aula < :id_aula AND treinamento = 'sim' ORDER BY id_aula DESC LIMIT 1";
+    $select = "SELECT * FROM aula WHERE treinamento = 'sim' GROUP BY aula.id_aula ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC";
+    
     
     $result = $conexao->prepare($select);
-    $result ->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
     $result ->execute();
+    $fetch = $result->fetchAll(PDO::FETCH_OBJ);
 
-    return $result->FETCH(PDO::FETCH_OBJ);
+    for($i = 0; $i < count($fetch); $i++) {
+        if($fetch[$i]->id_aula == $id_aula) {
+            if($i == 0) {
+                return false;
+            } else {
+                return ($fetch[$i - 1]);
+            }
+        }
+    }
+
 }
 
 
@@ -440,25 +593,95 @@ function get_progresso_quiz_by_aula($conexao, $id_aula , $idLog) {
 function aprovado_pre_teste($conexao, $id_aula, $idLog) {
     $preTeste = get_progresso_pre_teste_by_aula($conexao, $id_aula, $idLog);
     $fetch = $preTeste->FETCH();
-    return $fetch['aprovado'];
+    if($preTeste->rowCount() > 0) {
+        return $fetch['aprovado'];
+    } else {
+        return false;
+    }
 }
 
+
+function assistiu_aula($conexao, $id_aula, $idLog) {
+    $preTeste = get_progresso_pre_teste_by_aula($conexao, $id_aula, $idLog);
+
+    $fetch = $preTeste->FETCH();
+    $aprovado = $fetch['finalizado'] ?? 0;
+    if($aprovado) {
+        $sql = "SELECT * FROM progresso_usuario_aulas WHERE id_usuario = :id_usuario AND id_aula = :id_aula AND assistido > 0";
+        $result = $conexao->prepare($sql);
+        $result->bindParam(":id_usuario", $idLog, PDO::PARAM_INT);
+        $result->bindParam(":id_aula", $id_aula, PDO::PARAM_INT);
+        $result->execute();
+        $fetch = $result->FETCH();
+        $contar = $result->rowCount();
+        if($contar > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
 
 function aprovado_quiz($conexao, $id_aula, $idLog) {
     $preTeste = get_progresso_quiz($conexao, $id_aula, $idLog);
     $fetch = $preTeste->FETCH();
-    return $fetch['aprovado'];
+    if($preTeste->rowCount() > 0) {
+        if($fetch['aprovado'] == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+function concluir_aula($conexao, $id_aula, $idLog) {
+    $preTesteConcluido = finalizado_pre_teste($conexao, $id_aula, $idLog);
+    if($preTesteConcluido) {
+
+        try {
+            $stmt = $conexao->prepare("INSERT INTO progresso_usuario_aulas(id_usuario, id_aula, assistido)
+            SELECT * FROM (SELECT :id_usuario as id_usuario, :id_aula as id_aula, 0 as assistido) AS tmp
+            WHERE NOT EXISTS (
+                SELECT * FROM progresso_usuario_aulas WHERE id_usuario = :id_usuario AND id_aula = :id_aula
+            )
+            LIMIT 1;
+
+            UPDATE progresso_usuario_aulas SET assistido = assistido + 1 WHERE id_usuario = :id_usuario AND id_aula = :id_aula;
+            ");
+            
+            $stmt->bindParam(':id_usuario', $idLog);
+            $stmt->bindParam(':id_aula', $id_aula);
+            
+
+            $stmt->execute();
+            $count = $stmt->rowCount();
+            if($count > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Throwable $th) {
+            return false;
+        }
+        
+    } else {
+        return false;
+    }
 }
 
 function finalizado_pre_teste($conexao, $id_aula, $idLog) {
     try {
         $preTeste = get_progresso_pre_teste_by_aula($conexao, $id_aula, $idLog);
-        
         return $preTeste->FETCH()['finalizado'];
     } catch (\Throwable $th) {
         return 0;
     }
 }
+
 
 function finalizado_quiz($conexao, $id_aula, $idLog) {
     try {
@@ -472,6 +695,7 @@ function finalizado_quiz($conexao, $id_aula, $idLog) {
     }
 }
 
+
 function fez_pre_teste_anterior($conexao, $id_aula, $idLog) {
     /**
      * 
@@ -480,11 +704,18 @@ function fez_pre_teste_anterior($conexao, $id_aula, $idLog) {
      * 
      */
     $aula_anterior = aula_anterior($conexao, $id_aula);
-    $id = $aula_anterior->id_aula;
-    $preTeste = get_progresso_pre_teste_by_aula($conexao, $id, $idLog);
-    $count = $preTeste->rowCount();
-    
-    return $count;
+    $id = $aula_anterior->id_aula ?? false;
+    if($id) {
+        $preTeste = get_progresso_pre_teste_by_aula($conexao, $id, $idLog);
+        $count = $preTeste->rowCount();
+        if($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }
 
 
@@ -567,18 +798,21 @@ function porcentagem_conclusao($conexao, $idLog) {
     foreach($aulas as $modulo) {
         foreach($modulo['aulas'] as $aula) {
             $totalAulas++;
-            if($aula->finalizado_pre_teste == 1 && $aula->finalizado_quiz == 1) {
-                $totalAulasFinalizadas++;
-            } elseif($aula->finalizado_pre_teste == 1 && $aula->finalizado_quiz == 0) {
-                $totalAulasFinalizadas += 0.5;
-            } elseif($aula->finalizado_pre_teste == 0 && $aula->finalizado_quiz == 1) {
-                $totalAulasFinalizadas += 0.5;
+            if($aula->finalizado_quiz) {
+                if($aula->finalizado_pre_teste == 1 && $aula->finalizado_quiz == 1) {
+                    $totalAulasFinalizadas++;
+                } elseif($aula->finalizado_pre_teste == 1 && $aula->finalizado_quiz == 0) {
+                    $totalAulasFinalizadas += 0.5;
+                } elseif($aula->finalizado_pre_teste == 0 && $aula->finalizado_quiz == 1) {
+                    $totalAulasFinalizadas += 0.5;
+                }
+    
             }
         }
     }
 
-
-    return ($totalAulasFinalizadas / $totalAulas) * 100;
+    $conta = ($totalAulasFinalizadas / $totalAulas) * 100;
+    return round($conta, 2);
 }
 
 
@@ -589,14 +823,13 @@ function get_aula($conexao, $id_aula){
     $result ->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
     $result ->execute();
     return $result;
-
 }
 
 
 function finalizar_pre_teste($conexao, $id_usuario, $id_aula, $aprovado) {
 
     $sql = "INSERT INTO progresso_usuario_pre_teste(id_usuario, id_aula, finalizado, aprovado)
-    SELECT * FROM (SELECT :id_usuario, :id_aula, 1 AS finalizado, :aprovado as aprovado) AS tmp
+    SELECT * FROM (SELECT :id_usuario as id_usuario, :id_aula as id_aula, 1 AS finalizado, :aprovado as aprovado) AS tmp
     WHERE NOT EXISTS (
         SELECT * FROM progresso_usuario_pre_teste WHERE id_usuario = :id_usuario_2 AND id_aula = :id_aula_2
     ) LIMIT 1;
@@ -614,6 +847,7 @@ function finalizar_pre_teste($conexao, $id_usuario, $id_aula, $aprovado) {
 }
 
 function finalizar_quiz($conexao, $id_usuario, $id_aula, $aprovado) {
+    
 
     $sql = "INSERT INTO progresso_usuario_quiz(id_usuario, id_aula, finalizado, aprovado)
     SELECT * FROM (SELECT :id_usuario, :id_aula, 1 AS finalizado, :aprovado as aprovado) AS tmp
@@ -630,7 +864,24 @@ function finalizar_quiz($conexao, $id_usuario, $id_aula, $aprovado) {
     $result->bindParam(':aprovado', $aprovado, PDO::PARAM_INT);
     $result ->execute();
     
-    return $result->rowCount();
+    if($aprovado == 1) {
+        update_progresso_usuario_quiz($conexao, $id_usuario, $id_aula, $aprovado);
+    }
+
+
+    return $result;
+}
+
+function update_progresso_usuario_quiz($conexao, $id_usuario, $id_aula, $aprovado) {
+    $sql = "UPDATE progresso_usuario_quiz SET aprovado = :aprovado WHERE id_usuario = :id_usuario AND id_aula = :id_aula";
+
+    $result = $conexao->prepare($sql);
+    $result->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result->bindParam(':aprovado', $aprovado, PDO::PARAM_INT);
+    $result ->execute();
+
+    return $result;
 }
 
 
@@ -664,14 +915,35 @@ function foi_aprovado_quiz($conexao, $id_usuario, $id_aula) {
         $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
         $result ->execute();
         $quantidade_quiz = $result->rowCount();
-        $num_acertos = num_acertos_quiz($conexao, $id_usuario, $id_aula);
-        if($num_acertos > ($quantidade_quiz / 2)) {
+        $num_acertos = num_acerto_aula($conexao, $id_usuario, $id_aula);
+        $porcentagemAula = taxaAcertoAula($conexao, $id_aula);
+        $resultado = ($num_acertos / $quantidade_quiz) * 100;
+        if($resultado >= $porcentagemAula) {
             return 1;
         } else {
             return 0;
         }
 
     } catch (Exception $e) {
+    }
+}
+
+function taxaAcertoAula($conexao, $id_aula) {
+    /**
+     * 
+     * Taxa de acerto quiz
+     * 
+     */
+    $sql = "SELECT * FROM aula WHERE id_aula = :id_aula";
+    $result = $conexao->prepare($sql);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result ->execute();
+    if($result->rowCount() == 0) {
+        return 0;
+    } else {
+        $aula = $result->fetch(PDO::FETCH_OBJ);
+        $porcentagem = $aula->taxa_acerto_quiz;
+        return $porcentagem;    
     }
 }
 
@@ -694,6 +966,34 @@ function num_acertos_quiz($conexao, $id_usuario, $id_aula) {
         $result = $conexao->prepare($select);
         $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
         $result->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $result ->execute();
+        var_dump($result->fetchAll());
+        $contar = $result->rowCount();
+        return $contar;
+    } catch (Exception $e) {
+    }
+}
+
+
+function num_acerto_aula($conexao, $id_usuario, $id_aula) {
+    $sql2 = "SELECT id FROM quiz_treinamento_tentivas WHERE id_usuario = :id_usuario AND id_vid_aula = :id_aula";
+    try{
+        $result = $conexao->prepare($sql2);
+        $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+        $result->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $result ->execute();
+        $contar = $result->rowCount();
+        return $contar;
+    } catch (Exception $e) {
+    }
+}
+
+
+function num_quiz($conexao, $id_aula) {
+    $select = "SELECT * FROM quiz_treinamento WHERE id_vid_aula = :id_aula";
+    try{
+        $result = $conexao->prepare($select);
+        $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
         $result ->execute();
         $contar = $result->rowCount();
         return $contar;

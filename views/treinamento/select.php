@@ -2,7 +2,7 @@
 
 
 include_once('controllers/treinamento/ControllerModulo.php');
-$dir = __DIR__ . '/../../get_perguntas_pre_teste.php';
+$dir = __DIR__ . '/../../v2.php';
 require_once($dir);
 
 
@@ -150,7 +150,6 @@ require_once($dir);
                                 </div>
                             ';
 
-
                                 if(aulaConcluida($conexao, $id_aula, $idLog)) {
                                     $aulas .= '
                                     <div class="mt-3">
@@ -177,53 +176,56 @@ require_once($dir);
                                         </div>
                                     </div>
                                     ';
-                                } elseif (aulaLiberada($conexao, $id_aula, $idLog)) {
-                                    $aulas .= '
-                                    <div class="mt-3">
-                                        <div class="d-flex content" onclick="hiddenLeft(this)">
-        
-                                            <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
-                                                <div class="d-flex alinhar" style="text-align: center;">
-                                                    <span class="alinhar texto-mudulo-accordion">'.$semana.'° semana</span>
-                                                </div>
-                                            </div>
-        
-                                            <div data-toggle="collapse" onclick="redirect('.$id_vid.', \'MODULO '.$num.' - '.$mostra->nome_mod.' - '.$fetchAula->nome_aula.'\' )" aria-expanded="false"
-                                                class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
-                                                <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
-                                            </div>
-                                        
-
-                                        </div>
-                                    </div>
-                                    ';
                                 } else {
-                                    $aulas .= '
-                                    <div class="mt-3">
-                                        <div class="d-flex content" onclick="erroAulaAnterior()">
-        
-                                            <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
-                                                <div class="d-flex alinhar" style="text-align: center;">
-                                                    <span class="alinhar texto-mudulo-accordion">'.$semana.'° semana</span>
+                                    if (aulaLiberada($conexao, $id_aula, $idLog) ) {
+                                        $aulas .= '
+                                        <div class="mt-3">
+                                            <div class="d-flex content" onclick="hiddenLeft(this)">
+            
+                                                <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
+                                                    <div class="d-flex alinhar" style="text-align: center;">
+                                                        <span class="alinhar texto-mudulo-accordion">'.$semana.'° semana</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-        
-                                            <div data-toggle="collapse" aria-expanded="false"
-                                                class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
-                                                <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
-                                            </div>
-        
-                                            <div class="mr-auto bg-white ml-n3">
-                                                <div class="max" style="max-width: 42px;">
-                                                    <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
+            
+                                                <div data-toggle="collapse" onclick="redirect('.$id_vid.', \'MODULO '.$num.' - '.$mostra->nome_mod.' - '.$fetchAula->nome_aula.'\' )" aria-expanded="false"
+                                                    class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
+                                                    <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
                                                 </div>
+                                                
+                                                
+    
                                             </div>
-                                        
                                         </div>
-                                    </div>
-                                    ';
-                                }
-                                
+                                        ';
+                                    } else {
+                                        $aulas .= '
+                                        <div class="mt-3">
+                                            <div class="d-flex content" onclick="erroAulaAnterior()">
+            
+                                                <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
+                                                    <div class="d-flex alinhar" style="text-align: center;">
+                                                        <span class="alinhar texto-mudulo-accordion">'.$semana.'° semana</span>
+                                                    </div>
+                                                </div>
+            
+                                                <div data-toggle="collapse" aria-expanded="false"
+                                                    class="bg-white nome-aula d-flex alinhar" style="width: 75%;">
+                                                    <span class="alinhar texto-modulo-accordion-minusculo" data-id-aula="'.$id_aula.'">'.$fetchAula->nome_aula.'</span>
+                                                </div>
+            
+                                                <div class="mr-auto bg-white ml-n3">
+                                                    <div class="max" style="max-width: 42px;">
+                                                        <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+                                        </div>
+                                        ';
+                                    }
+    
+                                }                                 
 
                         }
 

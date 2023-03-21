@@ -43,13 +43,15 @@ include ("header.php");
 		if($acao=='aulas'){include("views/aula/index.php");}
 		if($acao=='aula'){include("views/aula/select.php");}
 		if($acao=='nova-aula'){include("views/aula/insert.php");}
+	
 		if($acao=='aula-outros'){include("views/aula/outros.php");}
 		if($acao=='editar-aula'){include("views/aula/update.php");}
+		if($acao=='editar-aula-treinamento'){include("views/aula/update.php");}
 
 		/*--- AULAS VÍDEO ---*/
 		if($acao=='aulas-videos'){include("views/aulaVideo/index.php");}
 		if($acao=='aula-video'){include("views/aulaVideo/select.php");}
-		if($acao=='nova-aula-video'){include("views/aulaVideo/insert.php");}
+		if($acao=='nova-aula-video'){include("views/aulaVideo/insert.php");} 
 
 		/*--- AULAS PDF ---*/
 		if($acao=='aulas-pdf'){include("views/aulaPdf/index.php");}

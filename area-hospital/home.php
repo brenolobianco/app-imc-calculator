@@ -22,6 +22,9 @@ include ("header.php");
 		if($acao=='aula-outros'){include("views/aula/outros.php");}
 		if($acao=='editar-aula'){include("views/aula/update.php");}
 
+		if($acao=='nova-aula-treinamento'){include("views/aula/insert.php");}
+
+
 		/*--- AULAS VÍDEO ---*/
 		if($acao=='aulas-videos'){include("views/aulaVideo/index.php");}
 		if($acao=='aula-video'){include("views/aulaVideo/select.php");}
