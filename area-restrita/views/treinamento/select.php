@@ -1,4 +1,8 @@
+<?php
 
+include_once("../../../v2.php");
+
+?>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 
@@ -21,7 +25,7 @@
                                                 <div class="card text-white bg-primary mb-3">
                                                 <div class="card-body">
                                                     <h6 class="card-subtitle mb-2"><i class="fas fa-eye"></i> Total de visualizações</h6>
-                                                    <p class="card-text">100</p>
+                                                    <p class="card-text"><?php ?></p>
                                                 </div>
                                                 </div>
                                             </div>
@@ -53,40 +57,39 @@
                             <div class="col-sm">
                                 <div class="card-box">
                                 <div class="card shadow">
-  <div class="card-body">
-    <h5 class="card-title">Comentários</h5>
-    <div class="row">
-      <div class="col-sm-4">
-        <div class="card-img-overlay-wrapper">
-          <img class="card-img rounded-circle" src="https://cdn2.iconfinder.com/data/icons/male-avatars/512/avatars_accounts___man_male_people_person_cowboy_hat.png" alt="Imagem do usuário 1">
-          <div class="card-img-overlay">
-            <h6 class="card-title">Comentário do usuário 1</h6>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in molestie ullamcorper, sapien tortor blandit quam, a cursus est ex id lectus.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <div class="card-img-overlay-wrapper">
-          <img class="card-img rounded-circle" src="https://cdn0.iconfinder.com/data/icons/covid-19-3d/512/person_wearing_mask.png" alt="Imagem do usuário 2">
-          <div class="card-img-overlay">
-            <h6 class="card-title">Comentário do usuário 2</h6>
-            <p class="card-text">Suspendisse potenti. Maecenas commodo mauris in orci dictum, at ullamcorper velit semper. Pellentesque euismod orci nec risus sagittis, ut elementum elit euismod.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <div class="card-img-overlay-wrapper">
-          <img class="card-img rounded-circle" src="/assets/images/2-518x518.png" alt="Imagem do usuário 3">
-          <div class="card-img-overlay">
-            <h6 class="card-title">Comentário do usuário 3</h6>
-            <p class="card-text">Fusce rutrum suscipit nisl, sed hendrerit felis. Integer dictum pharetra dolor, quis bibendum nibh fermentum nec.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+                                    <div class="card-body">
+                                        <h5 class="card-title">Comentários</h5>
+                                        <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="card-img-overlay-wrapper">
+                                            <img class="card-img rounded-circle" src="https://cdn2.iconfinder.com/data/icons/male-avatars/512/avatars_accounts___man_male_people_person_cowboy_hat.png" alt="Imagem do usuário 1">
+                                            <div class="card-img-overlay">
+                                                <h6 class="card-title"></h6>
+                                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in molestie ullamcorper, sapien tortor blandit quam, a cursus est ex id lectus.</p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="card-img-overlay-wrapper">
+                                            <img class="card-img rounded-circle" src="https://cdn0.iconfinder.com/data/icons/covid-19-3d/512/person_wearing_mask.png" alt="Imagem do usuário 2">
+                                            <div class="card-img-overlay">
+                                                <h6 class="card-title">Comentário do usuário 2</h6>
+                                                <p class="card-text">Suspendisse potenti. Maecenas commodo mauris in orci dictum, at ullamcorper velit semper. Pellentesque euismod orci nec risus sagittis, ut elementum elit euismod.</p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="card-img-overlay-wrapper">
+                                            <img class="card-img rounded-circle" src="/assets/images/2-518x518.png" alt="Imagem do usuário 3">
+                                            <div class="card-img-overlay">
+                                                <h6 class="card-title">Comentário do usuário 3</h6>
+                                                <p class="card-text">Fusce rutrum suscipit nisl, sed hendrerit felis. Integer dictum pharetra dolor, quis bibendum nibh fermentum nec.</p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
         

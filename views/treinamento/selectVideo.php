@@ -48,14 +48,24 @@ function preventToXSS($text) {
     return $text;
 }
 
+function getPdfs($conexao, $id_aula) {
+    $select = "SELECT * FROM aula_pdf WHERE aula_id_pdf = :id_aula ORDER BY id_pdf";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
 $nome_modulo = null;
 if(isset($_GET['nome_modulo'])){
     $nome_modulo = preventToXSS($_GET['nome_modulo']);
 }
 
 
+
 ?>
 <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+
 
 <div class="container">
     <div class="row">
@@ -64,6 +74,8 @@ if(isset($_GET['nome_modulo'])){
         </a>
     </div>
 </div>
+
+
 <section class="header11 cid-tbTu6UKcUD" id="header11-2u" style="margin-top: -50px;">
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -88,30 +100,39 @@ if(isset($_GET['nome_modulo'])){
                         $aulas = '';
                         $aulasFetch = getAulasByAulaVid($conexao, $id_vid);
                         while($fetchAula = $aulasFetch->FETCH(PDO::FETCH_OBJ)) {
-                            $arq_vid = $fetchAula->arq_vid;
                             $id_vid = $fetchAula->id_vid;
                             $id_aula = $fetchAula->id_aula;
                             $aula_id_vid = $fetchAula->aula_id_vid;
+                            $caminhoPdf = "v2.php?acao=visualizar-pdf&id_aula=" . $id_aula;
+
+
+                            $listaPdfs = '';
+                            $pdfs = getPdfs($conexao, $id_aula);
+                            while($pdf = $pdfs->FETCH(PDO::FETCH_OBJ)) {
+                                $id_pdf = $pdf->id_pdf;
+                                $aula_id_pdf = $pdf->aula_id_pdf;
+                                $caminhoPdf = $pdf->caminho_pdf;
+                                $caminhoPdf = "v2.php?acao=visualizar-pdf&id_aula=" . $id_aula . "&id_pdf=" . $id_pdf;
+                                $listaPdfs .= '
+                                    <li>
+                                        <a href="'.$caminhoPdf.'" target="_blank">PDF 2</a>
+                                        <a href="'.$caminhoPdf.'" target="_blank" class="view-btn">Visualizar</a>
+                                    </li>
+                                ';
+                            }
 
                             $materialApoioBox = '
                             <div class="quiz-box d-flex" style="justify-content: center;align-content: center;">
-                                <div class="collapse" data-toggle="collapse" id="collapseMaterialApoio" aria-expanded="false" style="width: 95%;">
+                                <div class="collapse" id="collapseMaterialApoio" aria-expanded="false" style="width: 95%;">
                                     <div class="d-flex flex-row box bg-white mt-2" style="border-radius: 7px 7px 7px;">
                                         <div class="col-md-12 d-flex flex-column mt-1 p-3">
                                             
-                                            <div class="content d-flex justify-content-center">
-                                                <div class="row align-items-center clique" style="width: 90%;" data-toggle="collapse" aria-expanded="true" aria-controls="">
-                                                    <div class="col-md-12 col-sm-12" >
-
-
-                                                        <p class="mt-3" style="color: #88E450; font-weight: 800; text-align:left;">
-                                                            
-                                                        </p>
-
-                                                    </div>
-                                                </div>
+                                                
+                                            <div class="pdf-list w-100">
+                                                <ul>
+                                                    '.$listaPdfs.'
+                                                </ul>
                                             </div>
-                                        </div>
                                             
                                         
                                         </div>
@@ -123,7 +144,7 @@ if(isset($_GET['nome_modulo'])){
 
                             $collpaseMaterialApoio = '
                             <div style="width: 90%; text-align: center;">
-                            <div class="content d-flex clique mt-1 mb-2" data-toggle="collapse" data-target="#collapseMaterialApoio" aria-expanded="false">
+                            <div class="content d-flex clique mt-1 mb-2" class="collapse" id="toCollapseMaterialApoio" data-target="#collapseMaterialApoio" aria-expanded="false">
                                     <div class="d-flex w-100 pre-teste" class="header-material-apoio" style="background-color: white;">
                                         <div class="d-flex w-100 p-3">
                                             <div>
@@ -134,11 +155,11 @@ if(isset($_GET['nome_modulo'])){
                                             </div>
 
                                             <!-- BLOQUEADO -->
-                                                                                        
-                                            <!-- BLOQUEADO -->
-
+                                            <div class="d-flex ml-auto">
+                                                
+                                            </div>
                                         </div>
-                                </div>
+                                    </div>
                             </div>
                             ';
 
@@ -507,6 +528,12 @@ if(isset($_GET['nome_modulo'])){
         aula.setAttribute('data-toggle', 'collapse');
     }
 
+    function liberarMaterialApoio() {
+        let materialApoio = document.querySelector("#toCollapseMaterialApoio");
+        materialApoio.setAttribute('data-toggle', 'collapse');
+
+    }
+
 
     function getWatchedVideo() {
         return localStorage.getItem('watchedVideo');
@@ -681,8 +708,17 @@ if(isset($_GET['nome_modulo'])){
 
     }
 
+    function vQuizEstaAberto() {
+        let quiz = document.querySelector('#collapseQuiz');
+        return quiz.classList.contains('show');
+    }
+
     function updateInfo() {
         watchVideo();
+        let quizEstaAberto = vQuizEstaAberto();
+        if(quizEstaAberto) {
+            bloquearMaterialApoio();
+        }
 
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'v2.php?id_aula=' + aulaId + "&acao=info-situacao-aula");
@@ -707,11 +743,11 @@ if(isset($_GET['nome_modulo'])){
 
                     document.querySelector('[data-target="#collapsePreTeste"]').removeAttribute('data-toggle');
                     collapsePreTeste.classList.remove('show');
-                    
-                    if(!quizEstaAberto()) {
+
+                    if(!quizEstaAberto) {
                         liberarAula();
-                    }                      
-                    
+                        liberarMaterialApoio();
+                    }
                 }
 
                 if(aula) {
@@ -722,6 +758,11 @@ if(isset($_GET['nome_modulo'])){
                         </div>
                     </div>
                     `;
+
+                    if(!quizEstaAberto) {
+                        liberarAula();
+                        liberarMaterialApoio();
+                    }
                 }
 
                 if(quiz) {
@@ -735,7 +776,7 @@ if(isset($_GET['nome_modulo'])){
                     `;
                 }
 
-                if(preTeste && aula && !quiz) {
+                if(preTeste && aula && !quiz && !quizEstaAberto) {
                     abrirQuiz();
                 }
 
@@ -748,7 +789,18 @@ if(isset($_GET['nome_modulo'])){
         xhr.send();
     }
 
+    function bloquearMaterialApoio() {
+        let materialApoio = document.querySelector('#toCollapseMaterialApoio');
+        let box = document.querySelector('#collapseMaterialApoio');
+        box.classList.remove('show');
+        materialApoio.removeAttribute('data-toggle');
+    }
+
     document.querySelector('#toCollapseAula').addEventListener('click', () => {
+        updateInfo();
+    });
+
+    document.querySelector('#toCollapseMaterialApoio').addEventListener('click', () => {
         updateInfo();
     });
 
@@ -779,10 +831,6 @@ if(isset($_GET['nome_modulo'])){
         return aula.classList.contains('show');
     }
 
-    function quizEstaAberto() {
-        let quiz = document.querySelector('#collapseQuiz');
-        return quiz.classList.contains('show');
-    }
 
     function wasWatchingVideo() {
         let video = document.querySelector('video');
@@ -945,7 +993,7 @@ if(isset($_GET['nome_modulo'])){
             let success = response['success'];
             let aprovado = response['aprovado'];
             let message = response['text'];
-            if(aprovado) {
+            if(success) {
                 document.querySelector('.quiz-status-header').innerHTML = `
                     <div class="mr-auto bg-white ml-n3">
                         <div class="max" style="max-width: 42px;">
@@ -1151,7 +1199,21 @@ if(isset($_GET['nome_modulo'])){
         xhr.send();
     }
 
+    function materialApoioEstaAberto() {
+        let materialApoio = document.querySelector('#collapseMaterialApoio');
+        let materialApoioAberto = materialApoio.classList.contains('show');
+        if(materialApoioAberto) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     document.querySelector(".quiz-fixacao-header").addEventListener('click', () => {
+        let materialApoio = materialApoioEstaAberto();
+        if(materialApoio) {
+            document.querySelector('#collapseMaterialApoio').classList.remove('show');
+        }
         updateInfo();
         insertQuiz(aulaId);
     });
@@ -1181,6 +1243,46 @@ if(isset($_GET['nome_modulo'])){
     }
     });
 </script>
+
+
+<style>
+    .pdf-list {
+  width: 500px;
+  margin: 0 auto;
+}
+.pdf-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pdf-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.pdf-list li a {
+  color: #333;
+  text-decoration: none;
+}
+.pdf-list li a:hover {
+  text-decoration: underline;
+}
+.pdf-list li .view-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.pdf-list li .view-btn:hover {
+  background-color: #0069d9;
+}
+
+</style>
+
 
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>

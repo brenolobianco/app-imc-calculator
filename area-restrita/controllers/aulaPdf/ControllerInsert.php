@@ -19,6 +19,7 @@ if ($SendCadImg) {
     $insert_msg->bindParam(':aula_id_pdf', $aula_id_pdf);
     $insert_msg->bindParam(':arq_pdf', $nome_arq);
 
+    $write = null;
     //Verificar se os dados foram inseridos com sucesso
     if ($insert_msg->execute()) {
         //Recuperar último ID inserido no banco de dados
@@ -26,9 +27,16 @@ if ($SendCadImg) {
 
         //Diretório onde o arquivo vai ser salvo
         $diretorio = '../../../pdfs/' . $ultimo_id.'/';
-
         //Criar a pasta de foto 
-        mkdir($diretorio, 0755);
+        mkdir($diretorio, 777);
+        
+        // debug
+        if (is_dir($diretorio)) {
+            $write = "true";
+        } else {
+            $write = "false";
+        }
+    
         
         if(move_uploaded_file($_FILES['arq_pdf']['tmp_name'], $diretorio.$nome_arq)){
             $_SESSION['msg'] = "<div class='alert alert-success'>
@@ -39,14 +47,14 @@ if ($SendCadImg) {
         }else{
             $_SESSION['msg'] = "<div class='alert alert-warning'>
             <button type='button' class='close' data-dismiss='alert'>x</button>
-            <strong> Opss problemas na imagem!</strong> 
+            <strong> ".$write."</strong> 
             </div>";
             header("Location: ../../home.php?acao=nova-aula-pdf");
         }        
     } else {
         $_SESSION['msg'] = "<div class='alert alert-danger'>
         <button type='button' class='close' data-dismiss='alert'>x</button>
-        <strong> Erro!</strong> 
+        <strong> ".$write."</strong> 
         </div>";
         header("Location: ../../home.php?acao=nova-aula-pdf");
     }

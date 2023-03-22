@@ -221,10 +221,86 @@ if(isset($_GET['acao'])) {
             } else {
                 echo json_encode(["success" => false, "text" => "Ocorreu um erro!"]);
             }
+        } elseif($acao == "visualizar-pdf") {
+            pdf_view($conexao, $idLog, $id_aula);
         }
     } 
 }
 
+
+function getPdf($conexao, $id_aula, $id_pdf) {
+    $select = "SELECT * FROM aula_pdf WHERE aula_id_pdf = :id_aula AND id_pdf = :id_pdf ORDER BY id_pdf";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result->bindParam(':id_pdf', $id_pdf, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
+
+function pdf_view($conexao, $id_usuario, $id_aula, $id_pdf = 0) {
+    $pdf = getPdf($conexao, $id_aula, $id_pdf);
+    $fetch = $pdf->fetch(PDO::FETCH_OBJ);
+    $id_pdf = $fetch->id_pdf ?? 0;
+    $arq_vid = $fetch->arq_pdf;
+    header('Content-Type: text/html; charset=utf-8');
+    $html = <<<HTML
+    <!DOCTYPE html>
+        <html>
+        <head>
+            <title>PDF.js</title>
+            <!-- Incluir o CSS padrão do PDF.js -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf_viewer.css" />            
+        </head>
+        <body>
+            <!-- Div onde o PDF será exibido -->
+            <div id="pdf-container"></div>
+            
+            <!-- Incluir as bibliotecas do PDF.js -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.js"></script>
+            <script>
+            // URL do arquivo PDF que será carregado
+            const url = "/pdfs/$id_pdf/$arq_vid";
+
+            // Inicializar a biblioteca PDF.js
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                // Obter o número de páginas do PDF
+                const numPages = pdf.numPages;
+                
+                // Exibir a primeira página do PDF
+                pdf.getPage(1).then(page => {
+                // Definir a escala da página para 1.5
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale: scale });
+
+                // Criar um canvas para exibir a página
+                const canvas = document.createElement('canvas');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                canvas.style.display = 'block';
+                const context = canvas.getContext('2d');
+
+                // Renderizar a página no canvas
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+
+                // Adicionar o canvas ao contêiner
+                const container = document.getElementById('pdf-container');
+                container.appendChild(canvas);
+                });
+            });
+            </script>
+        </body>
+    </html>
+
+
+    HTML;
+    echo $html;
+}
 
 function input_nota($conexao, $id_aula, $idLog, $nota, $comentario) {
     $select = "INSERT INTO aula_treinamento_nota(id_usuario, id_aula, nota, comentario) VALUES (:id_usuario, :id_vid_aula, :nota, :comentario)";
@@ -1236,6 +1312,18 @@ function get_modulos($conexao, $est_id_mod) {
     return $result;
 }
 
+
+function getVisualizacoesAula($conexao, $id_usuario) {
+    $select = "SELECT * FROM visualizacoes WHERE id_usuario = :id_usuario";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
+function getComentarios($conexao, $id_usuario) {
+    
+}
 
 
 ?>
