@@ -307,7 +307,7 @@ function input_nota($conexao, $id_aula, $idLog, $nota, $comentario) {
     $result = $conexao->prepare($select);
     $result->bindParam(':id_usuario', $idLog, PDO::PARAM_INT);
     $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
-    $result->bindParam(':nota', $nota, PDO::PARAM_INT);
+    $result->bindParam(':nota', $nota, PDO::PARAM_STR);
     $result->bindParam(':comentario', $comentario, PDO::PARAM_STR);
     
     $result ->execute();
@@ -329,6 +329,11 @@ function get_nota_minima($conexao, $id_aula) {
 }
 
 function nova_tentativa_quiz($conexao, $idLog, $id_aula) {
+    /**
+     * 
+     * 
+     * 
+    */
     $select = "INSERT INTO quiz_treinamento_num_erros (id_usuario, id_vid_aula, data_tentativa) VALUES (:id_usuario, :id_vid_aula, NOW())";
     $result = $conexao->prepare($select);
     $result->bindParam(':id_usuario', $idLog, PDO::PARAM_INT);
@@ -1321,9 +1326,6 @@ function getVisualizacoesAula($conexao, $id_usuario) {
     return $result;
 }
 
-function getComentarios($conexao, $id_usuario) {
-    
-}
 
 
 ?>

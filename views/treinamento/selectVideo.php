@@ -514,7 +514,6 @@ if(isset($_GET['nome_modulo'])){
                 let response = JSON.parse(this.response);
                 let success = response['success'];
                 if(success) {
-                    alert('Aula assistida com sucesso!');
                 }
             }
         };
@@ -1042,7 +1041,22 @@ if(isset($_GET['nome_modulo'])){
 
 
     function inputNotaAula() {
-        // Digite sua nota
+
+        let request = (nota, comentario) => {
+            
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=input-nota&nota=' + nota + "&comentario=" + comentario);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(this.response)[0];
+                    let success = response['success'];        
+                };
+                        
+            };
+            
+            xhr.send();
+        }
+
         Swal.fire({
             title: 'De 0 a 10 o quanto você recomendaria esta aula.',
             confirmButtonText: 'Confirmar',
@@ -1050,47 +1064,32 @@ if(isset($_GET['nome_modulo'])){
             showLoaderOnConfirm: true,
             html: '<input placeholder="Nota" type="number" max="10" id="swal-input1" class="swal2-input">' + '<input placeholder="Comentário" id="swal-input2" class="swal2-input">',
 
-            preConfirm: () => {
+            preConfirm: function() {
                 let nota = document.getElementById('swal-input1').value;
                 let comentario = document.getElementById('swal-input2').value;
+                request(nota, comentario);
 
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=input-nota&nota=' + nota + "&comentario=" + comentario);
-                xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    let response = JSON.parse(this.response)[0];
-                    let success = response['success'];
-                    if(success) {
-                        Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        }).fire({
-                            icon: 'success',
-                            title: 'Nota inserida com sucesso!'
-                        });
-                    }
-                };
-            };
-
-                xhr.send();
+                return new Promise(function(resolve, reject) {
+                    resolve({
+                        nota: document.getElementById('swal-input1').value,
+                        comentario: document.getElementById('swal-input2').value,
+                    });
+                });
             },
             showCancelButton: true,
         }).then((result) => {
-            console.log(result);
-            if (result.value) {
+            if (result.value.nota <= 10) {
                 Swal.fire({
                     title: 'Nota inserida com sucesso!',
                 });
+            } else if(result.value.nota > 10) {
+                Swal.fire({
+                    title: 'Nota inválida!<br>Digite novamente.',
+                }).then((result) => {
+                    inputNotaAula();
+                });
                 
-            };
-
+            }
         })
     }
 
@@ -1224,23 +1223,24 @@ if(isset($_GET['nome_modulo'])){
     });
 
 
-
     function redirect(id) {
         location.href = "home.php?acao=treinamento-video&id_vid=" + id;
     }
 
-
+    let handleWatchedVideo = false;
     player.on('timeupdate', function() {
-    var duration = player.duration();
-    var currentTime = player.currentTime();
-    var threshold = duration * 1; // verificar se o usuário assistiu a 100% do vídeo
-    
-    if (currentTime >= threshold) {
-        
-        let attr = this.getAttribute('data-id-vid-aula');
-        setWatchedVideo();
-        inputNotaAula();
-    }
+        var duration = player.duration();
+        var currentTime = player.currentTime();
+        var threshold = duration * 1; // verificar se o usuário assistiu a 100% do vídeo
+
+        if (currentTime >= threshold && handleWatchedVideo != true) {
+            handleWatchedVideo = true;
+
+            console.log('vídeo assistido');
+            player.pause();
+            setWatchedVideo();
+            inputNotaAula();
+        }
     });
 </script>
 
