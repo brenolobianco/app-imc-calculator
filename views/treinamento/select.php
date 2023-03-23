@@ -34,7 +34,7 @@ require_once($dir);
 
             <div class="col-sm-12 col-md-3 m-3 mt-4">
                 <button class="btn btn-dark"
-                    style="background-color: #231f20; border: none; width: 90%; border-radius: 10px 10px 10px;">
+                    style="background-color: #231f20; border: none; width: 90%; border-radius: 10px 10px 10px;" onclick="document.location = history.back()">
                     <div style="width: 30%;" style="background-color: black;">
                         <img src="/assets/images/voltar-light.png" alt=""
                             style="background-color: #231f20; max-width: 100%;">

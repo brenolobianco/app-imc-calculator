@@ -61,9 +61,9 @@ function comentariosHtml($conexao, $id_aula, $idLog) {
                 </div>
                 <div class="username">'.$nome.' - Nota '.$nota.'</div>
                 
-                <div class="user-comment">
-                    <p>'.$comentario.'</p>
-                    <div style="clear:both;"></div>
+                <div class="user-comment w-100">
+                    <p>'.$comentario.'
+                    </p>
                 </div>
             
                 </div>
@@ -373,9 +373,10 @@ $id_aula = $_GET['id_aula'];
         margin: 0px;
         padding: 0px;
         position: relative;
-        font-size: 12px;
+        font-size: 1em;
         top: 35px;
         left: -36px;
+        float: left;
     }
 
     .comment .user-comment span {

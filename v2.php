@@ -57,7 +57,7 @@ if(isset($_GET['acao'])) {
             $autorizado = pode_fazer_pre_teste($idLog, $conexao, $id_aula); // verificar se o usuário pode fazer o pre-teste
             if($autorizado) {
 
-                $select = "SELECT * FROM treinamento_pre_teste WHERE id_vid_aula = :id_vid_aula ORDER BY id_pre_teste";  
+                $select = "SELECT id_pre_teste, id_vid_aula, pergunta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e FROM treinamento_pre_teste WHERE id_vid_aula = :id_vid_aula ORDER BY id_pre_teste";  
                 try{
                     $result = $conexao->prepare($select);
                     $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
@@ -84,7 +84,7 @@ if(isset($_GET['acao'])) {
             $pode_fazer = pode_fazer_quiz($conexao, $id_aula, $idLog);
             if($pode_fazer) {
                 
-                $select = "SELECT * FROM quiz_treinamento WHERE id_vid_aula = :id_vid_aula ORDER BY id_quiz";  
+                $select = "SELECT id_quiz, id_vid_aula, pergunta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e  FROM quiz_treinamento WHERE id_vid_aula = :id_vid_aula ORDER BY id_quiz";  
                 try{
                     $result = $conexao->prepare($select);
                     $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
