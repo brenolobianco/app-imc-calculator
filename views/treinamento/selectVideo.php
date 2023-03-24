@@ -334,7 +334,6 @@ if(isset($_GET['nome_modulo'])){
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>                            
                             ';
 
@@ -407,6 +406,9 @@ if(isset($_GET['nome_modulo'])){
 <section class="footer4 cid-taGwCS6P5S" once="footers" id="footer4-5">
 
 <style>
+    .radius-quiz {
+        border-radius: "30px 30px 30px 30px";
+    }
     .texto-modulo {
         font-size: 3vh;
         text-shadow:
@@ -455,9 +457,6 @@ if(isset($_GET['nome_modulo'])){
         cursor: pointer;
     }
 
-    .radius-quiz {
-        border-radius: "30px 30px 30px 30px";
-    }
 </style>
 
 <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
@@ -1053,7 +1052,7 @@ if(isset($_GET['nome_modulo'])){
                 };
                         
             };
-            
+
             xhr.send();
         }
 

@@ -253,9 +253,6 @@ require_once($dir);
                                 <!--- FIM LISTA AULAS--->
                             </div>
                                     
-
-
-                            
                             </div>
 
                             </div>

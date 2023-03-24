@@ -229,6 +229,7 @@
                                 <li><a href="home.php?acao=quiz">Quiz</a></li>
                                 <li><a href="home.php?acao=quiz-pre-teste">Quiz pre-teste</a></li>
                                 <li><a href="home.php?acao=aulas-treinamento-v2">Aula</a></li>
+
                                 <!--<li>
                                         <a href="javascript: void(0);" aria-expanded="false">Aulas
                                             <span class="menu-arrow"></span>
@@ -241,6 +242,21 @@
                                     </li>-->
                             </ul>
                         </li>
+
+                        
+                        <li>
+                            <a href="javascript: void(0);">
+                                <i class="mdi mdi-layers"></i>
+                                <span> Avaliacao </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul class="nav-second-level nav" aria-expanded="false">
+                                <li><a href="home.php?acao=avaliacoes">Avaliacoes</a></li>
+                            </ul>
+                        </li>
+
+                        
+                        
                         <li>
                             <a href="javascript: void(0);">
                                 <i class="mdi mdi-file"></i>

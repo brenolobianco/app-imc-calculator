@@ -100,10 +100,14 @@ include ("header.php");
 		if($acao=='novo-quiz-pre-teste'){include("views/quiz/insertQuizPreTeste.php");}
 		if($acao=='novo-quiz'){include("views/quiz/insert.php");}
 
-		// treinamento-v2
+		// TREINAMENTO-V2
 		if($acao=='aulas-treinamento-v2'){include("views/treinamento/aulas.php");}
 		if($acao=='aula-treinamento-v2'){include("views/treinamento/select.php");}
 		if($acao=='editar-aula-treinamento'){include("views/treinamento/update.php");}
+
+		if($acao=='avaliacoes'){include("views/avaliacao/select.php");}
+		if($acao=='nova-avaliacao'){include("views/avaliacao/insert.php");}
+		if($acao=='editar-avaliacao'){include("views/avaliacao/select.php");}
 
 		
 		/*--- PROFESSORES ---*/
