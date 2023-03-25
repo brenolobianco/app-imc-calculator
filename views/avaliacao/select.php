@@ -122,7 +122,7 @@
                 
                     <div class="content d-flex justify-content-center mt-3">
                         <div class="row align-items-center clique" style="width: 100%;" data-toggle="collapse"
-                            data-target="#avaliacao" aria-expanded="true" aria-controls="">
+                            data-target="#avaliacao<?= $avaliacao['id_avaliacao']; ?>" aria-expanded="true" aria-controls="">
                             <div class="col-md-12 col-sm-12 " style="background: #737373;">
                                 <p class="mt-3 texto-modulo" style="color: #88E450; font-weight: 800; text-align:left;">
                                     <?= $avaliacao['nome_avaliacao'] ?></p>
@@ -135,7 +135,7 @@
                     <!--- INICIO AVALIACAO --->
                     <div class="content d-flex justify-content-center clique">
 
-                        <div style="width: 100%; text-align: center;" id="avaliacao" class="collapse"
+                        <div style="width: 100%; text-align: center;" id="avaliacao<?= $avaliacao['id_avaliacao']; ?>" class="collapse"
                             aria-labelledby="headingOne" data-id-aula="1">
                             <!--- INICIO LISTA AVALIACAO--->
                             <div class="mt-3">
