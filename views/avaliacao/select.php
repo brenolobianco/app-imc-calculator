@@ -140,7 +140,7 @@
                             <!--- INICIO LISTA AVALIACAO--->
                             <div class="mt-3">
                                 <div class="d-flex content w-100">
-                                    <input type="hidden" id="<?php echo $avaliacao['id_avaliacao']; ?>" value="<?php echo $avaliacao['link_fiscallize'] ?>">
+                                    <input type="hidden" id="<?php echo $avaliacao['id_avaliacao']; ?>" value="<?php $avaliacao_id_fiscallize = $avaliacao['avaliacao_id_fiscallize']; echo "https://remote.fiscallize.com.br/aplicacoes/$avaliacao_id_fiscallize/orientacoes";  ?>">
 
                                     <div class="aula bg-white p-3" class="d-flex" style="width: 24%; margin-right: 1%;">
                                         <div class="d-flex alinhar" style="text-align: center;">
@@ -154,7 +154,7 @@
 
                                     <?php if ($avaliacao['liberado'] == 'liberado') : ?>
                                     <div class="button-iniciar bg-white mr-auto w-80" style="width: 20%;">
-                                        <button class="bg-third btn-iniciar mr-4 mt-2 clique" onclick="showModal('<?php echo $avaliacao['link_fiscallize'] ?>')" data-toggle="modal"
+                                        <button class="bg-third btn-iniciar mr-4 mt-2 clique" onclick="showModal('<?php $avaliacao_id_fiscallize = $avaliacao['avaliacao_id_fiscallize']; echo 'https:/\\/remote.fiscallize.com.br/aplicacoes/'. $avaliacao_id_fiscallize.'/orientacoes'; ?>')" data-toggle="modal"
                                             data-target="#modalExemplo">
                                             INICIAR
                                         </button>
@@ -428,10 +428,17 @@
 
 
 <script>
-    showModal = (redirect) => {
+    
+    //showModal = (redirect) => {
+    //    document.querySelector("#redirect").value = redirect;
+    //    $('#modalExemplo').modal('show');
+    //}
+    function showModal(redirect) {
+        console.log(redirect);
         document.querySelector("#redirect").value = redirect;
-        $('#modalExemplo').modal('show');
+        document.querySelector("#modalExemplo").style.display = "block";
     }
+
 
     let check = document.querySelector("#checkModal");
     check.addEventListener("change", function () {

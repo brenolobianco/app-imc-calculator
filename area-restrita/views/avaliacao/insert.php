@@ -1,3 +1,8 @@
+<?php 
+include_once('controllers/avaliacao/Fiscallize.php'); 
+
+?>
+
 <div class="content-page">
     <div class="content">
 
@@ -10,28 +15,38 @@
                 </div>
                 <div class="col-md-12">
                     <div class="card-box">
-                        <h2 class="mt-0 mb-3 header-title">Novo Quiz</h2>
+                        <h2 class="mt-0 mb-3 header-title">Nova avaliação</h2>
 
                         <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
 
                             <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Link Fiscallize</label>
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Selecione a avaliacao: </label>
                                 <div class="col-sm-5">
-                                    <input type="text" name="link_fiscallize" id="link_fiscallize" placeholder="Link Fiscalizze" class="form-control">
+                                    <select name="avaliacao_id_fiscallize" class="form-control">
+                                        <?php  foreach($fiscallize->provas() as $prova ): ?>
+                                            <option value="<?php echo $prova->id ?>">
+                                                <?php echo $prova->name ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+
+                                    <div class="add">
+                                        <a href="https://remote.fiscallize.com.br" target="_blank" class="waves-effect waves-light float-right">Adicionar</a>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Nome prova</label>
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Nome avaliacao</label>
                                 <div class="col-sm-5">
-                                    <input type="text" name="nome_avaliacao" id="nome_avaliacao" placeholder="Nome da prova" class="form-control">
+                                    <input type="text" name="nome_avaliacao" id="nome_avaliacao" placeholder="Nome da avaliacao" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Data prova</label>
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Data avaliacao</label>
                                 <div class="col-sm-3">
-                                    <input type="datetime-local" name="data_avaliacao" id="data_avaliacao" placeholder="Data da prova" class="form-control">
+                                    <input type="datetime-local" name="data_avaliacao" id="data_avaliacao" placeholder="Data da avaliacao" class="form-control">
                                     </d1iv>
 
                                 </div>
