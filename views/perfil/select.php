@@ -35,6 +35,9 @@ if($idLog != $id_acad){
             </div>
 
         </div>
+
+        
+
         <div class="col-12 col-md">
             <div class="text-wrapper">
                 <h1 class="mbr-section-title mbr-fonts-style mb-3 display-2">
@@ -160,7 +163,7 @@ ORDER BY id_mat DESC LIMIT 1";
         
     if($mostra2->nota_mat >= $nota_med_est && $mostra2->class_mat == 'sim' && $mostra2->cert_mat == 'confirmado') 
     {
-    include_once 'menu/niveis/normal.php'; 
+        include_once 'menu/niveis/normal.php'; 
     }
     elseif($mostra2->nota_mat >= $nota_med_est && $mostra2->class_mat == 'sim' && $mostra2->cert_mat == 'sim') 
     {

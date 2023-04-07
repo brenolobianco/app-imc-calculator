@@ -1,3 +1,5 @@
+<?php include_once 'models//ControllerIndex.php';?>
+
 <!doctype html>
 <html lang="en">
 
@@ -14,7 +16,7 @@
 
 <body>
     <app-root></app-root>
-    */ 
+    
     
     <div class="content-page">
                 <div class="content">
@@ -24,7 +26,7 @@
                          <div class="col-8 mt-2" style="background-color:#00063f;">
                 <button type="button" class="btn btn btn-lg mt-2" style="color:#73c054;">NOTIFICAÇÃO</button><br><br>
                 <div class="container">
-
+                <?php include_once 'controllers/areaGestor/ControllerIndex.php';?>
                     <div class="row">
                     
                      <div class="col-12">
