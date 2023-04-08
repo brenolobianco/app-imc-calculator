@@ -2,7 +2,7 @@
 
 function carregarQuiz($conexao)
 {
-    $select = "SELECT * from treinamento_pre_teste order by id_vid_aula asc";
+    $select = "SELECT * FROM treinamento_pre_teste quiz INNER JOIN aula a ON quiz.id_vid_aula = a.id_aula INNER JOIN estagio ON a.est_id_aula = estagio.id_est INNER JOIN hospital ON estagio.hosp_id_est = hospital.id_hosp ORDER BY quiz.id_vid_aula";
     $return_html = '';
     try {
         $result = $conexao->prepare($select);
@@ -13,12 +13,13 @@ function carregarQuiz($conexao)
             while ($mostra = $result->FETCH(PDO::FETCH_OBJ)) {
                 $return_html .=
                     "<tr>
-                        <td>$mostra->pergunta</td>
-                        <td>$mostra->pergunta</td>
+                        <td>$mostra->nome_aula</td>
+                        <td>$mostra->nome_mod</td>
+                        <td>$mostra->nome_hosp</td>
                         <td>$mostra->pergunta</td>
                         <td>
-                            <a href='home.php?acao=medico&id_med=$mostra->id_quiz' class='btn btn-icon waves-effect waves-light btn-primary'> <i class='fa fa-eye'></i> </a>
-                            <a href='home.php?acao=medicos&delete=$mostra->pergunta' class='btn btn-icon waves-effect waves-light btn-danger'> &nbsp;<i class='fas fa-times'></i>&nbsp; </a>
+                            <a href='home.php?acao=quiz-pre-teste-editar&edit=$mostra->id_pre_teste' class='btn btn-icon waves-effect waves-light btn-primary'> <i class='fa fa-eye'></i> </a>
+                            <a href='home.php?acao=quiz-pre-teste&delete=$mostra->id_pre_teste' class='btn btn-icon waves-effect waves-light btn-danger'> &nbsp;<i class='fas fa-times'></i>&nbsp; </a>
                         </td>
                     </tr>";
             }
@@ -34,21 +35,69 @@ function carregarQuiz($conexao)
 
     return $return_html;
 }
-?>
+
+
+if(isset($_GET['delete'])){
+    $id_delete = $_GET['delete'];
+    $seleciona= "SELECT * FROM treinamento_pre_teste WHERE id_pre_teste=:id_delete";
+    try{
+        $result = $conexao->prepare($seleciona);
+        $result->bindParam('id_delete',$id_delete, PDO::PARAM_INT);
+        $result->execute();
+        $contar = $result->rowCount();
+        if($contar>0){
+        $loop = $result->fetchAll();
+        foreach ($loop as $exibir){
+            
+        }
+
+        $seleciona= "DELETE FROM treinamento_pre_teste WHERE id_pre_teste=:id_delete";
+        try{
+            $result = $conexao->prepare($seleciona);
+            $result->bindParam('id_delete',$id_delete, PDO::PARAM_INT);
+            $result->execute();
+            $contar = $result->rowCount();
+
+        }catch(PDOException $erro){
+            echo $erro;
+        }
+
+        }else{
+
+        }
+    }catch(PDOException $erro){
+        echo $erro;
+    }
+}
+
+
+?>  
 
 <div class="content-page">
                 <div class="content">
+                    <?php 
+                                if($contar>0){
+                                    echo '<div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">x</button>
+                                    <strong> Excluido com Sucesso!</strong> 
+                                    </div>';
+                                }else{
+                                    echo '<div class="alert alert-warning">
+                                    <button type="button" class="close" data-dismiss="alert">x</button>
+                                    <strong> Erro ao Excluir!</strong> 
+                                    </div>';
+                                }
+                    ?>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <?php include_once 'controllers/professor/ControllerDelete.php';?>
                             </div>
                             <div class="col-12">
                                 <a href="home.php?acao=novo-quiz-pre-teste" class="btn btn-primary">Novo Quiz</a>
                             </div>
                             <br /><br />
                             <div class="col-12">
-                                <?php include_once 'controllers/professor/ControllerDelete.php';?>
+                                <?php include_once 'controllers/quiz/ControllerQuizDelete.php';?>
                             </div>
                             <br /><br />
                             <div class="col-12">
@@ -60,7 +109,8 @@ function carregarQuiz($conexao)
                                         <tr>
                                             <th>Aula</th>
                                             <th>Modulo</th>
-                                            <th>Descrição</th>
+                                            <th>Hospital</th>
+                                            <th>Pergunta</th>
                                             <th>Detalhes</th>
                                         </tr>
                                         </thead>

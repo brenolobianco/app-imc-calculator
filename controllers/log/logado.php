@@ -58,6 +58,7 @@ try {
         foreach ($loop as $show) {
             $idLog = $show['id_acad'];
             $nomeLog = $show['nome_acad'];
+            $emailLog = $show['email_acad'];
             $senhaLog = $show['senha_acad'];
             $senhaLog = $show['senha_acad'];
             $cpfLog = $show['cpf_acad'];
@@ -73,3 +74,32 @@ try {
 }
 
 
+function getAcademicoEst($conexao, $idLog){
+    $select = "SELECT est_id_mat FROM `matricula` WHERE acad_id_mat = :idLog";
+    try{
+        $result = $conexao->prepare($select);
+        $result ->bindParam(':idLog', $idLog, PDO::PARAM_INT);
+        $result ->execute();
+        $contar = $result->rowCount();
+        if($contar>0){
+            return $result->fetchAll()[0]['est_id_mat'];
+        }
+    }catch(PDOException $e){
+        echo $e;
+    }
+}
+
+function getIdByCPF($conexao, $cpf){
+    $select = "SELECT * FROM academico WHERE cpf_acad = :cpf_acad";
+    try{
+        $result = $conexao->prepare($select);
+        $result ->bindParam(':cpf_acad', $cpf, PDO::PARAM_STR);
+        $result ->execute();
+        $contar = $result->rowCount();
+        if($contar>0){
+            return $result->fetchAll()[0]['id_acad'];
+        }
+    }catch(PDOException $e){
+        echo $e;
+    }
+}

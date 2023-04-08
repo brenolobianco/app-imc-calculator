@@ -188,12 +188,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group mb-0  mt-5 justify-content-end row">
-                        <div class="col-sm-10">
-                            <button type="submit" name="cadastrar"
-                                class="btn btn-success waves-effect waves-light">Salvar</button>
-                        </div>
-                    </div>
+
                     </form>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
 function carregarQuiz($conexao)
 {
-    $select = "SELECT * from quiz_treinamento order by id_vid_aula asc";
+    $select = "SELECT * FROM quiz_treinamento quiz INNER JOIN aula a ON quiz.id_vid_aula = a.id_aula INNER JOIN estagio ON a.est_id_aula = estagio.id_est INNER JOIN hospital ON estagio.hosp_id_est = hospital.id_hosp";
     $return_html = '';
     try {
         $result = $conexao->prepare($select);
@@ -14,11 +14,12 @@ function carregarQuiz($conexao)
                 $return_html .=
                     "<tr>
                         <td>$mostra->pergunta</td>
-                        <td>$mostra->pergunta</td>
+                        <td>$mostra->nome_est</td>
+                        <td>$mostra->nome_hosp</td>
                         <td>$mostra->pergunta</td>
                         <td>
-                            <a href='home.php?acao=medico&id_med=$mostra->id_quiz' class='btn btn-icon waves-effect waves-light btn-primary'> <i class='fa fa-eye'></i> </a>
-                            <a href='home.php?acao=medicos&delete=$mostra->pergunta' class='btn btn-icon waves-effect waves-light btn-danger'> &nbsp;<i class='fas fa-times'></i>&nbsp; </a>
+                            <a href='home.php?acao=quiz-editar&edit=$mostra->id_quiz' class='btn btn-icon waves-effect waves-light btn-primary'> <i class='fa fa-eye'></i> </a>
+                            <a href='home.php?acao=quiz&delete=$mostra->id_quiz' class='btn btn-icon waves-effect waves-light btn-danger'> &nbsp;<i class='fas fa-times'></i>&nbsp; </a>
                         </td>
                     </tr>";
             }
@@ -41,14 +42,13 @@ function carregarQuiz($conexao)
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <?php include_once 'controllers/professor/ControllerDelete.php';?>
                             </div>
                             <div class="col-12">
                                 <a href="home.php?acao=novo-quiz" class="btn btn-primary">Novo Quiz</a>
                             </div>
                             <br /><br />
                             <div class="col-12">
-                                <?php include_once 'controllers/professor/ControllerDelete.php';?>
+                                <?php include_once 'controllers/quiz/ControllerQuizDelete.php';?>
                             </div>
                             <br /><br />
                             <div class="col-12">
@@ -60,7 +60,8 @@ function carregarQuiz($conexao)
                                         <tr>
                                             <th>Aula</th>
                                             <th>Modulo</th>
-                                            <th>Descrição</th>
+                                            <th>Hospital</th>
+                                            <th>Pergunta</th>
                                             <th>Detalhes</th>
                                         </tr>
                                         </thead>

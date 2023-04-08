@@ -1,4 +1,10 @@
-           
+<?php 
+
+include('controllers/avaliacao/Fiscallize.php');
+$classes = $fiscallize->classes();
+
+
+?>
             <div class="content-page">
                 <div class="content">
 
@@ -75,10 +81,35 @@
                                             <div class="form-group col-md-5">
                                                 <label for="inputEmail4">Treinamento</label>
                                                 <select type="text" class="place_form form-control" name="treinamento">
-                                                    <option value="nao" class="nao" <?php if($treinamento != "sim") {echo 'selected';} ?>><b style="color: #fff;">nao</b></option>
-                                                    <option value="sim" class="sim"  <?php if($treinamento == "sim") {echo 'selected';} ?>>sim</option>
+                                                    
+                                                    <option value="nao" class="nao" <?php if($treinamento != "sim") {echo 'selected';} ?>><b style="color: #fff;">Não</b></option>
+                                                    <option value="sim" class="sim"  <?php if($treinamento == "sim") {echo 'selected';} ?>>Sim</option>
                                                 </select>
                                             </div>
+
+                                            <div class="col-md-3">
+                                            <label for="inputEmail4">Selecione a turma Fiscallize</label>
+                                            <select class="form-control" name="id_turma_fiscallize" id="id_turma_fiscallize">
+                                                <?php 
+                                                    $html = '';
+
+                                                    for($i = 0; $i < count($classes); $i++) {
+                                                        $classe = $classes[$i]; 
+                                                           
+                                                        if($id_turma_fiscallize == $classe->id) {
+                                                            $html .= '<option class="form-control" value="'.$classe->id.'" selected>'.$classe->name.'</option>';
+                                                        } else {
+                                                            $html .= '<option class="form-control" value="'.$classe->id.'">'.$classe->name.'</option>';
+                                                        }
+
+                                                    }
+
+                                                ?>
+                                                    <?= $html; ?>
+                                                </select>
+                                            </div>
+
+
                                             <div class="form-group col-md-2">
                                                 <label for="inputEmail4">Vagas Disponíveis</label>
                                                 <input type="text" name="vagas_est" class="form-control" value="<?= $vagas_est;?>">

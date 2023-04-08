@@ -1,12 +1,16 @@
 <?php 
 
-    function getAvaliacoes($conexao) {
-        $sql = "SELECT * FROM avaliacoes";
+    require_once(__DIR__ . "/../../area-restrita/controllers/avaliacao/Fiscallize.php");
+    $rankingEstagio = $fiscallize->numeroRankingEstagio($cpfLog);
+    function getAvaliacoes($conexao, $idLog) {
+        $est = getAcademicoEst($conexao, $idLog); // filtro pelo estágio do usuário
+        $sql = "SELECT * FROM avaliacoes INNER JOIN estagio ON avaliacoes.id_est = estagio.id_est WHERE avaliacoes.id_est = :est";
         $result = $conexao->prepare($sql);
+        $result->bindParam(':est', $est, PDO::PARAM_INT);
         $result->execute();
-        if ($result->rowCount() > 0) {
-            return $result->fetchAll();
-        }
+
+        $avaliacoes = $result->fetchAll();
+        return $avaliacoes;
     }
 
 
@@ -16,7 +20,6 @@
          * ENTRADA: 2023-02-02 00:00:00
          * 
          */
-
         $data = date('d/m/Y', strtotime($dateTime));
         $hora = date('H:i', strtotime($dateTime));
         $string = $data . ' ÁS ' . $hora;
@@ -24,11 +27,11 @@
     }
 
 
-    $avaliacoes = getAvaliacoes($conexao);
-
+    $avaliacoes = getAvaliacoes($conexao, $idLog);
 
 ?>
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <div class="mt-5 content">
     <div class="wrap m-5 mt-5">
         <div class="row">
@@ -47,8 +50,19 @@
                 <div class="container col-sm-12" style="overflow: scroll;">
 
                     <div class="row ">
-                        <div class="col col-sm-6 info-nivelamento">
-                            Ranking
+                        <div class="col col-sm-6 info-nivelamento d-inline">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <span>Ranking Geral - <?php echo $rankingEstagio ?></span>
+                                </div>
+                                
+                                <div class="col-sm-2">
+                                    <span class="icon" style="max-width: 30px; max-height: 30px;">
+                                        <img style="width: 30px;" src="/assets/images/trofeu.png" alt="" srcset="">
+                                    </span>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
 
@@ -57,42 +71,16 @@
                             <div class="box d-flex align-items-start">
 
                                 <?php foreach ($avaliacoes as $avaliacao) : ?>
-                                <div class="col col-sm-3">
+                                <div class="col col-sm-12">
                                     <div class="col info-nivelamento">
-                                        <span><?= $avaliacao->nome_acad ?></span>
+                                        <span><?php echo $avaliacao['nome_avaliacao'] ?></span>
                                     </div>
                                     <div class="col info-nivelamento">
-                                        <span>check aqui</span>
+                                        <span>Nota: <?php echo $fiscallize->nota($avaliacao['avaliacao_id_fiscallize']) ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; ?>
 
-                                <div class="col col-sm-3">
-                                    <div class="col info-nivelamento">
-                                        <span>Nivelamento</span>
-                                    </div>
-                                    <div class="col info-nivelamento">
-                                        <span>Nota</span>
-                                    </div>
-                                </div>
-
-                                <div class="col col-sm-3">
-                                    <div class="col info-nivelamento">
-                                        <span>Nivelamento</span>
-                                    </div>
-                                    <div class="col info-nivelamento">
-                                        <span>Nota</span>
-                                    </div>
-                                </div>
-
-                                <div class="col col-sm-3">
-                                    <div class="col info-nivelamento">
-                                        <span>Nivelamento</span>
-                                    </div>
-                                    <div class="col info-nivelamento">
-                                        <span>Nota</span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -124,9 +112,16 @@
                         <div class="row align-items-center clique" style="width: 100%;" data-toggle="collapse"
                             data-target="#avaliacao<?= $avaliacao['id_avaliacao']; ?>" aria-expanded="true" aria-controls="">
                             <div class="col-md-12 col-sm-12 " style="background: #737373;">
-                                <p class="mt-3 texto-modulo" style="color: #88E450; font-weight: 800; text-align:left;">
-                                    <?= $avaliacao['nome_avaliacao'] ?></p>
-                                </p>
+                                <div class="row">
+                                    <p class="mt-3 texto-modulo col-md-10" style="color: #88E450; font-weight: 800; text-align:left;">
+                                        <?= $avaliacao['nome_avaliacao'] ?>
+                                    </p>
+
+                                    <p class="mt-3 col-md-2" style="color: #fff; font-weight: 700; text-align:left; font-size: 1.2em;">
+                                        Ranking: <?= $fiscallize->numeroRankingProva($cpfLog, $avaliacao['avaliacao_id_fiscallize']); ?>
+                                    </p>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -154,7 +149,7 @@
 
                                     <?php if ($avaliacao['liberado'] == 'liberado') : ?>
                                     <div class="button-iniciar bg-white mr-auto w-80" style="width: 20%;">
-                                        <button class="bg-third btn-iniciar mr-4 mt-2 clique" onclick="showModal('<?php $avaliacao_id_fiscallize = $avaliacao['avaliacao_id_fiscallize']; echo 'https:/\\/remote.fiscallize.com.br/aplicacoes/'. $avaliacao_id_fiscallize.'/orientacoes'; ?>')" data-toggle="modal"
+                                        <button class="bg-third btn-iniciar mr-4 mt-2 clique" onclick="showModal('<?php $avaliacao_id_fiscallize = $avaliacao['avaliacao_id_fiscallize']; echo 'https:/\\/medhub.app.br/v2.php?acao=fiscallize&id_avaliacao='. $avaliacao_id_fiscallize.''; ?>')" data-toggle="modal"
                                             data-target="#modalExemplo">
                                             INICIAR
                                         </button>

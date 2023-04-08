@@ -4,12 +4,14 @@
         $avaliacaoId  = $_POST["avaliacao_id_fiscallize"];
         $dataProva  = (isset($_POST["data_avaliacao"])) ?  $_POST["data_avaliacao"]: new DateTime("now");
         $nomeProva  = (isset($_POST["nome_avaliacao"])) ?  $_POST["nome_avaliacao"]: null;
+        $idEst = (isset($_POST["id_est"])) ?  $_POST["id_est"]: null;
         $liberado  = (isset($_POST["liberado"])) ?  $_POST["liberado"]: null;
 
-        $insert = "INSERT INTO avaliacoes(avaliacao_id_fiscallize, data_avaliacao, nome_avaliacao, liberado) VALUES (:avaliacao_id_fiscallize, :data_avaliacao, :nome_avaliacao, :liberado)";
+        $insert = "INSERT INTO avaliacoes(avaliacao_id_fiscallize, data_avaliacao, nome_avaliacao, id_est, liberado) VALUES (:avaliacao_id_fiscallize, :data_avaliacao, :nome_avaliacao, :id_est, :liberado)";
         try{
             $result = $conexao->prepare($insert);
             $result ->bindParam(':avaliacao_id_fiscallize',$avaliacaoId, PDO::PARAM_STR);
+            $result->bindParam(':id_est',$idEst, PDO::PARAM_STR);
             $result ->bindParam(':data_avaliacao',$dataProva, PDO::PARAM_STR);
             $result ->bindParam(':nome_avaliacao',$nomeProva, PDO::PARAM_STR);
             $result ->bindParam(':liberado',$liberado, PDO::PARAM_STR);

@@ -24,7 +24,7 @@
         <?php }else{ ?>
             <a href="home.php?acao=aulas-treinamento-v2&block=<?= $mostra->id_aula;?>" onClick="return confirm('Deseja realmente liberar?')" class="btn btn-icon waves-effect waves-light btn-success"> &nbsp;<i class="fas fa-unlock"></i>&nbsp; </a>
         <?php } ?>
-        <a href="home.php?acao=aulas&delete=<?= $mostra->id_aula;?>" onClick="return confirm('Deseja realmente excluir?')" class="btn btn-icon waves-effect waves-light btn-danger"> &nbsp;<i class="fas fa-times"></i>&nbsp; </a>
+        <a href="home.php?acao=aulas-treinamento-v2&delete=<?= $mostra->id_aula;?>" onClick="return confirm('Deseja realmente excluir?')" class="btn btn-icon waves-effect waves-light btn-danger"> &nbsp;<i class="fas fa-times"></i>&nbsp; </a>
     </td>   
 </tr>
 <?php

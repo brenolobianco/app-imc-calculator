@@ -95,19 +95,31 @@ include ("header.php");
 
 		/*--- QUIZ ---*/
 		if($acao=='quiz'){include("views/quiz/index.php");}
+		if($acao=='quiz-editar'){include("views/quiz/update_quiz.php");}
 		if($acao=='quiz-pre-teste'){include("views/quiz/index_pre_teste.php");}
-		
+		if($acao=='quiz-pre-teste-editar'){include("views/quiz/update_quiz_pre_teste.php");}
+
 		if($acao=='novo-quiz-pre-teste'){include("views/quiz/insertQuizPreTeste.php");}
 		if($acao=='novo-quiz'){include("views/quiz/insert.php");}
 
 		// TREINAMENTO-V2
 		if($acao=='aulas-treinamento-v2'){include("views/treinamento/aulas.php");}
+
 		if($acao=='aula-treinamento-v2'){include("views/treinamento/select.php");}
+        
+
+        if($acao=='aula-treinamento-v2-video-aula'){include("views/aulaVideoTreinamento/index.php");}
+		if($acao=='aula-treinamento-v2-video-aula-pdf'){include("views/aulaPdfTreinamento/index.php");}
+        if($acao=='nova-aula-video-treinamento'){include("views/aulaVideoTreinamento/insert.php");}
+
+
 		if($acao=='editar-aula-treinamento'){include("views/treinamento/update.php");}
 
-		if($acao=='avaliacoes'){include("views/avaliacao/select.php");}
+        /** AVALIAÇÕES */
+		if($acao=='avaliacoes'){include("views/avaliacao/index.php");}
+        if($acao=='detalhes-avaliacao'){include("views/avaliacao/select.php");}
 		if($acao=='nova-avaliacao'){include("views/avaliacao/insert.php");}
-		if($acao=='editar-avaliacao'){include("views/avaliacao/select.php");}
+		if($acao=='editar-avaliacao'){include("views/avaliacao/update.php");}
 
 		
 		/*--- PROFESSORES ---*/

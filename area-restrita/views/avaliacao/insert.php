@@ -1,6 +1,15 @@
 <?php 
 include_once('controllers/avaliacao/Fiscallize.php'); 
 
+function programaEstagio($conexao) {
+    $sql = "SELECT * FROM estagio";
+    $result = $conexao->prepare($sql);
+    $result->execute();
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+}
+
+$estagios = programaEstagio($conexao);
 ?>
 
 <div class="content-page">
@@ -24,17 +33,39 @@ include_once('controllers/avaliacao/Fiscallize.php');
                                 <div class="col-sm-5">
                                     <select name="avaliacao_id_fiscallize" class="form-control">
                                         <?php  foreach($fiscallize->provas() as $prova ): ?>
+                                            <?php print_r($prova); ?>
                                             <option value="<?php echo $prova->id ?>">
                                                 <?php echo $prova->name ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                    
 
                                     <div class="add">
                                         <a href="https://remote.fiscallize.com.br" target="_blank" class="waves-effect waves-light float-right">Adicionar</a>
                                     </div>
                                 </div>
+
+                                
                             </div>
+
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Programa de estágio: </label>
+                                <div class="col-sm-5">
+                                    <select name="id_est" class="form-control">
+                                        <?php 
+                                            foreach($estagios as $estagio):
+                                        ?>
+                                            <option value="<?php echo $estagio['id_est'] ?>">
+                                                <?php echo $estagio['nome_est'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                
+                            </div>
+                            
 
                             <div class="form-group row">
                                 <label for="inputPassword3" class="col-sm-2 col-form-label">Nome avaliacao</label>

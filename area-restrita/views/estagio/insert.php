@@ -1,4 +1,7 @@
-           
+<?php 
+include('controllers/avaliacao/Fiscallize.php');
+$classes = $fiscallize->classes();
+?>
             <div class="content-page">
                 <div class="content">
                     <div class="container-fluid">
@@ -71,6 +74,33 @@
                                                 <input type="text" name="valor_desc_est" class="form-control" data-toggle="input-mask" data-mask-format="#.##0,00" data-reverse="true" placeholder="Valor com desconto">
                                             </div> 
                                               
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputPassword3" class="col-sm-2 col-form-label">Treinamento</label>
+                                            <div class="col-sm-3">
+                                                    <select class="form-control" name="treinamento" id="">
+                                                        <option value="sim">Sim</option>
+                                                        <option value="nao">Não</option>
+                                                    </select>
+                                            </div>
+
+                                            
+
+                                            <div class="col-sm-3">
+                                                <select class="form-control" name="id_turma_fiscallize" id="id_turma_fiscallize">
+                                                    <option class="form-control" value="" selected>
+                                                        Selecione a turma Fiscallize
+                                                    </option>
+                                                    <?php 
+                                                    foreach($classes as $classe):
+                                                    ?>
+                                                        <option class="form-control" value="<?= $classe->id; ?>"><?= $classe->name; ?></option>
+                                                    <?php
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputPassword3" class="col-sm-2 col-form-label">Nota e Exceção</label>

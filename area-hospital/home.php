@@ -68,7 +68,7 @@ include ("header.php");
 		if($acao=='professor'){include("views/professor/select.php");}
 		if($acao=='novo-professor'){include("views/professor/insert.php");}	
 		if($acao=='editar-professor'){include("views/professor/update.php");}
-		
+
 		
 	}else{
 		include("views/painel.php");
