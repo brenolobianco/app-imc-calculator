@@ -1,0 +1,11 @@
+teste funcionamento do GIT...
+
+instruções para colaboração do GIT:
+   
+
+(Só copiar e colar no terminal quando concluir, SEMPRE FAÇA ISSO NO FINAL DE QUALQUER DIA PRA MANTERMOS O CONTROLE DO CODIGO)
+
+git add .
+git commit -m "Modificação"
+git push origin main ou master(prefenrecia main)
+git pull 

@@ -50,7 +50,6 @@ include ("includes/header.php");
 		
 		if($acao=='prova'){include("views/areaProva/prova.php");}
 		
-		if($acao=='avaliacao'){include("views/avaliacao/select.php");}
 
 		
 		if($acao=='etapa-0-pag'){include("views/pagamento/etapa-0-pag.php");}

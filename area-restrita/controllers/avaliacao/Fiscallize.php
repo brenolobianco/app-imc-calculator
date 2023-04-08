@@ -18,7 +18,6 @@ interface FiscallizeInterface {
 }
 
 
-
 /**
  *
  * 

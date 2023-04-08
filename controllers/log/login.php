@@ -1,5 +1,6 @@
 <?php
-
+include 'models/conecta.php';
+//var_dump($_POST,$_GET);
 if (isset($_GET['acao'])) {
   if (!isset($_POST['logar'])) {
     $acao = $_GET['acao'];

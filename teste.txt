@@ -1,0 +1,10 @@
+teste funcionamento do GIT...
+
+instruções para colaboração do GIT:
+    
+    git add .
+    git commit -m "Modificação"
+    git push origin main ou master(prefenrecia main)
+    git pull 
+
+TUDO MESLADO AMBIENTE FUNCIONANDO.

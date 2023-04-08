@@ -34,7 +34,7 @@
                 $id_hosp = $mostra->id_hosp;
                 $nome_hosp = $mostra->nome_hosp;
                 $treinamento = $mostra->treinamento;
-                $id_turma_fiscallize = $mostra->id_turma_fiscallize;
+
             }
         }else{
             echo '<div class="alert alert-info">
@@ -65,10 +65,9 @@
             $data_inicio_est  = trim(strip_tags($_POST["data_inicio_est"])); 
             $data_termino_est  = trim(strip_tags($_POST["data_termino_est"]));
             $treinamento  = trim(strip_tags($_POST["treinamento"])); 
-            $id_turma_fiscallize = trim(strip_tags($_POST["id_turma_fiscallize"]));
-
+                  
                 $update ="UPDATE estagio SET nome_est=:nome_est, treinamento=:treinamento, valor_est=:valor_est, nota_med_est=:nota_med_est, exc_est=:exc_est, ativo_est=:ativo_est, vagas_est=:vagas_est, valor_desc_est=:valor_desc_est, hosp_id_est=:hosp_id_est,
-                desc_est=:desc_est, edital_est=:edital_est, link_valor_est=:link_valor_est, val_pix_est=:val_pix_est, chave_pix_est=:chave_pix_est, link_huber_est=:link_huber_est, link_prova_est=:link_prova_est, data_inicio_est=:data_inicio_est, data_termino_est=:data_termino_est, id_turma_fiscallize=:id_turma_fiscallize WHERE id_est=:id_est"; 
+                desc_est=:desc_est, edital_est=:edital_est, link_valor_est=:link_valor_est, val_pix_est=:val_pix_est, chave_pix_est=:chave_pix_est, link_huber_est=:link_huber_est, link_prova_est=:link_prova_est, data_inicio_est=:data_inicio_est, data_termino_est=:data_termino_est WHERE id_est=:id_est"; 
                 try{
                     $result = $conexao->prepare($update);
                     $result ->bindParam(':id_est',$id_est, PDO::PARAM_INT);
@@ -90,8 +89,6 @@
                     $result ->bindParam(':link_prova_est',$link_prova_est, PDO::PARAM_STR);
                     $result ->bindParam(':data_inicio_est',$data_inicio_est, PDO::PARAM_STR);
                     $result ->bindParam(':data_termino_est',$data_termino_est, PDO::PARAM_STR);
-                    $result ->bindParam(':id_turma_fiscallize', $id_turma_fiscallize, PDO::PARAM_STR);
-                   
                     $result ->execute();
                     $contar = $result->rowCount();
     
