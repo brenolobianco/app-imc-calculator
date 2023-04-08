@@ -1,0 +1,114 @@
+<?php
+
+include_once 'controllers/aulaVideo/ControllerSelect.php';
+
+function getAulasModulos($conexao, $id_mod){
+    $select = "SELECT * FROM aula LEFT JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula WHERE mod_id_aula=:mod_id_aula AND treinamento = 'sim' ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC";
+
+    $result = $conexao->prepare($select);
+    $result ->bindParam(':mod_id_aula', $id_mod, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
+function getAulasByAulaVid($conexao, $id_vid){
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid GROUP BY aula.id_aula ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC";
+
+    $result = $conexao->prepare($select);
+    $result ->bindParam(':id_vid', $id_vid, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
+
+function getModuloByAulaVid($conexao, $aula_vid_id){
+    $select = "SELECT * FROM aula_vid LEFT JOIN aula ON aula.id_aula = aula_vid.aula_id_vid WHERE aula_vid.id_vid = :id_vid GROUP BY aula.id_aula ORDER BY aula.mod_id_aula ASC, aula.id_aula ASC";
+
+    $result = $conexao->prepare($select);
+    $result ->bindParam(':id_vid', $aula_vid_id, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
+
+function getModulo($conexao, $id_est) {
+
+    $select = "SELECT * FROM modulo WHERE est_id_mod=:est_id_mod AND treinamento = 'sim";
+
+    $result = $conexao->prepare($select);
+    $result ->bindParam(':est_id_mod', $id_est, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
+function preventToXSS($text) {
+    $text = trim($text);
+    $text = stripslashes($text);
+    $text = htmlspecialchars($text);
+    return $text;
+}
+
+function getPdfs($conexao, $id_aula) {
+    $select = "SELECT * FROM aula_pdf WHERE aula_id_pdf = :id_aula ORDER BY id_pdf";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result ->execute();
+    return $result;
+}
+
+$nome_modulo = null;
+if(isset($_GET['nome_modulo'])){
+    $nome_modulo = preventToXSS($_GET['nome_modulo']);
+}
+
+
+
+?>
+<link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+
+
+<div class="container">
+    <div class="row">
+        <a class="set-volt nav-link link btn btn-default mb-4 display-2" onclick="javascript:window.history.back()">
+            <img src="assets/images/voltar-light.png" style="width: 100px;">
+        </a>
+    </div>
+</div>
+
+
+<section class="header11 cid-tbTu6UKcUD" id="header11-2u" style="margin-top: -50px;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="curso-per col-12 col-md-12 image-wrapper">
+                <br>
+                <center>
+                <?php 
+                
+
+                $modulos = getModuloByAulaVid($conexao, $id_vid);
+                $modulosCount = $modulos->rowCount();
+                if($modulosCount>0){
+                    $estagios = []; // contar modulo 1, 2, 3 -> 01, 02, 03
+                    while($mostra = $modulos->FETCH(PDO::FETCH_OBJ)){
+                        $est_id_mod = $mostra->est_id_aula;
+                        $id_mod = $mostra->mod_id_aula;
+                        array_push($estagios, $est_id_mod);
+                        $num = count($estagios);
+                        $aulas = getModuloByAulaVid($conexao, $id_vid);
+
+
+                        $aulas = '';
+                        $aulasFetch = getAulasByAulaVid($conexao, $id_vid);
+                        while($fetchAula = $aulasFetch->FETCH(PDO::FETCH_OBJ)) {
+                            $id_vid = $fetchAula->id_vid;
+                            $id_aula = $fetchAula->id_aula;
+                            $aula_id_vid = $fetchAula->aula_id_vid;
+                            $caminhoPdf = "v2.php?acao=visualizar-pdf&id_aula=" . $id_aula;
+
+
+                            $listaPdfs = '';
+                            $pdfs = getPdfs($conexao, $id_aula);
+                            while($pdf = $pdfs->FETCH(PDO::FETCH_OBJ)) {
+                                $id_pdf = $pdf->id_pdf;
+                                $aula_id_pdf = $pdf->aula_id_pdf;
+                                $caminhoPdf = $pdf->caminho_pdf;

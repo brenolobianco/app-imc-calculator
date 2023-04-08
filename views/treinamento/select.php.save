@@ -1,0 +1,27 @@
+<?php
+
+
+include_once('controllers/treinamento/ControllerModulo.php');
+$dir = __DIR__ . '/../../v2.php';
+require_once($dir);
+
+?>
+
+<div class="content mt-5" style="padding-top: 20px; padding-bottom: 20px;">
+    <div class="wrap m-5 mt-5">
+        <div class="row">
+            <div class="col-md-3 col-sm-12"
+                style="background-color:#231f20; height: 20%; border-radius: 10px 10px 10px;">
+                <button class="btn btn-dark" style="background-color: #231f20; border: none; width: 90%;">
+                    <div style="width: 30%;" style="background-color: black;">
+                        <img src="/assets/images/chapeu-formatura-preto.png" alt=""
+                            style="background-color: #231f20; max-width: 100%;">
+                    </div>
+                </button>
+                <p style="color: #88E450; font-weight: 800; text-align:center;">AREA DE TREINAMENTO</p>
+            </div>
+
+            <div class="col-sm-12 col-md-5 mt-5 ml-2" style="margin-right: 5%;">
+                <div class="d-flex row progress w-100 " style="position: absolute; height: 50px;">
+                    <div class="progress-bar color-success" role="progressbar"
+                        style="width: <?php echo porcentagem_conclusao($conexao, $idLog);?>%; background-color: #88E450;" aria-valuenow="<?php echo porcentagem_conclusao($conexao, $idLog);?>" aria-valuemin="0"
