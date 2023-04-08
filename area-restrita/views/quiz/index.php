@@ -2,11 +2,7 @@
 
 function carregarQuiz($conexao)
 {
-<<<<<<< HEAD
     $select = "SELECT * from quiz_treinamento order by id_vid_aula asc";
-=======
-    $select = "SELECT * FROM quiz_treinamento quiz INNER JOIN aula a ON quiz.id_vid_aula = a.id_aula INNER JOIN estagio ON a.est_id_aula = estagio.id_est INNER JOIN hospital ON estagio.hosp_id_est = hospital.id_hosp";
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     $return_html = '';
     try {
         $result = $conexao->prepare($select);
@@ -18,20 +14,11 @@ function carregarQuiz($conexao)
                 $return_html .=
                     "<tr>
                         <td>$mostra->pergunta</td>
-<<<<<<< HEAD
                         <td>$mostra->pergunta</td>
                         <td>$mostra->pergunta</td>
                         <td>
                             <a href='home.php?acao=medico&id_med=$mostra->id_quiz' class='btn btn-icon waves-effect waves-light btn-primary'> <i class='fa fa-eye'></i> </a>
                             <a href='home.php?acao=medicos&delete=$mostra->pergunta' class='btn btn-icon waves-effect waves-light btn-danger'> &nbsp;<i class='fas fa-times'></i>&nbsp; </a>
-=======
-                        <td>$mostra->nome_est</td>
-                        <td>$mostra->nome_hosp</td>
-                        <td>$mostra->pergunta</td>
-                        <td>
-                            <a href='home.php?acao=quiz-editar&edit=$mostra->id_quiz' class='btn btn-icon waves-effect waves-light btn-primary'> <i class='fa fa-eye'></i> </a>
-                            <a href='home.php?acao=quiz&delete=$mostra->id_quiz' class='btn btn-icon waves-effect waves-light btn-danger'> &nbsp;<i class='fas fa-times'></i>&nbsp; </a>
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                         </td>
                     </tr>";
             }

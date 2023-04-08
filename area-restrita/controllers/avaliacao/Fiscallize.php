@@ -18,10 +18,6 @@ interface FiscallizeInterface {
 }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 /**
  *
  * 

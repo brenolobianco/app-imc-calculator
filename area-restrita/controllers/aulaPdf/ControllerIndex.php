@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 <?php
     $select = "SELECT * from aula_pdf p JOIN aula a ON a.id_aula = p.aula_id_pdf";  
@@ -30,9 +29,7 @@
     echo $e;
     
 }
-=======
 
-<?php
     $select = "SELECT * from aula_pdf p JOIN aula a ON a.id_aula = p.aula_id_pdf";  
     try{
     $result = $conexao->prepare($select);
@@ -62,5 +59,4 @@
     echo $e;
     
 }
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 ?> 

@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-<?php include 'includes/headerIndex.php';
-include 'models/conecta.php';
-?>
-<div>
-  <?php  
-  include 'controllers/log/login.php'; 
-  $select = "SELECT * from m"; // manutenção
-  try{
-  	
-=======
 <?php include 'includes/headerIndex.php';?>
 <div>
   <?php 
@@ -17,7 +6,6 @@ include 'models/conecta.php';
 
   $select = "SELECT * from m"; // manutenção
   try{
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
   $result = $conexao->prepare($select);
   $result ->execute();
   $contar = $result->rowCount();
