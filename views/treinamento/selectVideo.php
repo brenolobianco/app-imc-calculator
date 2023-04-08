@@ -155,8 +155,13 @@ if(isset($_GET['nome_modulo'])){
                                             </div>
 
                                             <!-- BLOQUEADO -->
+<<<<<<< HEAD
                                             <div class="d-flex ml-auto">
                                                 
+=======
+                                            <div class="d-flex ml-auto status-material-apoio-header">
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                                             </div>
                                         </div>
                                     </div>
@@ -189,6 +194,26 @@ if(isset($_GET['nome_modulo'])){
                                                 </div>
                                             </div>
                                         </div>
+<<<<<<< HEAD
+=======
+
+                                        <div class="d-flex flex-column mt-1 p-3 ml-auto">
+                                            <div>
+                                                <div>
+                                                    <span class="texto-modulo-accordion titulo-quiz-quiz titulo-quiz" style="color: #88E450; font-size: 3vh;">
+                                                    </span>
+                                                    
+                                                        <div class="questoes-quiz mb-3">
+                                                            <div class="texto-modulo-accordion" style="color: #88E450; font-size: 3vh;">
+                                                            <span class="titulo-quiz mb-3">NÚMERO TENTATIVAS: <span class="numero-tentativas">00</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                                     </div>
 
                                     <div class="botoes d-flex col-md-12">
@@ -229,6 +254,11 @@ if(isset($_GET['nome_modulo'])){
                                                 </div>
                                             </div>
                                         </div>
+<<<<<<< HEAD
+=======
+
+                                        
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                                     </div>
 
                                     <div class="botoes d-flex col-md-12">
@@ -303,7 +333,11 @@ if(isset($_GET['nome_modulo'])){
                             <div class="d-flex w-100 pre-teste header-preteste" data-id-aula="'.$aula_id_vid.'" style="background-color: white;">
                                     <div class="d-flex w-100 p-3">
                                         <span class="mr-auto ml-3 texto-modulo-accordion-minusculo">
+<<<<<<< HEAD
                                             PRÉ-TESTE
+=======
+                                            PRÉ-AULA
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                                         </span>
                                         
                                         <span class="mr-3 texto-modulo-accordion-minusculo pre-teste-status-header">
@@ -334,7 +368,10 @@ if(isset($_GET['nome_modulo'])){
                                         </div>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                             </div>                            
                             ';
 
@@ -407,6 +444,12 @@ if(isset($_GET['nome_modulo'])){
 <section class="footer4 cid-taGwCS6P5S" once="footers" id="footer4-5">
 
 <style>
+<<<<<<< HEAD
+=======
+    .radius-quiz {
+        border-radius: "30px 30px 30px 30px";
+    }
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     .texto-modulo {
         font-size: 3vh;
         text-shadow:
@@ -454,10 +497,13 @@ if(isset($_GET['nome_modulo'])){
     .clique {
         cursor: pointer;
     }
+<<<<<<< HEAD
 
     .radius-quiz {
         border-radius: "30px 30px 30px 30px";
     }
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 </style>
 
 <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
@@ -471,6 +517,10 @@ if(isset($_GET['nome_modulo'])){
     var player = videojs('video');
     
     updateInfo();
+<<<<<<< HEAD
+=======
+    numeroTentativas();
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
 
     function hiddenLeft(element) {
@@ -514,22 +564,58 @@ if(isset($_GET['nome_modulo'])){
                 let response = JSON.parse(this.response);
                 let success = response['success'];
                 if(success) {
+<<<<<<< HEAD
                     alert('Aula assistida com sucesso!');
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                 }
             }
         };
 
         xhr.send();
     }
+<<<<<<< HEAD
 
+=======
+    
+    function bloquearQuiz() {
+        let quiz = document.querySelector(".quiz-status-header");
+        quiz.innerHTML = `
+                    <div class="mr-auto bg-white ml-n3">
+                        <div class="max" style="max-width: 42px;">
+                            <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
+                        </div>
+                    </div>`;
+    }
+
+    function bloquearAula() {
+        let aula = document.querySelector("#toCollapseAula");
+        let status = document.querySelector(".aula-status-header");
+        aula.removeAttribute('data-toggle');
+        
+        status.innerHTML = `
+                    <div class="mr-auto bg-white ml-n3">
+                        <div class="max" style="max-width: 42px;">
+                            <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
+                        </div>
+                    </div>`;
+    }
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
     function liberarAula() {
         let aula = document.querySelector("#toCollapseAula");
         aula.setAttribute('data-toggle', 'collapse');
+<<<<<<< HEAD
+=======
+        
+        let status = document.querySelector(".aula-status-header");
+        status.innerHTML = '';
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     }
 
     function liberarMaterialApoio() {
         let materialApoio = document.querySelector("#toCollapseMaterialApoio");
+<<<<<<< HEAD
         materialApoio.setAttribute('data-toggle', 'collapse');
 
     }
@@ -537,6 +623,12 @@ if(isset($_GET['nome_modulo'])){
 
     function getWatchedVideo() {
         return localStorage.getItem('watchedVideo');
+=======
+        let status = document.querySelector(".status-material-apoio-header");
+        materialApoio.setAttribute('data-toggle', 'collapse');
+
+        status.innerHTML = '';
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     }
 
     function hasWatchedVideo() {
@@ -561,6 +653,31 @@ if(isset($_GET['nome_modulo'])){
     }
 
 
+<<<<<<< HEAD
+=======
+    function hasPreTeste() {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=info-situacao-pre-teste');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(this.response);
+                    let success = response['success'];
+                    let preTeste = response['pre_teste'];
+                    if(preTeste) {
+                        resolve(true);
+                    } else {
+                        reject(false);
+                    }
+                }
+            };
+
+            xhr.send();
+        });
+    }
+
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     function onlyOne(checkbox) {
         var checkboxes = document.getElementsByName('check')
         checkboxes.forEach((item) => {
@@ -602,10 +719,27 @@ if(isset($_GET['nome_modulo'])){
     }
 
 
+<<<<<<< HEAD
     function proximoQuiz(btn) {
         let marcado = document.querySelector("[name='check']:checked");
         if(marcado) {
 
+=======
+    function guardarResposta(id, valor) {
+        localStorage.setItem(id, valor);
+    }
+
+
+    function limparTodasRespostas() {
+        localStorage.clear();
+    }
+
+    function proximoQuiz(btn) {
+        let marcado = document.querySelector("[name='check']:checked");
+        guardarResposta(quizId, marcado.value);
+
+        if(marcado) {
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
             let xhr = new XMLHttpRequest();
             xhr.open('GET', 'v2.php?id_aula=' + res[0]['id_vid_aula'] + '&id_quiz=' + quizId + "&resposta=" + marcado.value + "&acao=verificar-quiz");
             xhr.onreadystatechange = function() {
@@ -623,7 +757,10 @@ if(isset($_GET['nome_modulo'])){
             xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 c1 += 1;
+<<<<<<< HEAD
                 console.log(xhr.responseText);
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                 insertQuiz(aulaId);
             }
             };
@@ -713,6 +850,24 @@ if(isset($_GET['nome_modulo'])){
         return quiz.classList.contains('show');
     }
 
+<<<<<<< HEAD
+=======
+    function numeroTentativas() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'v2.php?id_aula=' + aulaId + "&acao=numero-tentativas");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let response = JSON.parse(this.responseText);
+                let numeroTentativas = response.num_tentativas;
+                let numeroTentativasElement = document.querySelector('.numero-tentativas');
+                numeroTentativasElement.innerHTML = numeroTentativas;
+            }
+        };
+
+        xhr.send();
+    }
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     function updateInfo() {
         watchVideo();
         let quizEstaAberto = vQuizEstaAberto();
@@ -744,6 +899,13 @@ if(isset($_GET['nome_modulo'])){
                     document.querySelector('[data-target="#collapsePreTeste"]').removeAttribute('data-toggle');
                     collapsePreTeste.classList.remove('show');
 
+<<<<<<< HEAD
+=======
+                    if(!aula) {
+                        bloquearQuiz();
+                    }
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                     if(!quizEstaAberto) {
                         liberarAula();
                         liberarMaterialApoio();
@@ -751,6 +913,14 @@ if(isset($_GET['nome_modulo'])){
                 }
 
                 if(aula) {
+<<<<<<< HEAD
+=======
+                    if(!quizEstaAberto) {
+                        liberarAula();
+                        liberarMaterialApoio();
+                    }
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                     document.querySelector('.aula-status-header').innerHTML = `
                     <div class="mr-auto bg-white ml-n3">
                         <div class="max" style="max-width: 42px;">
@@ -759,10 +929,13 @@ if(isset($_GET['nome_modulo'])){
                     </div>
                     `;
 
+<<<<<<< HEAD
                     if(!quizEstaAberto) {
                         liberarAula();
                         liberarMaterialApoio();
                     }
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                 }
 
                 if(quiz) {
@@ -776,8 +949,30 @@ if(isset($_GET['nome_modulo'])){
                     `;
                 }
 
+<<<<<<< HEAD
                 if(preTeste && aula && !quiz && !quizEstaAberto) {
                     abrirQuiz();
+=======
+
+                if(preTeste && aula && !quiz && !quizEstaAberto) {
+                    liberarQuiz();
+                }
+
+                if(!preTeste && !quiz && !quizEstaAberto) {
+                    bloquearAula();
+                    bloquearMaterialApoio();
+                }
+
+                if(!preTeste && !quiz && quizEstaAberto) {
+                    bloquearAula();
+                    bloquearMaterialApoio();
+                }
+
+                if(!preTeste && !aula && !quiz && !quizEstaAberto) {
+                    bloquearQuiz();
+                    bloquearAula();
+                    bloquearMaterialApoio();
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                 }
 
 
@@ -790,6 +985,16 @@ if(isset($_GET['nome_modulo'])){
     }
 
     function bloquearMaterialApoio() {
+<<<<<<< HEAD
+=======
+        document.querySelector('.status-material-apoio-header').innerHTML = `
+                    <div class="mr-auto bg-white ml-n3">
+                        <div class="max" style="max-width: 42px;">
+                            <img src="/assets/images/icons8-lock-48.png" alt="" srcset="">
+                        </div>
+                    </div>`;
+        
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         let materialApoio = document.querySelector('#toCollapseMaterialApoio');
         let box = document.querySelector('#collapseMaterialApoio');
         box.classList.remove('show');
@@ -826,6 +1031,18 @@ if(isset($_GET['nome_modulo'])){
         forOpenQuiz.setAttribute('data-toggle', 'collapse');
     }
 
+<<<<<<< HEAD
+=======
+    function liberarQuiz() {
+        forOpenQuiz.setAttribute('data-target', '#collapseQuiz');
+        forOpenQuiz.setAttribute('data-toggle', 'collapse');
+
+        let status = document.querySelector('.quiz-status-header');
+        status.innerHTML = '';
+
+    }
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     function aulaEstaAberta() {
         let aula = document.querySelector('#toCollapseAula');
         return aula.classList.contains('show');
@@ -881,6 +1098,10 @@ if(isset($_GET['nome_modulo'])){
         if(c1 === 0) {
             throw new Error("Não pode voltar!");
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         let el = document.querySelector('.btn-proximo-pre-teste');
         if(c1 !== res.length - 2) {
             el.classList.remove('disabled');
@@ -918,12 +1139,18 @@ if(isset($_GET['nome_modulo'])){
 
         proximoPreTeste(event);
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         let el = event.target;
         if(c1 === res.length - 2) {
             el.classList.add('disabled');
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     });
 
     document.querySelector('.btn-proximo-quiz').addEventListener('click', (event) => {
@@ -933,7 +1160,10 @@ if(isset($_GET['nome_modulo'])){
 
         proximoQuiz(event.target)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         let el = event.target;
         if(c1 === res.length - 2) {
             el.classList.add('disabled');
@@ -944,28 +1174,52 @@ if(isset($_GET['nome_modulo'])){
     document.querySelector('.btn-finalizar-quiz').addEventListener('click', (event) => {
         ultimoProximoQuiz();
         finalizarQuiz(event);
+<<<<<<< HEAD
+=======
+        numeroTentativas();
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     });
 
     let novaTentativa = () => {
             let xhr = new XMLHttpRequest();
+<<<<<<< HEAD
             xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=nova-tentativa-quiz&quiz_id=' + quizId);
             
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
+=======
+            xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=nova-tentativa-quiz&quiz_id=' + aulaId);
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                     let response = JSON.parse(this.response);
                     let success = response['success'];
                     if(success) {
                         c1 = 0;
+<<<<<<< HEAD
                         insertQuiz(aulaId);
 
                     }
                 }
             };
+=======
+                        updateInfo();
+                    }
+                }
+            };
+
+            xhr.send();
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         }
 
     function mensagemTentarDnv(text) {
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         return Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -1021,13 +1275,24 @@ if(isset($_GET['nome_modulo'])){
 
                 mensagemTentarDnv(message).then((result) => {
                     if(result.isConfirmed) {
+<<<<<<< HEAD
                         novaTentativa();
+=======
+                        c1 = 0;
+                        insertQuiz(aulaId);
+                        limparTodasRespostas();
+                        document.querySelector('.btn-proximo-quiz').classList.remove('disabled'); // liberar o botão de proximo novamente
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                     }
                 });
             }
         
         };
+<<<<<<< HEAD
     };
+=======
+        };
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
         updateInfo();
         xhr.send();
@@ -1042,7 +1307,25 @@ if(isset($_GET['nome_modulo'])){
 
 
     function inputNotaAula() {
+<<<<<<< HEAD
         // Digite sua nota
+=======
+
+        let request = (nota, comentario) => {
+            
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'v2.php?id_aula=' + aulaId + '&acao=input-nota&nota=' + nota + "&comentario=" + comentario);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(this.response);
+                    let success = response.success;        
+                };
+            };
+
+            xhr.send();
+        }
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         Swal.fire({
             title: 'De 0 a 10 o quanto você recomendaria esta aula.',
             confirmButtonText: 'Confirmar',
@@ -1050,6 +1333,7 @@ if(isset($_GET['nome_modulo'])){
             showLoaderOnConfirm: true,
             html: '<input placeholder="Nota" type="number" max="10" id="swal-input1" class="swal2-input">' + '<input placeholder="Comentário" id="swal-input2" class="swal2-input">',
 
+<<<<<<< HEAD
             preConfirm: () => {
                 let nota = document.getElementById('swal-input1').value;
                 let comentario = document.getElementById('swal-input2').value;
@@ -1091,6 +1375,36 @@ if(isset($_GET['nome_modulo'])){
                 
             };
 
+=======
+            preConfirm: function() {
+                let nota = document.getElementById('swal-input1').value;
+                let comentario = document.getElementById('swal-input2').value;
+                request(nota, comentario);
+
+                return new Promise(function(resolve, reject) {
+                    resolve({
+                        nota: document.getElementById('swal-input1').value,
+                        comentario: document.getElementById('swal-input2').value,
+                    });
+                });
+            },
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.value.nota <= 10) {
+                updateInfo();
+
+                Swal.fire({
+                    title: 'Nota inserida com sucesso!',
+                });
+            } else if(result.value.nota > 10) {
+                Swal.fire({
+                    title: 'Nota inválida!<br>Digite novamente.',
+                }).then((result) => {
+                    inputNotaAula();
+                });
+                
+            }
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         })
     }
 
@@ -1119,10 +1433,16 @@ if(isset($_GET['nome_modulo'])){
                 let alternativaC = key['alternativa_c'];
                 let alternativaD = key['alternativa_d'];
                 let alternativaE = key['alternativa_e'];
+<<<<<<< HEAD
+=======
+                let usuarioResposta = key['usuario_resposta'];
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
                 let pergunta = key['pergunta'];
                 titulo.innerHTML = pergunta;
                 
+<<<<<<< HEAD
                 let a = '<div data-questao-id="'+ id +'" class="mt-3"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="A" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaA +'</span> </span></div>';
                 document.querySelector('.questoes-pre-teste').innerHTML += a;
                 let b = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="B" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaB +'</span> </span></div>';
@@ -1140,6 +1460,49 @@ if(isset($_GET['nome_modulo'])){
                         let e = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="E" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
                         document.querySelector('.questoes-pre-teste').innerHTML += e;
                 }
+=======
+                let a = '<div data-questao-id="'+ id +'" class="mt-3"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" class="pre-teste" onclick="onlyOne(this)" id="1" name="check" value="A" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaA +'</span> </span></div>';
+                document.querySelector('.questoes-pre-teste').innerHTML += a;
+                if(usuarioResposta == "A") {
+                    let inPage = document.querySelector('input.pre-teste, input[value="A"]');
+                    inPage.checked = true;
+                }
+                if(alternativaB) {
+                    let b = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" class="pre-teste" onclick="onlyOne(this)" id="1" name="check" value="B" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaB +'</span> </span></div>';
+                    document.querySelector('.questoes-pre-teste').innerHTML += b;
+                }
+                if(usuarioResposta == "B") {
+                    let inPage = document.querySelector('input.pre-teste, input[value="B"]');
+                    inPage.checked = true;
+                }
+                if(alternativaC) {
+                    let c = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" class="pre-teste" id="1" name="check" value="C" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaC +'</span> </span></div>';
+                    document.querySelector('.questoes-pre-teste').innerHTML += c;
+                }
+                if(usuarioResposta == "C") {
+                    let inPage = document.querySelector('input.pre-teste, input[value="C"]');
+                    inPage.checked = true;
+                }
+
+
+                if(alternativaD) {
+                    d = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" class="pre-teste" id="1" name="check" value="D" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
+                    document.querySelector('.questoes-pre-teste').innerHTML += d;
+                }
+                if(usuarioResposta == "D") {
+                    let inPage = document.querySelector('input.pre-teste, input[value="D"]');
+                    inPage.checked = true;
+                }
+
+                if(alternativaE) {
+                        let e = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" class="pre-teste" onclick="onlyOne(this)" id="1" name="check" value="E" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
+                        document.querySelector('.questoes-pre-teste').innerHTML += e;
+                }
+                if(usuarioResposta == "E") {
+                    let inPage = document.querySelector('input.pre-teste, input[value="E"]');
+                    inPage.checked = true;
+                }
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
             }
             }
         };
@@ -1163,7 +1526,10 @@ if(isset($_GET['nome_modulo'])){
                 document.querySelector('.questoes-quiz').innerHTML = '';      
                 let key = res[c1];
                 let id = key['id_quiz'];
+<<<<<<< HEAD
                 quizId = id;
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
                 let alternativaA = key['alternativa_a'];
                 let alternativaB = key['alternativa_b'];
@@ -1174,6 +1540,7 @@ if(isset($_GET['nome_modulo'])){
                 let pergunta = key['pergunta'];
                 titulo.innerHTML = pergunta;
                 
+<<<<<<< HEAD
                 let a = '<div data-questao-id="'+ id +'" class="mt-3"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="A" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaA +'</span> </span></div>';
                 document.querySelector('.questoes-quiz').innerHTML += a;
                 let b = '<div data-questao-id="'+ id +'"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="B" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaB +'</span> </span></div>';
@@ -1184,18 +1551,54 @@ if(isset($_GET['nome_modulo'])){
 
                 if(alternativaD) {
                     d = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="D" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
+=======
+                let a = '<div data-questao-id="'+ id +'" class="mt-3"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input class="quiz" type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="A" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaA +'</span> </span></div>';
+                document.querySelector('.questoes-quiz').innerHTML += a;
+                
+                if(alternativaB) {
+                    let b = '<div data-questao-id="'+ id +'"><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input class="quiz" type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="B" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaB +'</span> </span></div>';
+                    document.querySelector('.questoes-quiz').innerHTML += b;
+                }
+
+                if(alternativaC) {
+                    let c = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input class="quiz" type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="C" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaC +'</span> </span></div>';
+                    document.querySelector('.questoes-quiz').innerHTML += c;
+                }
+
+
+                if(alternativaD) {
+                    d = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input class="quiz" type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="D" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                     document.querySelector('.questoes-quiz').innerHTML += d;
                 }
 
                 if(alternativaE) {
+<<<<<<< HEAD
                         let e = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" onclick="onlyOne(this)" id="1" name="check" value="E" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
                         document.querySelector('.questoes-quiz').innerHTML += e;
                 }
         
+=======
+                        let e = '<div data-questao-id="'+ id +'" class=""><div class="d-flex flex-row texto-modulo-accordion ml-2 p-2" style="color: #88E450; font-size: 2vh;"><input type="checkbox" class="quiz" onclick="onlyOne(this)" id="1" name="check" value="E" id="" style="width: 50px;"><span class="titulo-quiz mt-1"> <span class="titulo-quiz">'+ alternativaD +'</span> </span></div>';
+                        document.querySelector('.questoes-quiz').innerHTML += e;
+                }
+                
+                quizId = id;
+                let salvo = localStorage.getItem(quizId);
+                if(salvo) {
+                    let inPage = document.querySelector('input[value="'+ localStorage.getItem(quizId) +'"]');
+                    console.log(inPage);
+                    inPage.checked = true;
+                }
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
             }
             }
         };
+<<<<<<< HEAD
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         xhr.send();
     }
 
@@ -1224,11 +1627,15 @@ if(isset($_GET['nome_modulo'])){
     });
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     function redirect(id) {
         location.href = "home.php?acao=treinamento-video&id_vid=" + id;
     }
 
+<<<<<<< HEAD
 
     player.on('timeupdate', function() {
     var duration = player.duration();
@@ -1242,6 +1649,26 @@ if(isset($_GET['nome_modulo'])){
         inputNotaAula();
     }
     });
+=======
+    
+    let handleWatchedVideo = false;
+    player.on('timeupdate', function() {
+        var duration = player.duration();
+        var currentTime = player.currentTime();
+        var threshold = duration * 1; // verificar se o usuário assistiu a 100% do vídeo
+
+        if (currentTime >= threshold && handleWatchedVideo != true) {
+            handleWatchedVideo = true;
+            hasWatchedVideo().catch(function(watched) {
+                inputNotaAula();
+            })
+            player.pause();
+            setWatchedVideo();
+        }
+
+    });
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 </script>
 
 

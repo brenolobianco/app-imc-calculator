@@ -50,6 +50,10 @@ include ("includes/header.php");
 		
 		if($acao=='prova'){include("views/areaProva/prova.php");}
 		
+<<<<<<< HEAD
+=======
+		if($acao=='avaliacao'){include("views/avaliacao/select.php");}
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
 		
 		if($acao=='etapa-0-pag'){include("views/pagamento/etapa-0-pag.php");}

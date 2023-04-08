@@ -1,6 +1,10 @@
 <?php
+<<<<<<< HEAD
 include 'models/conecta.php';
 //var_dump($_POST,$_GET);
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 if (isset($_GET['acao'])) {
   if (!isset($_POST['logar'])) {
     $acao = $_GET['acao'];

@@ -3,6 +3,10 @@
 
 include 'controllers/log/logado.php'; 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 $select = "SELECT * from m";  
 try{
     $result = $conexao->prepare($select);
@@ -22,6 +26,10 @@ try{
     echo $e;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 function preventToXSS($text) {
     $text = trim($text);
     $text = stripslashes($text);
@@ -57,7 +65,11 @@ if(isset($_GET['acao'])) {
             $autorizado = pode_fazer_pre_teste($idLog, $conexao, $id_aula); // verificar se o usuário pode fazer o pre-teste
             if($autorizado) {
 
+<<<<<<< HEAD
                 $select = "SELECT * FROM treinamento_pre_teste WHERE id_vid_aula = :id_vid_aula ORDER BY id_pre_teste";  
+=======
+                $select = "SELECT perguntas.id_pre_teste, perguntas.id_vid_aula, perguntas.pergunta, perguntas.alternativa_a, perguntas.alternativa_b, perguntas.alternativa_c, perguntas.alternativa_d, perguntas.alternativa_e, quiz.resposta as usuario_resposta FROM treinamento_pre_teste perguntas LEFT JOIN quiz_treinamento_pre_teste_tentivas quiz ON quiz.id_pre_teste = perguntas.id_pre_teste WHERE perguntas.id_vid_aula = :id_vid_aula ORDER BY perguntas.id_pre_teste";  
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                 try{
                     $result = $conexao->prepare($select);
                     $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
@@ -84,7 +96,11 @@ if(isset($_GET['acao'])) {
             $pode_fazer = pode_fazer_quiz($conexao, $id_aula, $idLog);
             if($pode_fazer) {
                 
+<<<<<<< HEAD
                 $select = "SELECT * FROM quiz_treinamento WHERE id_vid_aula = :id_vid_aula ORDER BY id_quiz";  
+=======
+                $select = "SELECT id_quiz, id_vid_aula, pergunta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e  FROM quiz_treinamento WHERE id_vid_aula = :id_vid_aula ORDER BY id_quiz";  
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                 try{
                     $result = $conexao->prepare($select);
                     $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
@@ -222,11 +238,82 @@ if(isset($_GET['acao'])) {
                 echo json_encode(["success" => false, "text" => "Ocorreu um erro!"]);
             }
         } elseif($acao == "visualizar-pdf") {
+<<<<<<< HEAD
             pdf_view($conexao, $idLog, $id_aula);
         }
     } 
 }
 
+=======
+            if(isset($_GET['id_pdf'])) {
+                $id_pdf = $_GET['id_pdf'];
+                pdf_view($conexao, $id_aula, $id_pdf);
+            }
+        } elseif($acao == "get-video-aula") {
+            retornar_video($conexao, $id_aula);
+        } elseif($acao == "numero-tentativas") {
+            $num_tentativas = numero_tentativas_quiz($conexao, $idLog, $id_aula);
+            $res = floor($num_tentativas);
+            echo json_encode(["success" => true, "num_tentativas" => $res]);
+        }
+    }
+
+    if($acao == "fiscallize") {
+        $idTurma = get_turma_fiscallize($conexao, $idLog);
+        $id_avaliacao = $_GET['id_avaliacao'];
+
+        include_once('area-restrita/controllers/avaliacao/Fiscallize.php');
+        $cpf = preg_replace('/[^0-9]/', '', $cpfLog);
+
+        $criado = $fiscallize->criarEstundate($nomeLog, $emailLog, $cpf, $idLog, $idTurma);
+
+        header("Location: https://remote.fiscallize.com.br/");
+    }
+}
+
+function numero_tentativas_quiz($conexao, $id_usuario, $id_aula) {
+    $num_quiz = num_quiz($conexao, $id_aula);
+    $select = "SELECT * FROM progresso_usuario_quiz WHERE id_usuario = :id_usuario AND id_aula = :id_aula";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result ->execute();
+
+    return $result->fetch(PDO::FETCH_OBJ)->num_tentativas;
+}
+
+
+function num_quiz($conexao, $id_aula) {
+    $select = "SELECT * FROM quiz_treinamento WHERE id_vid_aula = :id_aula";
+    try{
+        $result = $conexao->prepare($select);
+        $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+        $result ->execute();
+        $contar = $result->rowCount();
+        return $contar;
+    } catch (Exception $e) {
+    }
+}
+
+function retornar_video($conexao, $id_aula) {
+    $select = "SELECT * FROM aula_vid WHERE aula_id_vid = :id_aula";
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $result->execute();
+    $contar = $result->rowCount();
+    if($contar>0){
+        while($mostra = $result->FETCH(PDO::FETCH_OBJ)){
+            $arq_vid = $mostra->arq_vid;
+            $id_vid = $mostra->id_vid;
+            $caminho = "videos/$id_vid/$arq_vid";
+            header('Content-Type: video/mp4');
+            header('Content-Disposition: inline; filename="' . $arq_vid . '"');
+            header('Content-Length: ' . filesize($caminho));
+            readfile($caminho);
+        }
+    }
+}
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
 function getPdf($conexao, $id_aula, $id_pdf) {
     $select = "SELECT * FROM aula_pdf WHERE aula_id_pdf = :id_aula AND id_pdf = :id_pdf ORDER BY id_pdf";
@@ -238,7 +325,11 @@ function getPdf($conexao, $id_aula, $id_pdf) {
 }
 
 
+<<<<<<< HEAD
 function pdf_view($conexao, $id_usuario, $id_aula, $id_pdf = 0) {
+=======
+function pdf_view($conexao, $id_aula, $id_pdf) {
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     $pdf = getPdf($conexao, $id_aula, $id_pdf);
     $fetch = $pdf->fetch(PDO::FETCH_OBJ);
     $id_pdf = $fetch->id_pdf ?? 0;
@@ -248,22 +339,51 @@ function pdf_view($conexao, $id_usuario, $id_aula, $id_pdf = 0) {
     <!DOCTYPE html>
         <html>
         <head>
+<<<<<<< HEAD
             <title>PDF.js</title>
+=======
+            <title>PDF</title>
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
             <!-- Incluir o CSS padrão do PDF.js -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf_viewer.css" />            
         </head>
         <body>
+<<<<<<< HEAD
             <!-- Div onde o PDF será exibido -->
             <div id="pdf-container"></div>
+=======
+            
+            <!-- Div onde o PDF será exibido -->
+            <div>
+                <div class="container d-flex justify-content-center align-items-center">
+
+                    <div>
+                        <button id="prev">Anterior</button>
+                        <button id="next">Próximo</button>
+                        &nbsp; &nbsp;
+                        <span>Pagina: <span id="page_num"></span> / <span id="page_count"></span></span>
+                    </div>
+
+                    <div class="center row">
+                        <canvas id="pdf-container"></canvas>
+                    </div>
+                </div>
+            </div>
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
             
             <!-- Incluir as bibliotecas do PDF.js -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.js"></script>
             <script>
+<<<<<<< HEAD
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
             // URL do arquivo PDF que será carregado
             const url = "/pdfs/$id_pdf/$arq_vid";
 
             // Inicializar a biblioteca PDF.js
+<<<<<<< HEAD
             pdfjsLib.getDocument(url).promise.then(pdf => {
                 // Obter o número de páginas do PDF
                 const numPages = pdf.numPages;
@@ -293,6 +413,104 @@ function pdf_view($conexao, $id_usuario, $id_aula, $id_pdf = 0) {
                 container.appendChild(canvas);
                 });
             });
+=======
+            var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+            // The workerSrc property shall be specified.
+            pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+            var pdfDoc = null,
+                pageNum = 1,
+                pageRendering = false,
+                pageNumPending = null,
+                scale = 0.8,
+                canvas = document.getElementById('pdf-container'),
+                ctx = canvas.getContext('2d');
+
+
+            /**
+             * Get page info from document, resize canvas accordingly, and render page.
+             * @param num Page number.
+             */
+            function renderPage(num) {
+            pageRendering = true;
+            // Using promise to fetch the page
+            pdfDoc.getPage(num).then(function(page) {
+                var viewport = page.getViewport({scale: scale});
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render PDF page into canvas context
+                var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+                };
+                var renderTask = page.render(renderContext);
+
+                // Wait for rendering to finish
+                renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    // New page rendering is pending
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+                });
+            });
+
+            // Update page counters
+            document.getElementById('page_num').textContent = num;
+            }
+
+            /**
+            * If another page rendering in progress, waits until the rendering is
+            * finised. Otherwise, executes rendering immediately.
+            */
+            function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+            }
+
+            /**
+            * Displays previous page.
+            */
+            function onPrevPage() {
+            if (pageNum <= 1) {
+                return;
+            }
+            pageNum--;
+            queueRenderPage(pageNum);
+            }
+            document.getElementById('prev').addEventListener('click', onPrevPage);
+
+            /**
+            * Displays next page.
+            */
+            function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) {
+                return;
+            }
+            pageNum++;
+            queueRenderPage(pageNum);
+            }
+            document.getElementById('next').addEventListener('click', onNextPage);
+
+            /**
+            * Asynchronously downloads PDF.
+            */
+            pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+            // Initial/first page rendering
+            renderPage(pageNum);
+            });
+
+            
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
             </script>
         </body>
     </html>
@@ -307,7 +525,11 @@ function input_nota($conexao, $id_aula, $idLog, $nota, $comentario) {
     $result = $conexao->prepare($select);
     $result->bindParam(':id_usuario', $idLog, PDO::PARAM_INT);
     $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
+<<<<<<< HEAD
     $result->bindParam(':nota', $nota, PDO::PARAM_INT);
+=======
+    $result->bindParam(':nota', $nota, PDO::PARAM_STR);
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     $result->bindParam(':comentario', $comentario, PDO::PARAM_STR);
     
     $result ->execute();
@@ -328,8 +550,14 @@ function get_nota_minima($conexao, $id_aula) {
     return 0;
 }
 
+<<<<<<< HEAD
 function nova_tentativa_quiz($conexao, $idLog, $id_aula) {
     $select = "INSERT INTO quiz_treinamento_num_erros (id_usuario, id_vid_aula, data_tentativa) VALUES (:id_usuario, :id_vid_aula, NOW())";
+=======
+
+function nova_tentativa_quiz($conexao, $idLog, $id_aula) {
+    $select = "INSERT INTO quiz_treinamento_tentivas(id_usuario, id_vid_aula, data_tentativa) VALUES(:id_usuario, :id_vid_aula, NOW())";
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     $result = $conexao->prepare($select);
     $result->bindParam(':id_usuario', $idLog, PDO::PARAM_INT);
     $result->bindParam(':id_vid_aula', $id_aula, PDO::PARAM_INT);
@@ -802,7 +1030,11 @@ function primeira_aula($conexao) {
      * A primeira sempre será liberada!
      * 
      */
+<<<<<<< HEAD
     $select = "SELECT * FROM modulo INNER JOIN aula ON aula.mod_id_aula = modulo.id_mod INNER JOIN aula_vid ON aula_vid.aula_id_vid = aula.id_aula AND modulo.treinamento = 'sim' AND aula.treinamento = 'sim'";
+=======
+    $select = "SELECT * FROM modulo INNER JOIN aula ON aula.mod_id_aula = modulo.id_mod WHERE modulo.treinamento = 'sim' AND aula.treinamento = 'sim'";
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
     $result = $conexao->prepare($select);
     $result->execute();
     $count = $result->rowCount();
@@ -834,6 +1066,19 @@ function get_user_est($conexao, $idLog) {
     return $result->FETCH()['est_id_mat'];
 }
 
+<<<<<<< HEAD
+=======
+function get_turma_fiscallize($conexao, $idLog) {
+    $est = get_user_est($conexao, $idLog);
+    $select = 'SELECT id_turma_fiscallize FROM estagio WHERE id_est = :id_est';
+    $result = $conexao->prepare($select);
+    $result->bindParam(':id_est', $est, PDO::PARAM_INT);
+    $result ->execute();
+
+    return $result->FETCH()['id_turma_fiscallize'];
+}
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
  
 function get_aulas($conexao, $idLog) {
@@ -940,16 +1185,24 @@ function finalizar_quiz($conexao, $id_usuario, $id_aula, $aprovado) {
     $result->bindParam(':aprovado', $aprovado, PDO::PARAM_INT);
     $result ->execute();
     
+<<<<<<< HEAD
     if($aprovado == 1) {
         update_progresso_usuario_quiz($conexao, $id_usuario, $id_aula, $aprovado);
     }
+=======
+    update_progresso_usuario_quiz($conexao, $id_usuario, $id_aula, $aprovado);
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
 
     return $result;
 }
 
 function update_progresso_usuario_quiz($conexao, $id_usuario, $id_aula, $aprovado) {
+<<<<<<< HEAD
     $sql = "UPDATE progresso_usuario_quiz SET aprovado = :aprovado WHERE id_usuario = :id_usuario AND id_aula = :id_aula";
+=======
+    $sql = "UPDATE progresso_usuario_quiz SET aprovado = :aprovado, num_tentativas = num_tentativas + 1 WHERE id_usuario = :id_usuario AND id_aula = :id_aula";
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
     $result = $conexao->prepare($sql);
     $result->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
@@ -1065,6 +1318,7 @@ function num_acerto_aula($conexao, $id_usuario, $id_aula) {
 }
 
 
+<<<<<<< HEAD
 function num_quiz($conexao, $id_aula) {
     $select = "SELECT * FROM quiz_treinamento WHERE id_vid_aula = :id_aula";
     try{
@@ -1076,6 +1330,9 @@ function num_quiz($conexao, $id_aula) {
     } catch (Exception $e) {
     }
 }
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 
 
 function errou($conexao, $idUsuario, $idQuiz, $resposta, $id_vid) {
@@ -1321,9 +1578,15 @@ function getVisualizacoesAula($conexao, $id_usuario) {
     return $result;
 }
 
+<<<<<<< HEAD
 function getComentarios($conexao, $id_usuario) {
     
 }
 
 
 ?>
+=======
+
+
+?>
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .img_perfil{
     max-width: 480px; 
     max-height: 528px;  
@@ -47,3 +48,54 @@
     
     
   }
+=======
+.img_perfil{
+    max-width: 480px; 
+    max-height: 528px;  
+    position:absolute; 
+    top:-30px; 
+    left:-10px; 
+    overflow: hidden; 
+    border-radius: 20px 20px; 
+
+}
+
+.img_insc{
+    max-width: 480px; 
+    max-height: 348px;  
+    position:absolute; 
+    top: 30px; 
+    left:-10px; 
+    overflow: hidden; 
+    border-radius: 20px 20px; 
+
+}
+
+.img_hosp{
+    max-width: 580px; 
+    max-height: 418px;  
+    position:absolute; 
+    top: -20px; 
+    left:-60px; 
+    overflow: hidden; 
+    border-radius: 20px 20px; 
+
+}
+
+
+
+@media screen and (max-width: 700px) {
+    
+    .img_perfil{
+        width: 260px; 
+        max-height: 360px;  
+        position:absolute; 
+        top:-30px; 
+        left:-10px; 
+        overflow: hidden; 
+        border-radius: 20px 20px; 
+    }
+    
+    
+  }
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650

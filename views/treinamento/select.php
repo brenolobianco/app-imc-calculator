@@ -34,7 +34,11 @@ require_once($dir);
 
             <div class="col-sm-12 col-md-3 m-3 mt-4">
                 <button class="btn btn-dark"
+<<<<<<< HEAD
                     style="background-color: #231f20; border: none; width: 90%; border-radius: 10px 10px 10px;">
+=======
+                    style="background-color: #231f20; border: none; width: 90%; border-radius: 10px 10px 10px;" onclick="history.back()">
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                     <div style="width: 30%;" style="background-color: black;">
                         <img src="/assets/images/voltar-light.png" alt=""
                             style="background-color: #231f20; max-width: 100%;">
@@ -253,9 +257,12 @@ require_once($dir);
                                 <!--- FIM LISTA AULAS--->
                             </div>
                                     
+<<<<<<< HEAD
 
 
                             
+=======
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                             </div>
 
                             </div>
@@ -380,8 +387,16 @@ require_once($dir);
         });
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 </script>
 
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+=======
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650

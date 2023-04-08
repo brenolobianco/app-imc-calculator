@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 .mar-per{
@@ -67,4 +68,75 @@
         height: 1600px;
     }
     
+=======
+
+
+.mar-per{
+    margin-top: 1px;
+        
+}
+.mar2-per{
+    margin-top: -200px;
+        
+}
+.mar3-per{
+    margin-top: 0px;
+        
+}
+.set-volt{
+    margin-left: -70px; 
+    margin-top: 30px;
+    width: 150px;
+}
+.prova-per{
+    margin-top: -200px;
+}
+.curso-per{
+    margin-top: -100px;
+}
+.insc-tit{
+    margin-left: 50px;
+}
+.modal-per{
+    height: 500px;
+}
+.modal-per-doc{
+    height: 500px;
+}
+
+
+@media screen and (max-width: 700px) {
+    
+    .mar-per{
+        margin-top: 100px;
+    }
+    .mar2-per{
+        margin-top: 0px;
+        
+    }
+    .mar3-per{
+        margin-top: 50px;
+    }
+    .set-volt{
+        margin-left: -20px; 
+        margin-top: 30px;
+        width: 150px;
+    }
+    .prova-per{
+        margin-top: -100px;
+    }
+    .curso-per{
+        margin-top: -50px;
+    }
+    .insc-tit{
+        margin-left: -20px;
+    }
+    .modal-per{
+        height: 800px;
+    }
+    .modal-per-doc{
+        height: 1600px;
+    }
+    
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 }

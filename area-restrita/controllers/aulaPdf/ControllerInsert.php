@@ -28,6 +28,7 @@ if ($SendCadImg) {
         //Diretório onde o arquivo vai ser salvo
         $diretorio = '../../../pdfs/' . $ultimo_id.'/';
         //Criar a pasta de foto 
+<<<<<<< HEAD
         mkdir($diretorio, 777);
         
         // debug
@@ -37,6 +38,10 @@ if ($SendCadImg) {
             $write = "false";
         }
     
+=======
+        mkdir($diretorio, 0755);
+        
+>>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
         
         if(move_uploaded_file($_FILES['arq_pdf']['tmp_name'], $diretorio.$nome_arq)){
             $_SESSION['msg'] = "<div class='alert alert-success'>
