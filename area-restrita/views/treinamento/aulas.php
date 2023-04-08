@@ -4,11 +4,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-<<<<<<< HEAD
                                 <?php include_once 'controllers/aula/ControllerDelete.php';?>
-=======
-                                <?php include_once 'controllers/treinamento/AulaControllerDelete.php';?>
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                             </div>
                             <br /><br />
                             <div class="col-12">

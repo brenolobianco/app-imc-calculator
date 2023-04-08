@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
 Template Name: Adminto - Responsive Bootstrap 4 Admin Dashboard
 Author: CoderThemes
@@ -6,15 +5,6 @@ Version: 4.0.0
 Website: https://coderthemes.com/
 Contact: support@coderthemes.com
 File: Main Rtl Css File
-=======
-/*
-Template Name: Adminto - Responsive Bootstrap 4 Admin Dashboard
-Author: CoderThemes
-Version: 4.0.0
-Website: https://coderthemes.com/
-Contact: support@coderthemes.com
-File: Main Rtl Css File
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 */
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
 @import url("https://fonts.googleapis.com/css?family=Karla:400,700");
@@ -278,13 +268,8 @@ body.enlarged {
   .logo-box {
     display: none; } }
 
-<<<<<<< HEAD
 /* =============
   Small Menu
-=======
-/* =============
-  Small Menu
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 ============= */
 body[data-sidebar-size="small"] .logo-box {
   width: 160px; }
@@ -855,13 +840,8 @@ body[data-layout="horizontal"] .page-title-box .page-title {
       .navigation-menu > li > a:hover, .navigation-menu > li > a:focus {
         background-color: transparent; }
 
-<<<<<<< HEAD
 /*
 Responsive Menu
-=======
-/*
-Responsive Menu
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 */
 @media (min-width: 992px) {
   .navigation-menu > li > a:hover, .navigation-menu > li > a:focus, .navigation-menu > li > a:active {
@@ -2657,13 +2637,8 @@ body[data-layout="horizontal"] #message {
     #main .message-list li .mail-col-2 .subject {
       display: none; } }
 
-<<<<<<< HEAD
 /**
  * Nano scroll stuff
-=======
-/**
- * Nano scroll stuff
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 */
 .nano {
   position: relative;
@@ -3208,21 +3183,12 @@ h3.timeline-title {
           transform: rotate(225deg) translate(0, -50%); }
 
 /*# sourceMappingURL=metisMenu.css.map */
-<<<<<<< HEAD
 /*!
  * Waves v0.7.6
  * http://fian.my.id/Waves 
  * 
  * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
  * Released under the MIT license 
-=======
-/*!
- * Waves v0.7.6
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
  * https://github.com/fians/Waves/blob/master/LICENSE */
 .waves-effect {
   position: relative;
@@ -3424,13 +3390,8 @@ h3.timeline-title {
   outline: 0;
   border: 2px solid #71b6f9; }
 
-<<<<<<< HEAD
 /* =============
    Notification
-=======
-/* =============
-   Notification
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 ============= */
 #toast-container > div {
   -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
@@ -6454,13 +6415,8 @@ dd {
   left: 0;
   right: auto; }
 
-<<<<<<< HEAD
 /* =============
   Small Menu
-=======
-/* =============
-  Small Menu
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
 ============= */
 body[data-sidebar-size="small"] .left-side-menu #sidebar-menu > ul ul {
   padding-right: 0; }

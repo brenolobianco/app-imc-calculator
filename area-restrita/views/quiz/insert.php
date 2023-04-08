@@ -188,16 +188,12 @@
                         </div>
                     </div>
 
-<<<<<<< HEAD
                     <div class="form-group mb-0  mt-5 justify-content-end row">
                         <div class="col-sm-10">
                             <button type="submit" name="cadastrar"
                                 class="btn btn-success waves-effect waves-light">Salvar</button>
                         </div>
                     </div>
-=======
-
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                     </form>
                 </div>
             </div>
