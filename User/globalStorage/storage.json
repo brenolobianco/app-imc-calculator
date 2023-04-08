@@ -243,10 +243,6 @@
                                 {
                                     "id": "settings.filterByOnline",
                                     "label": "&&Online Services Settings"
-                                },
-                                {
-                                    "id": "settings.filterByTelemetry",
-                                    "label": "Telemetry Settings"
                                 }
                             ]
                         }
@@ -299,6 +295,22 @@
                     {
                         "id": "editor.action.clipboardCopyAction",
                         "label": "&&Copy"
+                    },
+                    {
+                        "id": "submenuitem.MenubarCopy",
+                        "label": "Copy As",
+                        "submenu": {
+                            "items": [
+                                {
+                                    "id": "gitlens.copyRemoteFileUrlToClipboard",
+                                    "label": "Copy Remote File URL"
+                                },
+                                {
+                                    "id": "gitlens.copyRemoteFileUrlFrom",
+                                    "label": "Copy Remote File URL From..."
+                                }
+                            ]
+                        }
                     },
                     {
                         "id": "editor.action.clipboardPasteAction",
@@ -600,6 +612,13 @@
                                     "id": "vscode.menubar.separator"
                                 },
                                 {
+                                    "id": "workbench.action.splitEditorInGroup",
+                                    "label": "Split in &&Group"
+                                },
+                                {
+                                    "id": "vscode.menubar.separator"
+                                },
+                                {
                                     "id": "workbench.action.editorLayoutSingle",
                                     "label": "&&Single"
                                 },
@@ -665,6 +684,10 @@
                         "label": "E&&xtensions"
                     },
                     {
+                        "id": "workbench.view.extension.test",
+                        "label": "T&&esting"
+                    },
+                    {
                         "id": "vscode.menubar.separator"
                     },
                     {
@@ -688,8 +711,7 @@
                     },
                     {
                         "id": "editor.action.toggleWordWrap",
-                        "label": "&&Word Wrap",
-                        "enabled": false
+                        "label": "&&Word Wrap"
                     },
                     {
                         "id": "editor.action.toggleStickyScroll",
@@ -701,8 +723,7 @@
                 "items": [
                     {
                         "id": "workbench.action.navigateBack",
-                        "label": "&&Back",
-                        "enabled": false
+                        "label": "&&Back"
                     },
                     {
                         "id": "workbench.action.navigateForward",
@@ -1199,10 +1220,6 @@
                 "label": "Ctrl+S",
                 "userSettingsLabel": "ctrl+s"
             },
-            "workbench.action.files.saveAs": {
-                "label": "Ctrl+Shift+S",
-                "userSettingsLabel": "ctrl+shift+s"
-            },
             "workbench.action.openSettings": {
                 "label": "Ctrl+,",
                 "userSettingsLabel": "ctrl+,"
@@ -1351,6 +1368,10 @@
                 "label": "Ctrl+B",
                 "userSettingsLabel": "ctrl+b"
             },
+            "workbench.action.toggleAuxiliaryBar": {
+                "label": "Ctrl+Alt+B",
+                "userSettingsLabel": "ctrl+alt+b"
+            },
             "workbench.action.togglePanel": {
                 "label": "Ctrl+J",
                 "userSettingsLabel": "ctrl+j"
@@ -1368,6 +1389,16 @@
                 "isNative": false,
                 "userSettingsLabel": "ctrl+numpad0"
             },
+            "workbench.action.splitEditorUp": {
+                "label": "Ctrl+K Ctrl+\\",
+                "isNative": false,
+                "userSettingsLabel": "ctrl+k ctrl+\\"
+            },
+            "workbench.action.splitEditorInGroup": {
+                "label": "Ctrl+K Ctrl+Shift+\\",
+                "isNative": false,
+                "userSettingsLabel": "ctrl+k ctrl+shift+\\"
+            },
             "workbench.action.toggleEditorGroupLayout": {
                 "label": "Shift+Alt+0",
                 "userSettingsLabel": "shift+alt+0"
@@ -1381,8 +1412,9 @@
                 "userSettingsLabel": "ctrl+shift+f"
             },
             "workbench.view.scm": {
-                "label": "Ctrl+Shift+G",
-                "userSettingsLabel": "ctrl+shift+g"
+                "label": "Ctrl+Shift+G G",
+                "isNative": false,
+                "userSettingsLabel": "ctrl+shift+g g"
             },
             "workbench.view.debug": {
                 "label": "Ctrl+Shift+D",
@@ -1485,10 +1517,6 @@
                 "label": "Ctrl+T",
                 "userSettingsLabel": "ctrl+t"
             },
-            "workbench.action.gotoSymbol": {
-                "label": "Ctrl+Shift+O",
-                "userSettingsLabel": "ctrl+shift+o"
-            },
             "editor.action.revealDefinition": {
                 "label": "F12",
                 "userSettingsLabel": "f12"
@@ -1577,10 +1605,6 @@
                 "label": "Ctrl+K Ctrl+R",
                 "isNative": false,
                 "userSettingsLabel": "ctrl+k ctrl+r"
-            },
-            "workbench.action.toggleDevTools": {
-                "label": "Ctrl+Shift+I",
-                "userSettingsLabel": "ctrl+shift+i"
             }
         }
     },
@@ -1616,7 +1640,7 @@
             "uiState": {
                 "mode": 1,
                 "x": 367,
-                "y": 78,
+                "y": 115,
                 "width": 1024,
                 "height": 768
             }

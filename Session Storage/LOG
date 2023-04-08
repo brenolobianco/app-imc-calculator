@@ -1,2 +1,3 @@
-2023/02/27-16:15:52.697 19a0 Creating DB /var/www/html/Session Storage since it was missing.
-2023/02/27-16:15:52.973 19a0 Reusing MANIFEST /var/www/html/Session Storage/MANIFEST-000001
+2023/04/08-15:16:46.448 1d275 Reusing MANIFEST /var/www/html/Session Storage/MANIFEST-000001
+2023/04/08-15:16:46.448 1d275 Recovering log #3
+2023/04/08-15:16:46.448 1d275 Reusing old log /var/www/html/Session Storage/000003.log 

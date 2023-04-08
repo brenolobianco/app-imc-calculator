@@ -41,21 +41,14 @@ function carregarQuiz($conexao)
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-<<<<<<< HEAD
                                 <?php include_once 'controllers/professor/ControllerDelete.php';?>
-=======
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                             </div>
                             <div class="col-12">
                                 <a href="home.php?acao=novo-quiz" class="btn btn-primary">Novo Quiz</a>
                             </div>
                             <br /><br />
                             <div class="col-12">
-<<<<<<< HEAD
                                 <?php include_once 'controllers/professor/ControllerDelete.php';?>
-=======
-                                <?php include_once 'controllers/quiz/ControllerQuizDelete.php';?>
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                             </div>
                             <br /><br />
                             <div class="col-12">
@@ -67,12 +60,7 @@ function carregarQuiz($conexao)
                                         <tr>
                                             <th>Aula</th>
                                             <th>Modulo</th>
-<<<<<<< HEAD
                                             <th>Descrição</th>
-=======
-                                            <th>Hospital</th>
-                                            <th>Pergunta</th>
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                                             <th>Detalhes</th>
                                         </tr>
                                         </thead>

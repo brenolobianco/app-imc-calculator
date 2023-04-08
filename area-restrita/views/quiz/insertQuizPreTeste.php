@@ -153,19 +153,11 @@
                                     <label for="resposta">Alternativa correta: </label>
                                     <select class="form-control" name="alternativa_correta" required>
                                         <option value="">SELECIONE: </option>
-<<<<<<< HEAD
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="C">C</option>
                                         <option value="D">D</option>
                                         <option value="E">E</option>
-=======
-                                        <option value="A" <?php if($alternativa_correta == "A") { echo "selected"; } ?>>A</option>
-                                        <option value="B" <?php if($alternativa_correta == "B") { echo "selected"; } ?> >B</option>
-                                        <option value="C" <?php if($alternativa_correta == "C") { echo "selected"; } ?>>C</option>
-                                        <option value="D" <?php if($alternativa_correta == "D") { echo "selected"; } ?>>D</option>
-                                        <option value="E" <?php if($alternativa_correta == "E") { echo "selected"; } ?>>E</option>
->>>>>>> dbb2c73f370ca8a6d55f2c45adc576d179ae3650
                                     </select>
                                 </div>
 
