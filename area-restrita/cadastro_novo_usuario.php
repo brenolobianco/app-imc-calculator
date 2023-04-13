@@ -277,7 +277,7 @@ if (!empty($dados['cadastrar'])) {
         $sql->bindParam(':checkCadastroUsuario', $dados['checkCadastroUsuario'], PDO::PARAM_INT);
 
         $sql->execute();
-        print_r($sql->errorInfo());
+        //print_r($sql->errorInfo());
         
         $obr = $soVariavelMesmo; // pra caso o usuario não marque o checkbox ocorra um erro
         
