@@ -73,3 +73,31 @@ try {
 }
 
 
+function getIdByCPF($conexao, $cpf) {
+    $selecionaLogado = "SELECT * from academico WHERE cpf_acad=:cpfLog";
+
+    try {
+        $result = $conexao->prepare($selecionaLogado);
+        $result->bindParam('cpfLog', $cpf, PDO::PARAM_STR);
+        $result->execute();
+        $contar = $result->rowCount();
+
+        if ($contar = 1) {
+            $loop = $result->fetchAll();
+            foreach ($loop as $show) {
+                return $show['id_acad'];
+            }
+        }
+    } catch (PDOException $erro) {
+        echo $erro;
+    }
+}
+
+function getAcademicoEst($conexao, $id) {
+    $select = 'SELECT est_id_mat FROM matricula WHERE acad_id_mat = :acad_id_mat';
+    $result = $conexao->prepare($select);
+    $result->bindParam(':acad_id_mat', $id, PDO::PARAM_INT);
+    $result ->execute();
+
+    return $result->FETCH()['est_id_mat'];
+} 
