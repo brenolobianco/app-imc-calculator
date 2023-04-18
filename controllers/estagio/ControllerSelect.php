@@ -37,5 +37,6 @@ if(!isset($_GET['id_est'])){ header("Location: home.php?acao=pagina-nao-existe")
         }
     }catch(PDOException $e){
         echo $e;
-    }
+  }
+
 ?>

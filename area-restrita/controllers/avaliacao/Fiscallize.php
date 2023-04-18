@@ -462,6 +462,16 @@ class Fiscallize extends FiscallizeSQL implements FiscallizeInterface {
         return $nota;
     }
 
+    public function temNota($idAvaliacao) {
+        $resultados = $this->resultados();
+        $temNota = false;
+        foreach($resultados as $resultado) {
+            if($resultado->exam_id == $idAvaliacao) {
+                $temNota = true;
+            }
+        }
+        return $temNota;
+    }
 
     public function aplicacoes() {
         /**

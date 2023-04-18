@@ -1,0 +1,38 @@
+2023-04-12 22:16:20.332 [info] [SharedProcess] using utility process
+2023-04-12 22:16:20.335 [info] update#setState idle
+2023-04-12 22:16:21.567 [info] [UtilityProcess id: 1, type: extensionHost, pid: <none>]: creating new...
+2023-04-12 22:16:21.575 [info] [UtilityProcess id: 1, type: extensionHost, pid: 250187]: successfully created
+2023-04-12 22:16:23.431 [info] [UtilityProcess type: shared-process, pid: <none>]: creating new...
+2023-04-12 22:16:23.440 [info] [UtilityProcess type: shared-process, pid: 250204]: successfully created
+2023-04-12 22:16:23.444 [info] [UtilityProcess id: 1, type: fileWatcher, pid: <none>]: creating new...
+2023-04-12 22:16:23.449 [info] [UtilityProcess id: 1, type: fileWatcher, pid: 250205]: successfully created
+2023-04-12 22:16:50.338 [info] update#setState checking for updates
+2023-04-12 22:16:50.344 [info] update#setState idle
+2023-04-12 22:16:53.741 [info] [UtilityProcess id: 2, type: extensionHost, pid: <none>]: creating new...
+2023-04-12 22:16:53.747 [info] [UtilityProcess id: 2, type: extensionHost, pid: 250405]: successfully created
+2023-04-12 22:16:55.610 [info] [UtilityProcess id: 2, type: fileWatcher, pid: <none>]: creating new...
+2023-04-12 22:16:55.621 [info] [UtilityProcess id: 2, type: fileWatcher, pid: 250422]: successfully created
+2023-04-12 22:17:23.561 [info] [UtilityProcess id: 3, type: extensionHost, pid: <none>]: creating new...
+2023-04-12 22:17:23.567 [info] [UtilityProcess id: 3, type: extensionHost, pid: 250594]: successfully created
+2023-04-12 22:17:25.445 [info] [UtilityProcess id: 3, type: fileWatcher, pid: <none>]: creating new...
+2023-04-12 22:17:25.457 [info] [UtilityProcess id: 3, type: fileWatcher, pid: 250610]: successfully created
+2023-04-12 22:18:20.160 [info] [UtilityProcess id: 2, type: fileWatcher, pid: 250422]: attempting to kill the process...
+2023-04-12 22:18:20.160 [info] [UtilityProcess id: 2, type: fileWatcher, pid: 250422]: successfully killed the process
+2023-04-12 22:18:20.167 [info] [UtilityProcess id: 2, type: fileWatcher, pid: 250422]: received exit event with code 15
+2023-04-12 22:18:20.168 [error] [UtilityProcessWorker]: terminated unexpectedly with code 15, signal: unknown
+2023-04-12 22:18:20.168 [error] [UtilityProcess id: 2, type: fileWatcher, pid: 250422]: crashed with code 15 and reason 'killed'
+2023-04-12 22:18:20.179 [info] [UtilityProcess id: 2, type: extensionHost, pid: 250405]: received exit event with code 0
+2023-04-12 22:18:20.179 [info] Extension host with pid 250405 exited with code: 0, signal: unknown.
+2023-04-12 22:18:23.224 [info] [UtilityProcess id: 3, type: fileWatcher, pid: 250610]: attempting to kill the process...
+2023-04-12 22:18:23.224 [info] [UtilityProcess id: 3, type: fileWatcher, pid: 250610]: successfully killed the process
+2023-04-12 22:18:23.229 [info] [UtilityProcess id: 3, type: fileWatcher, pid: 250610]: received exit event with code 15
+2023-04-12 22:18:23.229 [error] [UtilityProcessWorker]: terminated unexpectedly with code 15, signal: unknown
+2023-04-12 22:18:23.229 [error] [UtilityProcess id: 3, type: fileWatcher, pid: 250610]: crashed with code 15 and reason 'killed'
+2023-04-12 22:18:23.241 [info] [UtilityProcess id: 3, type: extensionHost, pid: 250594]: received exit event with code 0
+2023-04-12 22:18:23.241 [info] Extension host with pid 250594 exited with code: 0, signal: unknown.
+2023-04-12 22:18:25.502 [info] [UtilityProcess id: 1, type: extensionHost, pid: 250187]: waiting to exit...
+2023-04-12 22:18:25.503 [info] [UtilityProcess id: 1, type: fileWatcher, pid: 250205]: attempting to kill the process...
+2023-04-12 22:18:25.504 [info] [UtilityProcess id: 1, type: fileWatcher, pid: 250205]: successfully killed the process
+2023-04-12 22:18:25.511 [info] [UtilityProcess id: 1, type: fileWatcher, pid: 250205]: received exit event with code 0
+2023-04-12 22:18:25.530 [info] [UtilityProcess id: 1, type: extensionHost, pid: 250187]: received exit event with code 0
+2023-04-12 22:18:25.530 [info] Extension host with pid 250187 exited with code: 0, signal: unknown.

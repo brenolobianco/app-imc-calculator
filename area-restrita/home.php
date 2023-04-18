@@ -127,6 +127,9 @@ include ("header.php");
 		if($acao=='novo-professor'){include("views/professor/insert.php");}	
 		if($acao=='editar-professor'){include("views/professor/update.php");}
 		
+		if($acao == 'area-gestor-notificacao'){
+			include("views/AreaGestorNotificacao.php");
+		}
 		
 	}else{
 		include("views/painel.php");
