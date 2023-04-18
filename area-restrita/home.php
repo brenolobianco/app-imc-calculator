@@ -127,19 +127,12 @@ include ("header.php");
 		if($acao=='novo-professor'){include("views/professor/insert.php");}	
 		if($acao=='editar-professor'){include("views/professor/update.php");}
 		
-<<<<<<< HEAD
-		if($acao == 'area-gestor-notificacao'){
-			include("views/AreaGestorNotificacao.php");
-		}
-		
-=======
 		if($acao=='usuario'){
 			include ("views/usuario/index.php");
 		}
 		if($acao=='area-gestor'){
 			include("views/areaGestor/AreaGestorNotificacao.php");
 		}
->>>>>>> 13c30e2 (Melhorias area gestor e notificacao)
 	}else{
 		include("views/painel.php");
 	}

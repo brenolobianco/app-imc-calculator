@@ -212,9 +212,6 @@ if (!empty($dados['cadastrar'])) {
             header('Location: AreaGestorNotificacao.php');
 
 
-<<<<<<< HEAD
-   
-=======
 
     try {
         # 36 - 1 = 35
@@ -302,7 +299,6 @@ if (!empty($dados['cadastrar'])) {
         echo "line: " . $e->getLine() . "\n";
     };
     
->>>>>>> fffd184 (alteração)
 } else {
     //Criar a variavel global para salvar a mensagem de erro
     $_SESSION['msg'] = "<p style='color: #f00;'>Erro: Usuário não cadastrado com sucesso!</p>";
