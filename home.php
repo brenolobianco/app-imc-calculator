@@ -46,6 +46,7 @@ include ("includes/header.php");
 		if($acao=='confirmar-senha'){include("views/perfil/menu/confirmar-senha.php");}
 
 		if($acao=='hospital'){include("views/hospital/select.php");}	
+		if($acao=='usuario'){include("views/usuario/index.php");}
 		if($acao=='area-da-prova'){include("views/areaProva/select.php");}
 		
 		if($acao=='prova'){include("views/areaProva/prova.php");}

@@ -173,7 +173,6 @@ include_once "models/conexao.php";
 
 //Receber os dados do formulario
 $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
 //var_dump($dados);
 
 if (!empty($dados['cadastrar'])) {
@@ -213,7 +212,93 @@ if (!empty($dados['cadastrar'])) {
             header('Location: AreaGestorNotificacao.php');
 
 
-   
+
+    try {
+        # 36 - 1 = 35
+        $sql = "INSERT INTO permissao_setor (
+            setor_id,dashboard,conteudo,ranking,academico,medico,professor,hospital,curso,aula,area_gestor,id_login,
+            Academicos_Cadastrados,Academicos_Matriculados,Academicos_Lista_Aprovados,Academicos_Cracha,Medicos_Cadastrados,
+            Professores_Novo_Professor, `Professores_Prof's_Cadastrados`, Hospitais_Hospitas,Hospitais_Estagios,Hospitais_Editais, 
+            Cursos_Cursos,Cursos_Módulos,Cursos_Quiz,Cursos_Quiz_Pre_Teste,Cursos_Aula,Aulas_Aulas,Aulas_Video_Aula,Aulas_PDF_Aula,
+            Area_Gestor_Permutas,Area_Gestor_Notificacao,Area_Gestor_Comportamento,Area_Gestor_Desempenho,Area_Gestor_Frequencia,
+            Usuario_Cadastro_Permissao)
+            VALUES (NULL, :checkDashboard, :checkConteudo,:checkRanking,:checkAcademico, :checkMedico,:checkProfessor,:checkHospital,
+            :checkCursos,:checkAula,:checkGestor, :id_login, :checkAcademicoCadastrado, :checkAcademicoMatriculado, :checkAcademicoListaAprovado,
+            :checkAcademicoCracha, :checkMedicoCadastrado, :checkProfessorNovoProfessor, :checkProfessorProfsCadastrado, :checkHospitalHospital,
+            :checkHospitalEstagio, :checkHospitalEdital, :checkCursoCurso, :checkCursoModulo, :checkCursoQuiz,:checkCursoQuizPreTeste,
+            :checkCursoAula, :checkAulaAula, :checkVideoAula, :checkPdfAula, :checkAreaGestorPermuta,:checkAreaGestorNotificacao,
+            :checkAreaGestorComportamento, :checkAreaGestorDesempenho, :checkAreaGestorFrequencia, :checkCadastroUsuario)";
+
+
+        $sql = $conn->prepare($sql);
+
+        //  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in
+        //  Quantidade de parametros invalido, numbero de parametros não igual ao numero de tokens do insert
+        
+        // aqui tem 34
+        print_r($dados);
+        $sql->bindParam(':checkDashboard', $dados['checkDashboard'], PDO::PARAM_INT);
+        $sql->bindParam(':checkConteudo', $dados['checkConteudo'], PDO::PARAM_INT);
+        $sql->bindParam(':checkRanking', $dados['checkRanking'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAcademico', $dados['checkAcademico'], PDO::PARAM_INT);
+        $sql->bindParam(':checkMedico', $dados['checkMedico'], PDO::PARAM_INT);
+        $sql->bindParam(':checkProfessor', $dados['checkProfessor'], PDO::PARAM_INT);
+        $sql->bindParam(':checkHospital', $dados['checkHospital'], PDO::PARAM_INT);    
+        $sql->bindParam(':checkCursos', $dados['checkCursos'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAula', $dados['checkAula'], PDO::PARAM_INT);
+        $sql->bindParam(':checkGestor', $dados['checkGestor'], PDO::PARAM_INT);
+        $sql->bindParam(':id_login', $id_login, PDO::PARAM_INT);
+        $sql->bindParam(':checkAcademicoCadastrado', $dados['checkAcademicoCadastrado'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAcademicoMatriculado', $dados['checkAcademicoMatriculado'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAcademicoListaAprovado', $dados['checkAcademicoListaAprovado'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAcademicoCracha', $dados['checkAcademicoCracha'], PDO::PARAM_INT);
+        $sql->bindParam(':checkMedicoCadastrado', $dados['checkMedicoCadastrado'], PDO::PARAM_INT);
+        $sql->bindParam(':checkProfessorNovoProfessor', $dados['checkProfessorNovoProfessor'], PDO::PARAM_INT);
+        $sql->bindParam(':checkProfessorProfsCadastrado', $dados['checkProfessorProfsCadastrado'], PDO::PARAM_INT);
+        $sql->bindParam(':checkHospitalHospital', $dados['checkHospitalHospital'], PDO::PARAM_INT);
+        $sql->bindParam(':checkHospitalEstagio', $dados['checkHospitalEstagio'], PDO::PARAM_INT);
+        $sql->bindParam(':checkHospitalEdital', $dados['checkHospitalEdital'], PDO::PARAM_INT);
+        $sql->bindParam(':checkCursoCurso', $dados['checkCursoCurso'], PDO::PARAM_INT);
+        $sql->bindParam(':checkCursoModulo', $dados['checkCursoModulo'], PDO::PARAM_INT);
+        $sql->bindParam(':checkCursoQuiz', $dados['checkCursoQuiz'], PDO::PARAM_INT);
+        $sql->bindParam(':checkCursoQuizPreTeste', $dados['checkCursoQuizPreTeste'], PDO::PARAM_INT);
+        $sql->bindParam(':checkCursoAula', $dados['checkCursoAula'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAulaAula', $dados['checkAulaAula'], PDO::PARAM_INT);
+        $sql->bindParam(':checkVideoAula', $dados['checkVideoAula'], PDO::PARAM_INT);
+        $sql->bindParam(':checkPdfAula', $dados['checkPdfAula'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAreaGestorPermuta', $dados['checkAreaGestorPermuta'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAreaGestorNotificacao', $dados['checkAreaGestorNotificacao'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAreaGestorComportamento', $dados['checkAreaGestorComportamento'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAreaGestorDesempenho', $dados['checkAreaGestorDesempenho'], PDO::PARAM_INT);
+        $sql->bindParam(':checkAreaGestorFrequencia', $dados['checkAreaGestorFrequencia'], PDO::PARAM_INT);
+        $sql->bindParam(':checkCadastroUsuario', $dados['checkCadastroUsuario'], PDO::PARAM_INT);
+
+        $sql->execute();
+        //print_r($sql->errorInfo());
+        
+        $obr = $soVariavelMesmo; // pra caso o usuario não marque o checkbox ocorra um erro
+        
+        // esse aqui é mais indicado
+        // Pra caso ele não tenha passado marque como `false`, se o usuario não marcou é porque não quer.
+        $nObg = isset($dados['paramentro']) ? $dados['paramentro']: 0; // caso o valor não seja obrigatorio
+
+        // se eu fosse tu jogava no ChatGPT pra fazer esse serviço mais manual mesmo. Pra serviço manual ele é até bom.
+        // Enfim.
+        
+        /**
+         * A tela de area do gestor tu acha que tá pronta quando ?
+         * vou cuidar dessa logica primeira e mais dificil.
+         * Verdade!
+         * 
+         * Vlw, qualquer coisa estou diponível, blz ?valeu obrigado
+         * Eu que agradeço, showw!
+         */
+        header('Location: AreaGestorNotificacao.php');
+    } catch (Exception $e) {
+        echo "error: " . $e->getMessage() . "\n";
+        echo "line: " . $e->getLine() . "\n";
+    };
+    
 } else {
     //Criar a variavel global para salvar a mensagem de erro
     $_SESSION['msg'] = "<p style='color: #f00;'>Erro: Usuário não cadastrado com sucesso!</p>";
