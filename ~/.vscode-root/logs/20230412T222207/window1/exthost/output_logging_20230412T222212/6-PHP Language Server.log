@@ -1,6 +1,0 @@
-
-PHP Tools server started.
-    PID: 252399
-    Processing files: *.php; *.phtml
-
-> Parsing Phar file '/var/www/html/payment/mercadopago/vendor/mercadopago/dx-php/phpunit.phar' ...
