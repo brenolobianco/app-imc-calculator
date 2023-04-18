@@ -1,4 +1,0 @@
-quiz_treinamento_pre_teste_novo -> cada acesso gerara isso, caso não estaja criado
-
-
-SELECT DISTINCT treinamento_pre_teste.id_pre_teste, treinamento_pre_teste.id_vid_aula FROM treinamento_pre_teste INNER JOIN quiz_treinamento_pre_teste_tentivas ON quiz_treinamento_pre_teste_tentivas.resposta = treinamento_pre_teste.alternativa_correta WHERE quiz_treinamento_pre_teste_tentivas.id_usuario = 22 ORDER BY treinamento_pre_teste.id_pre_teste;
