@@ -1,4 +1,0 @@
-2023-04-12 22:16:21.903 [info] Extension host with pid 250187 started
-2023-04-12 22:16:21.903 [info] Skipping acquiring lock for /var/www/html/~/.vscode-root/User/workspaceStorage/93b6500805e60b04343e09e1c37ab7f2.
-2023-04-12 22:18:25.524 [info] Extension host terminating: renderer closed the MessagePort
-2023-04-12 22:18:25.527 [info] Extension host with pid 250187 exiting with code 0

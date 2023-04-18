@@ -1,6 +1,0 @@
-2023-04-12 22:22:52.101 [info] [SharedProcess] using utility process
-2023-04-12 22:22:52.105 [info] update#setState idle
-2023-04-12 22:22:52.360 [error] [storage state.vscdb] exec(): Error: SQLITE_READONLY: attempt to write a readonly database
-2023-04-12 22:22:52.361 [error] [storage state.vscdb] open(): Unable to open DB due to Error: SQLITE_READONLY: attempt to write a readonly database
-2023-04-12 22:22:52.361 [error] [storage state.vscdb] open(): Unable to use backup due to Error: EACCES: permission denied, unlink '/var/www/html/~/.vscode-root/User/workspaceStorage/93b6500805e60b04343e09e1c37ab7f2/state.vscdb'
-2023-04-12 22:22:54.274 [error] Error: EACCES: permission denied, unlink '/var/www/html/~/.vscode-root/User/workspaceStorage/93b6500805e60b04343e09e1c37ab7f2/state.vscdb'
