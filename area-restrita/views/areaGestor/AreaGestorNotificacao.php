@@ -15,6 +15,47 @@
     <app-root></app-root>
     */ ?>
 
+<style>
+    .roboto {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        font-size: 1.2rem;
+        color: black;
+    }
+
+.selecionar-tipo-visualizacoes {
+  display: inline-block;
+  position: relative;
+}
+
+.selecionar-tipo-visualizacoes figcaption {
+  position: absolute;
+  top: 150px;
+  right: 30px;
+  font-size: 30px;
+  color: black;
+  text-shadow: 0px 0px 2px black;
+}
+
+.img-selecionar-tipo-dado {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    opacity: 1;
+}
+
+button.btn-basic {
+    background-color: #fff;
+    color: black;
+    width: 50%;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+</style>
+
 <div class="content-page">
     <div class="content">
         <div class="container-fluid">
@@ -27,8 +68,8 @@
                     <button type="button" class="btn btn btn-lg text-light" style="background: #00063f; border-radius: 20px;">
                         <a class="btn btn me-2" href="area-restrita/AreaGestorComportamento.php" target="_blank">COMPORTAMENTO</a></button><br><br>
 
-                    <button type="button" class="btn btn btn-lg text-light" style="background: #00063f; border-radius: 20px;">
-                        <a class="btn btn" href="area-restrita/AreaGestorDesempenho.php" target="_blank">DESEMPENHO</a>
+                    <button type="button" class="btn btn btn-lg text-light desempenho" style="background: #00063f; border-radius: 20px;">
+                        <a class="btn btn">DESEMPENHO</a>
                     </button><br><br>
 
                     <button type="button" class="btn btn btn-lg text-light" style="background: #00063f; border-radius: 20px;">
@@ -41,7 +82,32 @@
                 </div>
 
                 <div class="col-md-9 md-5" style="background-color:#00063f; border-radius: 20px;">
-                    <button type="button" class="btn btn btn-lg mt-2" style="color:#73c054;">NOTIFICAÇÃO</button><br><br>
+                    <button type="button" class="btn btn btn-lg titulo" style="color:#73c054;">NOTIFICAÇÃO</button><br><br>
+                    <div class="col-md-9 md-5 selecionar-tipo-visualizacoes" style="display: none;">
+                        <select class="btn btn btn-lg selecionar-tipo-visualizacoes">
+                            <option value="hospital">Selecione o hospital</option>
+                            <option value="hospital">Todos</option>
+                            <?php
+                                $select = "SELECT * FROM hospital";  
+                                try{
+                                    $result = $conexao->prepare($select);
+                                    $result ->execute();
+                                    $contar = $result->rowCount();
+
+                                    if($contar>0){
+                                    while($mostra = $result->FETCH(PDO::FETCH_OBJ)){
+                                    ?>
+                                       <option value="hospital"><?= $mostra->nome_hosp ?></option>
+                                    <?php
+                                    }
+                                    }
+                                }
+                                catch(PDOException $e){
+                                    echo "<b>ERRO DE PDO= </b>".$e->getMessage();
+                                }
+                                ?>
+                        </select>
+                    </div>
                     <div class="container">
 
                         <div class="row justify-content-end">
@@ -71,8 +137,8 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <div class="card-box">
+                        <div class="col-12" >
+                            <div class="card-box" id="usuariosCadastrados">
                                 <h4 class="mt-0 header-title">Usuários Cadastrados</h4>
                                 <hr />
                                 <table id="datatable" class="table table-bordered dt-responsive nowrap">
@@ -92,8 +158,55 @@
 
                                 </table>
                             </div>
+
+                            <div class="p-5 selecionar-tipo-visualizacoes" style="display: none;" >
+                                <div class="row col-md-12 justify-content-center align-items-center">
+                                    <div class="btn-img justify-content-center align-items-center mr-2" style="cursor: pointer; border-radius: 5px 5px 5px;">
+                                        <div class="img" onclick="nextContent({name: 'selecionar-tipo-visualizacoes', type:'class'}, {name:'selecionar-categoria-cadastro', type:'class'})" style="max-width: 200px; max-height: 200px;">
+                                            <div class="btn-titulo text-center mt-2">
+                                            <figure class="selecionar-tipo-visualizacoes" style="max-width: 200px; max-height: 200px;">
+                                                <img src="/assets/images/estagio-518x518.jpg" class="img-selecionar-tipo-dado" style="max-width: 256; max-height: 200px;"/>  
+                                                <figcaption>Coletivo  </figcaption>
+                                            </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-img justify-content-center align-items-center mr-2" style="cursor: pointer; border-radius: 5px 5px 5px;">
+                                        <div class="img" style="max-width: 200px; max-height: 200px;">
+                                            <div class="btn-titulo text-center mt-2">
+                                            <figure class="selecionar-tipo-visualizacoes" style="max-width: 200px; max-height: 200px;">
+                                                <img src="/assets/images/estagio-518x518.jpg" class="img-selecionar-tipo-dado" style="max-width: 256; max-height: 200px;"/>  
+                                                <figcaption>Individual</figcaption>
+                                            </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="p-5 selecionar-categoria-cadastro" style="display: none;" >
+                                <div class="text-center col-md-12 justify-content-center align-items-center">
+                                    <div class="buttons">
+                                        <div class="button mb-2">
+                                            <button class="btn-basic">
+                                                TODOS
+                                            </button>
+                                        </div>
+
+                                        <div class="button mt-1">
+                                            <button class="btn-basic">
+                                                ACADÊMICOS
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
 
                     
                 </div>
@@ -126,92 +239,61 @@
 
 <!-- App js -->
 <script src="assets/js/app.min.js"></script>
-<?php /*      
-    </body>
-</html>
-    <div class="container">
-        <div class="row position-static0 ">
-            <div class="col-md-3 bg-secondary mt-5 position-static" class="position-absolute h-100">
-            <button type="button" class="btn btn btn-lg mt-2" style="color:#73c054;">setor logado x</button><br><br>
-                <br><br><br>
-                <button type="button" class="btn btn btn-lg text-light" style="background: #00063f;">
-                    <a class="btn btn" href="area-restrita/AreaGestorNotificacao.php" target="_blank" role="button">
-                       NOTIFICAÇÃO              
-                     
-                    </a> 
-                </button><br><br>
+<script>
 
-                <button type="button" class="btn btn btn-lg text-light" style="background: #00063f;">
-                    <a class="btn btn" href="area-restrita/AreaGestorComportamento.php" target="_blank">
-                        COMPORTAMENTO
+    let btnDesempenho = document.querySelector('.btn.desempenho');
+    let titulo = document.querySelector('.titulo');
 
-                    </a></button><br><br>
+    function initDesepeneho() {
+        hideContent('selecionar-tipo-visualizacoes', 'class');
+        hideContent('selecionar-categoria-cadastro', 'class');
+    }
 
-                <button type="button" class="btn btn btn-lg text-light" style="background: #00063f;">
-                    <a class="btn btn" href="area-restrita/AreaGestorDesempenho.php" target="_blank">
-                        DESEMPENHO
-                    </a>
-                </button><br><br>
+    btnDesempenho.addEventListener('click', function() {
+        initDesepeneho();
 
-                <button type="button" class="btn btn btn-lg text-light" style="background: #00063f;">
-                    <a class="btn btn" href="area-restrita/AreaGestorFrequencia.php" target="_blank">
-                        FREQUÊNCIA
-                    </a>
-                </button><br><br>
+        nextContent({name: 'usuariosCadastrados', type: "id"}, {name: 'selecionar-tipo-visualizacoes', type: "class"});
+        
+        titulo.innerHTML = 'DESEMPENHO';
+    });
 
-                <button type="button" class="btn btn btn-lg text-light" style="background: #00063f;">
-                    <a class="btn btn" href="area-restrita/AreaGestorPermutas.php" target="_blank">
-                        PERMUTA
-                    </a>
-                </button><br><br>
-            </div>
-            <div class="col-8 mt-2" style="background-color:#00063f;">
-                <button type="button" class="btn btn btn-lg mt-2" style="color:#73c054;">NOTIFICAÇÃO</button><br><br>
-                <div class="container">
+    function nextContent(from, to) {
+        hideContent(from.name, from.type);
+        showContent(to.name, to.type);
+    }
+    
+    function showContent(id, type='id') {
+        if(type == 'class') {
+            var element = document.getElementsByClassName(id);
+            for(var i = 0; i < element.length; i++) {
+                element[i].style.display = 'block';
+            }
+        } else {
+            var element = document.getElementById(id);
+            element.style.display = 'block';
+        }
+    }
 
-                    <div class="row">
+    function hideContent(id, type='id') {
+        if(type == 'class') {
+            var element = document.getElementsByClassName(id);
+            for(var i = 0; i < element.length; i++) {
+                element[i].style.display = 'none';
+            }
+        } else {
+            var element = document.getElementById(id);
+            element.style.display = 'none';
+        }
+    }
 
-                        <div class="col-5 justify-content-end">
-
-                            <div class="col-mb-5 ">
-
-                                <label class="sr-only " for="inlineFormInputGroup">Pesquisar</label>
-                                <div class="input-group mb-2">
-                                <input type="text" class="form-control " id="inlineFormInputGroup" placeholder="Pesquisar">
-                                    <div class="input-group-prepend ">
-                                        <div class="input-group-text">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
-                                            class="bi bi-search" viewBox="0 0 16 16">
-                                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1
-                                                 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                            </svg>
-                                            </i>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-3 mt-5">
-
-            </div>
-        </div>
-    </div>
-<?php /* 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-*/
-?>
+    function backContent(from, to) {
+        var to = document.getElementById(to);
+        var from = document.getElementById(from);
+        to.style.display = 'block';
+        from.style.display = 'none';
+    }
+    
+</script>
 </body>
 
 </html>

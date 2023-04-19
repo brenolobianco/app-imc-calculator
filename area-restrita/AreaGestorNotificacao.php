@@ -64,7 +64,7 @@
                     <a class="btn btn" href="AreaGestorComportamento.php" target="_blank">COMPORTAMENTO</a></button><br><br>
 
                 <button type="button" class="btn btn btn-lg text-light" style="background: #00063f;">
-                    <a class="btn btn" href="AreaGestorDesempenho.php" target="_blank">DESEMPENHO</a>
+                    <a class="btn btn" href="#desempenho" target="_blank">DESEMPENHO</a>
                 </button><br><br>
 
                 <button type="button" class="btn btn btn-lg text-light" style="background: #00063f;">
