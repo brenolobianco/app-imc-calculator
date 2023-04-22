@@ -1,4 +1,5 @@
 <?php
+
 include_once '../../models/conexao.php';
 // VARIAVEL COM OS TEXTOS DE PERMISSAO DE ACESSO AS FUNCIONALIDADES
 $PERMISSOES = array(0 => 'Não permitido', 1 => 'Permitido');

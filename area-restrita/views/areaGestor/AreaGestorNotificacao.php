@@ -56,6 +56,12 @@ button.btn-basic {
 }
 </style>
 
+
+<?php
+    include_once 'area-restrita/controllers/areaGestor/dados/ControllerDados.php';
+    include_once 'area-restrita/controllers/areaGestor/dados/Dados.php';
+?>
+
 <div class="content-page">
     <div class="content">
         <div class="container-fluid">
@@ -84,9 +90,9 @@ button.btn-basic {
                 <div class="col-md-9 md-5" style="background-color:#00063f; border-radius: 20px;">
                     <button type="button" class="btn btn btn-lg titulo" style="color:#73c054;">NOTIFICAÇÃO</button><br><br>
                     <div class="col-md-9 md-5 selecionar-tipo-visualizacoes" style="display: none;">
-                        <select class="btn btn btn-lg selecionar-tipo-visualizacoes">
-                            <option value="hospital">Selecione o hospital</option>
-                            <option value="hospital">Todos</option>
+                        <select class="btn btn btn-lg selecionar-tipo-visualizacoes selecionar-hospital">
+                            <option value="">Selecione o hospital</option>
+                            <option value="">Todos</option>
                             <?php
                                 $select = "SELECT * FROM hospital";  
                                 try{
@@ -97,7 +103,7 @@ button.btn-basic {
                                     if($contar>0){
                                     while($mostra = $result->FETCH(PDO::FETCH_OBJ)){
                                     ?>
-                                       <option value="hospital"><?= $mostra->nome_hosp ?></option>
+                                       <option value="<?= $mostra->id_hosp ?>"><?= $mostra->nome_hosp ?></option>
                                     <?php
                                     }
                                     }
@@ -173,7 +179,7 @@ button.btn-basic {
                                     </div>
 
                                     <div class="btn-img justify-content-center align-items-center mr-2" style="cursor: pointer; border-radius: 5px 5px 5px;">
-                                        <div class="img" style="max-width: 200px; max-height: 200px;">
+                                        <div class="img" style="max-width: 200px; max-height: 200px;" onclick="nextContent({name: 'selecionar-tipo-visualizacoes', type:'class'}, {name:'selecionar-usuario-individual', type:'class'})">
                                             <div class="btn-titulo text-center mt-2">
                                             <figure class="selecionar-tipo-visualizacoes" style="max-width: 200px; max-height: 200px;">
                                                 <img src="/assets/images/estagio-518x518.jpg" class="img-selecionar-tipo-dado" style="max-width: 256; max-height: 200px;"/>  
@@ -185,7 +191,7 @@ button.btn-basic {
                                 </div>
                             </div>
 
-
+                            <!--- Selecionar categoria do cadastrados -->
                             <div class="p-5 selecionar-categoria-cadastro" style="display: none;" >
                                 <div class="text-center col-md-12 justify-content-center align-items-center">
                                     <div class="buttons">
@@ -203,7 +209,57 @@ button.btn-basic {
                                     </div>
                                 </div>
                             </div>
+                            <!--- Selecionar categoria do cadastrados -->
+                            <div class="mt-3 selecionar-usuario-individual col-md-12 col-md-12" style="display: none;">
+                                <div class="card-box col-md-12 w-100">
+                                    <h4 class="mt-0 header-title">Desempenho</h4>
+                                    <hr />
+                                    <table class="table table-bordered dt-responsive nowrap datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Usuário</th>
+                                                <th>Função</th>
+                                                <th>Ranking geral(avaliações)</th>
+                                                <th style="text-align: right;">Análise de desempenho</th>
+                                            </tr>
+                                        </thead>
 
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td>Mateus</td>
+                                                <td>Acadêmico</td>
+                                                <td>1º</td>
+                                                <td style="text-align: center;">
+                                                    <button onclick="nextContent({name: 'selecionar-usuario-individual', type: 'class'}, {name: 'dados-usuario-individual', type: 'class'})" class="btn btn-primary btn-sm" style="border-radius: 5px 5px 5px;">
+                                                        <i class="mdi mdi-eye"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>João da Silva</td>
+                                                <td>Acadêmico</td>
+                                                <td>2º</td>
+                                                <td style="text-align: center;">
+                                                    <button class="btn btn-primary btn-sm" style="border-radius: 5px 5px 5px;">
+                                                        <i class="mdi mdi-eye"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="card-box mt-3 dados-usuario-individual col-md-12 col-md-12" style="display: none;">
+                                <div class="chart-pre-teste col-md-6">
+                                    <canvas class="chart-pre-teste">
+
+                                    </canvas>
+                                </div class="chart-pre-teste">
+                            </div>
+     
                         </div>
                     </div>
 
@@ -233,6 +289,8 @@ button.btn-basic {
 <script src="assets/libs/datatables/dataTables.select.min.js"></script>
 <script src="assets/libs/pdfmake/pdfmake.min.js"></script>
 <script src="assets/libs/pdfmake/vfs_fonts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 <!-- Datatables init -->
 <script src="assets/js/pages/datatables.init.js"></script>
@@ -243,11 +301,51 @@ button.btn-basic {
 
     let btnDesempenho = document.querySelector('.btn.desempenho');
     let titulo = document.querySelector('.titulo');
+    let selecionarHospital = document.querySelector('.selecionar-hospital');
+
+    // Obtenha a referência ao elemento canvas
+    var ctx = document.querySelector('canvas.chart-pre-teste').getContext('2d');
+
+    var dataRes = [];
+
+    const data = {
+        datasets: [{
+            label: 'Pré-teste',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            // adicionar informação ao ponto
+            pointHoverRadius: 10,
+            pointHoverBackgroundColor: 'rgb(75, 192, 192)',
+            pointHoverBorderColor: 'rgb(75, 192, 192)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+
+        }
+    ],
+
+    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setempro', 'Outubro', 'Novembro', 'Dezembro'],
+    
+    };
+
+    var myChart = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+        responsive: true,
+    }
+    
+});
+
 
     function initDesepeneho() {
         hideContent('selecionar-tipo-visualizacoes', 'class');
         hideContent('selecionar-categoria-cadastro', 'class');
+        hideContent('selecionar-usuario-individual', 'class');
     }
+
 
     btnDesempenho.addEventListener('click', function() {
         initDesepeneho();
@@ -257,6 +355,13 @@ button.btn-basic {
         titulo.innerHTML = 'DESEMPENHO';
     });
 
+    selecionarHospital.addEventListener('change', function() {
+        let seleted = this.options[this.selectedIndex].value;
+        // id selecionado
+        sessionStorage.setItem('hospital', seleted);
+    });
+
+    
     function nextContent(from, to) {
         hideContent(from.name, from.type);
         showContent(to.name, to.type);
@@ -293,6 +398,12 @@ button.btn-basic {
         from.style.display = 'none';
     }
     
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.datatable').DataTable();
+    } );
 </script>
 </body>
 
