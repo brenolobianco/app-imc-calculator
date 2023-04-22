@@ -107,7 +107,6 @@ if(isset($_GET['acao'])) {
                 } catch (Exception $e) {
                 }
             }
-
         } elseif ($acao == "verificar-quiz") {
             if(isset($_GET['resposta']) && isset($_GET['id_quiz'])) {
                 $id_resposta = $_GET['resposta'];
@@ -171,10 +170,11 @@ if(isset($_GET['acao'])) {
                             $alternativa_correta = $mostra->alternativa_correta;
                             $id_vid_aula = $mostra->id_vid_aula;
                             $finalizado = finalizado_pre_teste($conexao, $id_vid_aula, $idLog);
+                            
                             if($alternativa_correta == $id_resposta && !$finalizado) {
                                 acertou($conexao, $idLog, $id_quiz, $id_resposta, $id_vid_aula);
                                 echo json_encode(["sucesso" => true, "texto" => "Resposta Correta!", "id" => $id_quiz]);
-                            } elseif(!$alternativa_correta == $id_resposta && !$finalizado) {
+                            } elseif($alternativa_correta != $id_resposta && !$finalizado) {
                                 errou($conexao, $idLog, $id_quiz, $id_resposta, $id_vid_aula);
                                 echo json_encode(["sucesso" => false, "texto" => "Resposta incorreta!", "id" => $id_quiz]);
                             }
@@ -186,7 +186,7 @@ if(isset($_GET['acao'])) {
             }
         } elseif($acao == "finalizar-pre-teste") {
             // $aprovado = foi_aprovado_pre_teste($conexao, $idLog, $id_aula);
-            $aprovado = 1; // sempre será aprovado
+            $aprovado = 1; //foi_aprovado_pre_teste($conexao, $idLog, $id_aula); // sempre será aprovado
             $count = finalizar_pre_teste($conexao, $idLog, $id_aula, $aprovado);
             if($count >= 1) {
                 echo json_encode(["success" => true, "text" => "Finalizao!"]);
@@ -195,7 +195,7 @@ if(isset($_GET['acao'])) {
             }
         } elseif($acao == "info-situacao-aula") {
             $resp = [];
-            $resp['pre_teste'] = aprovado_pre_teste($conexao, $id_aula, $idLog);
+            $resp['pre_teste'] = fez_pre_teste_atual($conexao, $id_aula, $idLog); // se fez o pre-teste atual
             $resp['quiz'] = aprovado_quiz($conexao, $id_aula, $idLog);
             $resp['aula'] = assistiu_aula($conexao, $id_aula, $idLog);
             echo json_encode($resp);
@@ -794,6 +794,16 @@ function fez_pre_teste_anterior($conexao, $id_aula, $idLog) {
     }
 }
 
+function fez_pre_teste_atual($conexao, $id_aula, $idLog) {
+    $preTeste = get_progresso_pre_teste_by_aula($conexao, $id_aula, $idLog);
+    $count = $preTeste->rowCount();
+    if($count > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 
 function primeira_aula($conexao) {
@@ -833,7 +843,6 @@ function get_user_est($conexao, $idLog) {
 
     return $result->FETCH()['est_id_mat'];
 }
-
 
  
 function get_aulas($conexao, $idLog) {
