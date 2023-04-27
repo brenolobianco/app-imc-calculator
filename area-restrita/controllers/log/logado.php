@@ -1,4 +1,5 @@
 <?php
+
 ob_start();
 session_start();
 if(!isset($_SESSION['usuariowva']) && (!isset($_SESSION['senhawva']))){
@@ -27,6 +28,7 @@ if(!isset($_SESSION['usuariowva']) && (!isset($_SESSION['senhawva']))){
                     $userLogado = $show['usuario'];
                     $senhaLogado = $show['senha'];
                     //$nivelLogado = $show['nivel'];
+                    $emailLogado = $show['email'];
                     $imgLogado = $show['img'];
                     
                 }

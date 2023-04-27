@@ -91,7 +91,7 @@ if(isset($_GET['edit'])){
                             <div class="form-row">
 
                                 <div class="form-group col-md-12">
-                                    <label class="col-sm-6 col-form-label" for="inlineFormInputGroup">Pergunta</label>
+                                    <label class="col-sm-6 col-form-label" for="inlineFormInputGroup">Adicionar questão</label>
                                     <div class="col-auto">
                                         <div class="input-group mb-2">
                                             <input type="text" name="pergunta" value="<?= $pergunta ?>" class="form-control" id="inlineFormInputGroup"

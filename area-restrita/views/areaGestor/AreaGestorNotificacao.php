@@ -23,43 +23,48 @@
         color: black;
     }
 
-.selecionar-tipo-visualizacoes {
-  display: inline-block;
-  position: relative;
-}
+    .selecionar-tipo-visualizacoes {
+        display: inline-block;
+        position: relative;
+    }
 
-.selecionar-tipo-visualizacoes figcaption {
-  position: absolute;
-  top: 150px;
-  right: 30px;
-  font-size: 30px;
-  color: black;
-  text-shadow: 0px 0px 2px black;
-}
+    .selecionar-tipo-visualizacoes figcaption {
+        position: absolute;
+        top: 150px;
+        right: 30px;
+        font-size: 30px;
+        color: black;
+        text-shadow: 0px 0px 2px black;
+    }
 
-.img-selecionar-tipo-dado {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 20px;
-    opacity: 1;
-}
+    .img-selecionar-tipo-dado {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 20px;
+        opacity: 1;
+    }
 
-button.btn-basic {
-    background-color: #fff;
-    color: black;
-    width: 50%;
-    padding: 10px;
-    border-radius: 20px;
-    border: none;
-}
+    button.btn-basic {
+        background-color: #fff;
+        color: black;
+        width: 50%;
+        padding: 10px;
+        border-radius: 20px;
+        border: none;
+    }
+
+    .split-line {
+        border: 1px solid #00063f;
+        width: 100%;
+        margin: 0 auto;
+    }
 </style>
 
 
 <?php
-    include_once 'area-restrita/controllers/areaGestor/dados/ControllerDados.php';
-    include_once 'area-restrita/controllers/areaGestor/dados/Dados.php';
+include_once 'area-restrita/controllers/areaGestor/dados/ControllerDados.php';
 ?>
 
 <div class="content-page">
@@ -94,24 +99,23 @@ button.btn-basic {
                             <option value="">Selecione o hospital</option>
                             <option value="">Todos</option>
                             <?php
-                                $select = "SELECT * FROM hospital";  
-                                try{
-                                    $result = $conexao->prepare($select);
-                                    $result ->execute();
-                                    $contar = $result->rowCount();
+                            $select = "SELECT * FROM hospital";
+                            try {
+                                $result = $conexao->prepare($select);
+                                $result->execute();
+                                $contar = $result->rowCount();
 
-                                    if($contar>0){
-                                    while($mostra = $result->FETCH(PDO::FETCH_OBJ)){
-                                    ?>
-                                       <option value="<?= $mostra->id_hosp ?>"><?= $mostra->nome_hosp ?></option>
-                                    <?php
-                                    }
+                                if ($contar > 0) {
+                                    while ($mostra = $result->FETCH(PDO::FETCH_OBJ)) {
+                            ?>
+                                        <option value="<?= $mostra->id_hosp ?>"><?= $mostra->nome_hosp ?></option>
+                            <?php
                                     }
                                 }
-                                catch(PDOException $e){
-                                    echo "<b>ERRO DE PDO= </b>".$e->getMessage();
-                                }
-                                ?>
+                            } catch (PDOException $e) {
+                                echo "<b>ERRO DE PDO= </b>" . $e->getMessage();
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="container">
@@ -143,7 +147,7 @@ button.btn-basic {
                             </div>
                         </div>
 
-                        <div class="col-12" >
+                        <div class="col-12">
                             <div class="card-box" id="usuariosCadastrados">
                                 <h4 class="mt-0 header-title">Usuários Cadastrados</h4>
                                 <hr />
@@ -165,26 +169,26 @@ button.btn-basic {
                                 </table>
                             </div>
 
-                            <div class="p-5 selecionar-tipo-visualizacoes" style="display: none;" >
+                            <div class="p-5 selecionar-tipo-visualizacoes" style="display: none;">
                                 <div class="row col-md-12 justify-content-center align-items-center">
                                     <div class="btn-img justify-content-center align-items-center mr-2" style="cursor: pointer; border-radius: 5px 5px 5px;">
                                         <div class="img" onclick="nextContent({name: 'selecionar-tipo-visualizacoes', type:'class'}, {name:'selecionar-categoria-cadastro', type:'class'})" style="max-width: 200px; max-height: 200px;">
                                             <div class="btn-titulo text-center mt-2">
-                                            <figure class="selecionar-tipo-visualizacoes" style="max-width: 200px; max-height: 200px;">
-                                                <img src="/assets/images/estagio-518x518.jpg" class="img-selecionar-tipo-dado" style="max-width: 256; max-height: 200px;"/>  
-                                                <figcaption>Coletivo  </figcaption>
-                                            </figure>
+                                                <figure class="selecionar-tipo-visualizacoes" style="max-width: 200px; max-height: 200px;">
+                                                    <img src="/assets/images/estagio-518x518.jpg" class="img-selecionar-tipo-dado" style="max-width: 256; max-height: 200px;" />
+                                                    <figcaption>Coletivo </figcaption>
+                                                </figure>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="btn-img justify-content-center align-items-center mr-2" style="cursor: pointer; border-radius: 5px 5px 5px;">
-                                        <div class="img" style="max-width: 200px; max-height: 200px;" onclick="nextContent({name: 'selecionar-tipo-visualizacoes', type:'class'}, {name:'selecionar-usuario-individual', type:'class'})">
+                                    <div class="btn-img justify-content-center align-items-center mr-2 btn-ver-individual" style="cursor: pointer; border-radius: 5px 5px 5px;">
+                                        <div class="img" style="max-width: 200px; max-height: 200px;">
                                             <div class="btn-titulo text-center mt-2">
-                                            <figure class="selecionar-tipo-visualizacoes" style="max-width: 200px; max-height: 200px;">
-                                                <img src="/assets/images/estagio-518x518.jpg" class="img-selecionar-tipo-dado" style="max-width: 256; max-height: 200px;"/>  
-                                                <figcaption>Individual</figcaption>
-                                            </figure>
+                                                <figure class="selecionar-tipo-visualizacoes" style="max-width: 200px; max-height: 200px;">
+                                                    <img src="/assets/images/estagio-518x518.jpg" class="img-selecionar-tipo-dado" style="max-width: 256; max-height: 200px;" />
+                                                    <figcaption>Individual</figcaption>
+                                                </figure>
                                             </div>
                                         </div>
                                     </div>
@@ -192,7 +196,7 @@ button.btn-basic {
                             </div>
 
                             <!--- Selecionar categoria do cadastrados -->
-                            <div class="p-5 selecionar-categoria-cadastro" style="display: none;" >
+                            <div class="p-5 selecionar-categoria-cadastro" style="display: none;">
                                 <div class="text-center col-md-12 justify-content-center align-items-center">
                                     <div class="buttons">
                                         <div class="button mb-2">
@@ -214,7 +218,7 @@ button.btn-basic {
                                 <div class="card-box col-md-12 w-100">
                                     <h4 class="mt-0 header-title">Desempenho</h4>
                                     <hr />
-                                    <table class="table table-bordered dt-responsive nowrap datatable">
+                                    <table id="tableUsuarioIndividual" class="table table-bordered dt-responsive nowrap col-md-12">
                                         <thead>
                                             <tr>
                                                 <th>Usuário</th>
@@ -225,46 +229,61 @@ button.btn-basic {
                                         </thead>
 
                                         <tbody>
-                                            
-                                            <tr>
-                                                <td>Mateus</td>
-                                                <td>Acadêmico</td>
-                                                <td>1º</td>
-                                                <td style="text-align: center;">
-                                                    <button onclick="nextContent({name: 'selecionar-usuario-individual', type: 'class'}, {name: 'dados-usuario-individual', type: 'class'})" class="btn btn-primary btn-sm" style="border-radius: 5px 5px 5px;">
-                                                        <i class="mdi mdi-eye"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>João da Silva</td>
-                                                <td>Acadêmico</td>
-                                                <td>2º</td>
-                                                <td style="text-align: center;">
-                                                    <button class="btn btn-primary btn-sm" style="border-radius: 5px 5px 5px;">
-                                                        <i class="mdi mdi-eye"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                    
+                                        <!--- Carregando --->
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            
-                            <div class="card-box mt-3 dados-usuario-individual col-md-12 col-md-12" style="display: none;">
-                                <div class="chart-pre-teste col-md-6">
-                                    <canvas class="chart-pre-teste">
 
-                                    </canvas>
-                                </div class="chart-pre-teste">
+                            <div class="card-box mt-3 dados-usuario-individual col-md-12 col-md-12" style="display: none;">
+
+                                <div class="col-md-12 col-md-12">
+
+                                    <div class="chart-pre-teste col-md-12">
+                                        <div class="col-md-12">
+                                            <canvas class="chart-pre-teste">
+
+                                            </canvas>
+                                        </div>
+                                        <div class="col-md-12">
+
+                                            <div class="text-center">
+                                                <h3>Média pré-teste: <span class="media-nota-pre-teste"></span></h3>
+                                                <h3>Pré-teste com maior: <span class="maior-nota-pre-teste"></span></h3>
+                                                <h3>Pré-teste com menor: <span class="menor-nota-pre-teste"></span></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="split-line mt-5">
+                                    </div>
+
+                                    <div class="chart-quiz col-md-12">
+                                        <div class="col-md-12">
+                                            <canvas class="chart-quiz">
+
+                                            </canvas>
+                                        </div>
+                                        <div class="col-md-12">
+
+                                            <div class="text-center">
+                                                <h3>Média Quiz: 0</h3>
+                                                <h3>Quiz com maior nota: 0</h3>
+                                                <h3>Quiz com menor nota: 0</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
-     
+
                         </div>
                     </div>
 
 
-                    
+
                 </div>
             </div>
         </div>
@@ -298,46 +317,11 @@ button.btn-basic {
 <!-- App js -->
 <script src="assets/js/app.min.js"></script>
 <script>
-
     let btnDesempenho = document.querySelector('.btn.desempenho');
     let titulo = document.querySelector('.titulo');
     let selecionarHospital = document.querySelector('.selecionar-hospital');
+    let verDadosIndividual = document.querySelector('.dados-usuario-individual');
 
-    // Obtenha a referência ao elemento canvas
-    var ctx = document.querySelector('canvas.chart-pre-teste').getContext('2d');
-
-    var dataRes = [];
-
-    const data = {
-        datasets: [{
-            label: 'Pré-teste',
-            data: [],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1,
-            // adicionar informação ao ponto
-            pointHoverRadius: 10,
-            pointHoverBackgroundColor: 'rgb(75, 192, 192)',
-            pointHoverBorderColor: 'rgb(75, 192, 192)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-
-        }
-    ],
-
-    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setempro', 'Outubro', 'Novembro', 'Dezembro'],
-    
-    };
-
-    var myChart = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: {
-        responsive: true,
-    }
-    
-});
 
 
     function initDesepeneho() {
@@ -350,8 +334,14 @@ button.btn-basic {
     btnDesempenho.addEventListener('click', function() {
         initDesepeneho();
 
-        nextContent({name: 'usuariosCadastrados', type: "id"}, {name: 'selecionar-tipo-visualizacoes', type: "class"});
-        
+        nextContent({
+            name: 'usuariosCadastrados',
+            type: "id"
+        }, {
+            name: 'selecionar-tipo-visualizacoes',
+            type: "class"
+        });
+
         titulo.innerHTML = 'DESEMPENHO';
     });
 
@@ -361,16 +351,16 @@ button.btn-basic {
         sessionStorage.setItem('hospital', seleted);
     });
 
-    
+
     function nextContent(from, to) {
         hideContent(from.name, from.type);
         showContent(to.name, to.type);
     }
-    
-    function showContent(id, type='id') {
-        if(type == 'class') {
+
+    function showContent(id, type = 'id') {
+        if (type == 'class') {
             var element = document.getElementsByClassName(id);
-            for(var i = 0; i < element.length; i++) {
+            for (var i = 0; i < element.length; i++) {
                 element[i].style.display = 'block';
             }
         } else {
@@ -379,10 +369,10 @@ button.btn-basic {
         }
     }
 
-    function hideContent(id, type='id') {
-        if(type == 'class') {
+    function hideContent(id, type = 'id') {
+        if (type == 'class') {
             var element = document.getElementsByClassName(id);
-            for(var i = 0; i < element.length; i++) {
+            for (var i = 0; i < element.length; i++) {
                 element[i].style.display = 'none';
             }
         } else {
@@ -397,16 +387,227 @@ button.btn-basic {
         to.style.display = 'block';
         from.style.display = 'none';
     }
-    
+
+    function getHospitalSession() {
+        let hospital = sessionStorage.getItem('hospital');
+        if (hospital == null) {
+            return "";
+        } else {
+            return hospital;
+        }
+    }
+
+    let btnVerIndividual = document.querySelector('.btn-ver-individual');
+    btnVerIndividual.addEventListener('click', function() {
+        nextContent({name: 'selecionar-tipo-visualizacoes', type:'class'}, {name:'selecionar-usuario-individual', type:'class'})
+
+        mostrarIndividualHospital();
+    });
+
+    function mostrarIndividualHospital() {
+        let xml = new XMLHttpRequest();
+        xml.open('GET', './controllers/areaGestor/dados/Dados.php?acao=listar-academicos-hospital&hospital=' + getHospitalSession(), true);
+        xml.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let table = $('#tableUsuarioIndividual').DataTable(
+                    {
+                        "language": {
+                            "lengthMenu": "Mostrando _MENU_ registros por página",
+                            "zeroRecords": "Nada encontrado",
+                            "info": "Mostrando página _PAGE_ de _PAGES_",
+                            "infoEmpty": "Nenhum registro disponível",
+                            "infoFiltered": "(filtrado de _MAX_ registros no total)"
+                        }
+                    }
+                );
+
+                let data = JSON.parse(this.responseText);
+                table.clear().draw();
+
+                data.forEach(element => {
+                    let tableHtml = '<button onclick="mostrarDadosIndividual(this)" data-id-usuario="'+ element.id_acad +'" class="btn btn-primary btn-sm ver-dado-individual-usuario" style="border-radius: 5px 5px 5px;"><i class="mdi mdi-eye"></i></button>';
+
+                    table.row.add([diminuirNome(element.nome_acad), "", "", tableHtml]).draw();
+                });
+            }
+        }
+
+        xml.send();
+    }
+
+    function buscarDadosIndividual(id) {
+        return new Promise ((resolve, reject) => {
+            let xml = new XMLHttpRequest();
+            xml.open('GET', './controllers/areaGestor/dados/Dados.php?acao=mostrar-dado-individual&academico=' + id, true);
+            xml.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    let data = JSON.parse(this.responseText);
+                    resolve(data);
+                }
+            }
+
+            xml.send();
+        });
+    }
+
+    function inserirGrafico() {}
+
+    function mostrarDadosIndividual(element) {
+        console.log(element);
+        let dataIdUsuario = element.getAttribute('data-id-usuario');
+        nextContent({name: 'selecionar-usuario-individual', type:'class'}, {name:'dados-usuario-individual', type:'class'})
+
+        // Obtenha a referência ao elemento canvas
+
+        buscarDadosIndividual(dataIdUsuario).then( (data) => {
+            var ctx1 = document.querySelector('canvas.chart-pre-teste').getContext('2d');
+            var ctx2 = document.querySelector('canvas.chart-quiz').getContext('2d');
+            let mediaPreTeste = document.querySelector('.media-nota-pre-teste');
+            let preTesteMaiorNota = document.querySelector('.maior-nota-pre-teste');
+            let menor = document.querySelector('.menor-nota-pre-teste');
+            let mediaQuiz = document.querySelector('.media-quiz');
+            let mediaAvaliacao = document.querySelector('.media-avaliacao');
+            // var ctx3 = document.querySelector('canvas.chart-avaliacao').getContext('2d');
+
+            mediaPreTeste.innerHTML = "" + data.resultado.pre_teste.media;
+            preTesteMaiorNota.innerHTML = "" + data.resultado.pre_teste.maior_nota;
+            menor.innerHTML = "" + data.resultado.pre_teste.menor_nota;
+            let preTesteG = tratarDadosPreTeste(data.resultado);
+            console.log(preTesteG);
+
+            let dataGrafico = {
+                datasets: [{
+                    label: 'Pré-teste',
+                    data: preTesteG,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    // adicionar informação ao ponto
+                    pointHoverRadius: 10,
+                    pointHoverBackgroundColor: 'rgb(75, 192, 192)',
+                    pointHoverBorderColor: 'rgb(75, 192, 192)',
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    lineColor: 'rgb(30, 144, 255)',
+
+                }],
+
+                labels: [
+                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setempro',
+                    'Outubro', 'Novembro', 'Dezembro'
+                ],
+            };
+
+            var myChart = new Chart(ctx1, {
+                type: 'line',
+                data: dataGrafico,
+                options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Gráfico de desempenho'
+                    }
+                }
+            },
+            });            
+        });
+
+        var dataRes = [];
+
+
+        const data2 = {
+            datasets: [{
+                label: 'Quiz',
+                data: dataRes,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1,
+                // adicionar informação ao ponto
+                pointHoverRadius: 10,
+                pointHoverBackgroundColor: 'rgb(75, 192, 192)',
+                pointHoverBorderColor: 'rgb(75, 192, 192)',
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                lineColor: 'rgb(30, 144, 255)',
+
+            }],
+
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setempro',
+                'Outubro', 'Novembro', 'Dezembro'
+            ],
+        };
+
+    }
+
+    function tratarDadosPreTeste(res) {
+        let janeiro = 0;
+        let fevereiro = 0;
+        let marco = 0;
+        let abril = 0;
+        let maio = 0;
+        let junho = 0;
+        let julho = 0;
+        let agosto = 0;
+        let setembro = 0;
+        let outubro = 0;
+        let novembro = 0;
+        let dezembro = 0;
+
+        let pontos = [];
+        let resPontos = res.pre_teste.pontuacao;
+        resPontos.forEach(element => {
+            let dataRes = new Date(element.data);
+            let mes = dataRes.getMonth() + 1;
+            if(mes == 1) {
+                janeiro += element.nota;
+            } else if(mes == 2) {
+                fevereiro += element.nota;
+            } else if(mes == 3) {
+                marco += element.nota;
+            } else if(mes == 4) {
+                abril += element.nota;
+            } else if(mes == 5) {
+                maio += element.nota;
+            } else if(mes == 6) {
+                junho += element.nota;
+            } else if(mes == 7) {
+                julho += element.nota;
+            } else if(mes == 8) {
+                agosto += element.nota;
+            } else if(mes == 9) {
+                setembro += element.nota;
+            } else if(mes == 10) {
+                outubro += element.nota;
+            } else if(mes == 11) {
+                novembro += element.nota;
+            } else if(mes == 12) {
+                dezembro += element.nota;
+            }
+        });
+
+        return pontos = [janeiro, fevereiro, marco, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro];
+    }
+
+    function diminuirNome(nome) {
+        if (nome.length > 30) {
+            return nome.substring(0, 20) + '...';
+        } else {
+            return nome;
+        }
+    }
 </script>
 
 <script>
     $(document).ready(function() {
         $('.datatable').DataTable();
-    } );
+    });
 </script>
 </body>
 
 </html>
-
-

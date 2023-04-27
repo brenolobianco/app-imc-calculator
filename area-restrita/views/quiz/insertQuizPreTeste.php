@@ -16,7 +16,7 @@
                             <div class="form-group row">
                                 <label for="inputPassword3" class="col-sm-2 col-form-label">Aula</label>
                                 <div class="col-sm-5">
-                                    <select class="form-control" name="id_vid_aula" required>
+                                    <select class="form-control selecionar-aula" name="id_vid_aula" required>
                                         <option value="">Selecionar aula</option>
                                         <?php
                                                     include_once 'models/conecta.php';
@@ -55,7 +55,7 @@
 
                                 <div class="ml-0">
                                     <div class="d-flex alinhar" style="text-align: center;">
-                                        <h2 class="alinhar texto-mudulo-accordion">Perguntas</h2>
+                                        <h2 class="alinhar texto-mudulo-accordion">Adicionar questão</h2>
                                     </div>
                                 </div>
 
@@ -227,6 +227,17 @@
 
 <!-- App js -->
 <script src="assets/js/app.min.js"></script>
+
+<script>
+    let selecionarAula = document.querySelector('selecionar-aula');
+    selecionarAula.addEventListener('change', function () {
+        let optionValue = selecionarAula.options[selecionarAula.selectedIndex].value;
+    })
+
+    function listarQuestoes(aulaId) {
+        let url = '';
+    }
+</script>
 </body>
 
 </html>

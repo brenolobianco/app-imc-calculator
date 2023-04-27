@@ -1004,6 +1004,7 @@ if(isset($_GET['nome_modulo'])){
         if(c1 === 0) {
             throw new Error("Não pode voltar!");
         }
+
         let el = document.querySelector('.btn-proximo-pre-teste');
         if(c1 !== res.length - 2) {
             el.classList.remove('disabled');
@@ -1360,6 +1361,7 @@ if(isset($_GET['nome_modulo'])){
             }
             }
         };
+
         xhr.send();
     }
 

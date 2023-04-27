@@ -377,6 +377,7 @@ require_once($dir);
         });
     }
 
+
 </script>
 
 <script src="assets/popper/popper.min.js"></script>

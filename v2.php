@@ -1165,10 +1165,11 @@ function adicionar_acerto_quiz($conexao, $idUsuario, $idQuiz, $resposta, $id_vid
 
 
 function adicionar_erro($conexao, $idUsuario, $idQuiz, $resposta, $id_vid_aula) {
-    $sql = "UPDATE quiz_treinamento_pre_teste_tentivas SET num_erros = num_erros + 1, resposta=:resposta, aprovado=0 WHERE id_usuario = :id_usuario AND id_pre_teste = :id_quiz";  
+    $sql = "UPDATE quiz_treinamento_pre_teste_tentivas SET num_erros = num_erros + 1, resposta=:resposta, aprovado=0, id_vid_aula=:id_vid_aula WHERE id_usuario = :id_usuario AND id_pre_teste = :id_quiz";  
     $result = $conexao->prepare($sql);
     $result->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
     $result->bindParam(':id_quiz', $idQuiz, PDO::PARAM_INT);
+    $result->bindParam(':id_vid_aula', $id_vid_aula, PDO::PARAM_INT);
     $result->bindParam(':resposta', $resposta, PDO::PARAM_STR);
 
     $result ->execute();
@@ -1177,10 +1178,11 @@ function adicionar_erro($conexao, $idUsuario, $idQuiz, $resposta, $id_vid_aula) 
 }
 
 function adicionar_erro_quiz($conexao, $idUsuario, $idQuiz, $resposta, $id_vid_aula) {
-    $sql = "UPDATE quiz_treinamento_tentivas SET num_erros = num_erros + 1, resposta=:resposta, aprovado=0 WHERE id_usuario = :id_usuario AND id_pre_teste = :id_quiz";  
+    $sql = "UPDATE quiz_treinamento_tentivas SET num_erros = num_erros + 1, resposta=:resposta, id_vid_aula=:id_vid_aula, aprovado=0 WHERE id_usuario = :id_usuario AND id_pre_teste = :id_quiz";  
     $result = $conexao->prepare($sql);
     $result->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
     $result->bindParam(':id_quiz', $idQuiz, PDO::PARAM_INT);
+    $result->bindParam(':id_vid_aula', $id_vid_aula, PDO::PARAM_INT);
     $result->bindParam(':resposta', $resposta, PDO::PARAM_STR);
 
     $result ->execute();
