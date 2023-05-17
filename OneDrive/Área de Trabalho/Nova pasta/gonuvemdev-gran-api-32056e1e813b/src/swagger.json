@@ -1,0 +1,430 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Gran Paraná API reference.\n\nAs requisições devem ser autenticadas utilizando Bearer Token.\n",
+    "version": "1.0.0",
+    "title": "Gran API",
+    "contact": {
+      "email": "contato@gonuvem.com"
+    }
+  },
+  "host": "gran-api-staging.herokuapp.com",
+  "tags": [
+    {
+      "name": "PDF de Orçamentos",
+      "description": "Endpoints relacionados à geração de PDF de Orçamentos."
+    },
+    {
+      "name": "PDF de Contrato",
+      "description": "Endpoints relacionados à geração de PDF de Contrato de um Pedido."
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/budgets/generate_pdf_files": {
+      "get": {
+        "tags": [
+          "PDF de Orçamentos"
+        ],
+        "summary": "Gera arquivos PDF de múltiplos orçamentos",
+        "description": "Retorna um arquivo compactado em zip",
+        "operationId": "generatePdfFilesOfBudgets",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/zip"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "Array de ids de orçamentos",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso. Retorna o ZIP."
+          },
+          "600": {
+            "description": "Erro inesperado. Veja error.internalError e avisar ao back.",
+            "schema": {
+              "$ref": "#/definitions/UNDEFINED_ERROR"
+            }
+          },
+          "610": {
+            "description": "Token inválido",
+            "schema": {
+              "$ref": "#/definitions/INVALID_TOKEN_ERROR"
+            }
+          },
+          "611": {
+            "description": "Cabeçalho de autorização inválido",
+            "schema": {
+              "$ref": "#/definitions/INVALID_AUTH_HEADER_ERROR"
+            }
+          },
+          "620": {
+            "description": "Este usuário não possui permissão para esta ação",
+            "schema": {
+              "$ref": "#/definitions/USER_NOT_ALLOWED_ERROR"
+            }
+          },
+          "630": {
+            "description": "Erro na validação. Veja error.message",
+            "schema": {
+              "$ref": "#/definitions/VALIDATION_ERROR"
+            }
+          },
+          "700": {
+            "description": "Usuário não encontrado",
+            "schema": {
+              "$ref": "#/definitions/USER_NOT_FOUND_ERROR"
+            }
+          },
+          "761": {
+            "description": "Pedido não encontrado",
+            "schema": {
+              "$ref": "#/definitions/ORDER_NOT_FOUND_ERROR"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/budgets/generate_pdf_buffers": {
+      "get": {
+        "tags": [
+          "PDF de Orçamentos"
+        ],
+        "summary": "Gera buffers de PDF de múltiplos orçamentos",
+        "description": "Retorna um array de buffers",
+        "operationId": "generatePdfBuffersOfBudgets",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "Array de ids de orçamentos",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "example": 57982
+                  },
+                  "buffer": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "600": {
+            "description": "Erro inesperado. Veja error.internalError e avisar ao back.",
+            "schema": {
+              "$ref": "#/definitions/UNDEFINED_ERROR"
+            }
+          },
+          "610": {
+            "description": "Token inválido",
+            "schema": {
+              "$ref": "#/definitions/INVALID_TOKEN_ERROR"
+            }
+          },
+          "611": {
+            "description": "Cabeçalho de autorização inválido",
+            "schema": {
+              "$ref": "#/definitions/INVALID_AUTH_HEADER_ERROR"
+            }
+          },
+          "620": {
+            "description": "Este usuário não possui permissão para esta ação",
+            "schema": {
+              "$ref": "#/definitions/USER_NOT_ALLOWED_ERROR"
+            }
+          },
+          "630": {
+            "description": "Erro na validação. Veja error.message",
+            "schema": {
+              "$ref": "#/definitions/VALIDATION_ERROR"
+            }
+          },
+          "700": {
+            "description": "Usuário não encontrado",
+            "schema": {
+              "$ref": "#/definitions/USER_NOT_FOUND_ERROR"
+            }
+          },
+          "761": {
+            "description": "Pedido não encontrado",
+            "schema": {
+              "$ref": "#/definitions/ORDER_NOT_FOUND_ERROR"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/agreements/{id}/generate_pdf_file": {
+      "get": {
+        "tags": [
+          "PDF de Contrato"
+        ],
+        "summary": "Gera PDF do Contrato de um Pedido",
+        "description": "Retorna o arquivo PDF do Contrato",
+        "operationId": "generatePdfFileOfAgreement",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/pdf"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID do Pedido",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso. Retorna o PDF."
+          },
+          "600": {
+            "description": "Erro inesperado. Veja error.internalError e avisar ao back.",
+            "schema": {
+              "$ref": "#/definitions/UNDEFINED_ERROR"
+            }
+          },
+          "610": {
+            "description": "Token inválido",
+            "schema": {
+              "$ref": "#/definitions/INVALID_TOKEN_ERROR"
+            }
+          },
+          "611": {
+            "description": "Cabeçalho de autorização inválido",
+            "schema": {
+              "$ref": "#/definitions/INVALID_AUTH_HEADER_ERROR"
+            }
+          },
+          "620": {
+            "description": "Este usuário não possui permissão para esta ação",
+            "schema": {
+              "$ref": "#/definitions/USER_NOT_ALLOWED_ERROR"
+            }
+          },
+          "630": {
+            "description": "Erro na validação. Veja error.message",
+            "schema": {
+              "$ref": "#/definitions/VALIDATION_ERROR"
+            }
+          },
+          "700": {
+            "description": "Usuário não encontrado",
+            "schema": {
+              "$ref": "#/definitions/USER_NOT_FOUND_ERROR"
+            }
+          },
+          "761": {
+            "description": "Pedido não encontrado",
+            "schema": {
+              "$ref": "#/definitions/ORDER_NOT_FOUND_ERROR"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearer_token": {
+      "type": "apiKey",
+      "name": "authorization",
+      "in": "header",
+      "description": "Bearer Token"
+    }
+  },
+  "definitions": {
+    "INVALID_TOKEN_ERROR": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 403
+        },
+        "internalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 610
+        },
+        "message": {
+          "type": "string",
+          "example": "Token Inválido"
+        }
+      }
+    },
+    "INVALID_AUTH_HEADER_ERROR": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 401
+        },
+        "internalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 611
+        },
+        "message": {
+          "type": "string",
+          "example": "Cabeçalho de autorização inválido"
+        }
+      }
+    },
+    "USER_NOT_ALLOWED_ERROR": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 403
+        },
+        "internalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 620
+        },
+        "message": {
+          "type": "string",
+          "example": "Este usuário não possui permissão para esta ação"
+        }
+      }
+    },
+    "VALIDATION_ERROR": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 400
+        },
+        "internalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 630
+        },
+        "message": {
+          "type": "string",
+          "example": "Mensagem de acordo com o erro"
+        }
+      }
+    },
+    "ORDER_NOT_FOUND_ERROR": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 404
+        },
+        "internalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 761
+        },
+        "message": {
+          "type": "string",
+          "example": "Pedido não encontrado"
+        }
+      }
+    },
+    "UNDEFINED_ERROR": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 500
+        },
+        "internalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 600
+        },
+        "message": {
+          "type": "string",
+          "example": ""
+        }
+      }
+    },
+    "USER_NOT_FOUND_ERROR": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 404
+        },
+        "internalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 700
+        },
+        "message": {
+          "type": "string",
+          "example": "Usuário não encontrado"
+        }
+      }
+    }
+  }
+}
