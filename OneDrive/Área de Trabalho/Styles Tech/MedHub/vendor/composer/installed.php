@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '0b9d217003ade455b0ba24256df678935c3f64db',
+        'name' => 'paulo/clone',
+        'dev' => true,
+    ),
+    'versions' => array(
+        'nvan/php-babel-transpiler' => array(
+            'pretty_version' => 'v1.0',
+            'version' => '1.0.0.0',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../nvan/php-babel-transpiler',
+            'aliases' => array(),
+            'reference' => '368a7abc6a35cb4d55d7d218205051598963a122',
+            'dev_requirement' => false,
+        ),
+        'paulo/clone' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '0b9d217003ade455b0ba24256df678935c3f64db',
+            'dev_requirement' => false,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.6.5',
+            'version' => '6.6.5.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'reference' => '8b6386d7417526d1ea4da9edb70b8352f7543627',
+            'dev_requirement' => false,
+        ),
+    ),
+);

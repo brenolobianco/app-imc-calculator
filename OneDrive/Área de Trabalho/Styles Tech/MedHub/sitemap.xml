@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://medhub.app.br/</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/termos-lgpd.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/index.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/quem-somos.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/contato-med.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/contato-hospital.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/contato-parceiro.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/entrar.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/cadastrar.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/politicas.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/termos-de-uso.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/recuperar-senha.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/cadastrar-medico.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://medhub.app.br/cadastrar-academico.php</loc>
+  <lastmod>2022-08-31T17:04:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>

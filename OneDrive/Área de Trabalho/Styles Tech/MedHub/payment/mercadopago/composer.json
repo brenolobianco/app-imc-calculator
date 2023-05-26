@@ -1,0 +1,17 @@
+{
+    "name": "paulo/mercadopago",
+    "autoload": {
+        "psr-4": {
+            "Paulo\\Mercadopago\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Paulo Roberto da Silva",
+            "email": "paulo@floripaserver.com.br"
+        }
+    ],
+    "require": {
+        "mercadopago/dx-php": "2.5.1"
+    }
+}
