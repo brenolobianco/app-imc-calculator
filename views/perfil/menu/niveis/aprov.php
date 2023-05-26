@@ -7,7 +7,7 @@
    
                 <div class="col-sm-7" style="margin-left: 50px; color: #fff;">
                 <h1 style="fotn-size: 130px;"><strong style="color: yellow;">PARABÉNS!!!</strong><h1> 
-                  <h4> Você foi APROVADO!</h4>
+                  <h4> Você foi APROVADO!!</h4>
                   <br>
                   <p class="mbr-text mbr-fonts-style display-7"> 
                    <?= $nomeLog;?>, é com enorme prazer que te entregamos o Selo MedHub de Qualidade. Você passou em nosso crivo e agora se encontra na LISTA DE ESPERA. Entraremos em contato caso você seja classificado(a).
@@ -29,7 +29,7 @@
                     <div class="card-box align-center">
                         <span class="mbr-iconfont mobi-mbri-error mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                         Faltas
+                         Falta
                         </h4>
                     </div>
                 </div>
@@ -46,28 +46,6 @@
             </div>
 
             <div class="col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper2" style="background-color: #555;">
-                    <div class="card-box align-center">
-                        <span class="mbr-iconfont mobi-mbri-clock mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                        <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                          Tempo
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper" style="background-color: #555;">
-                    <div class="card-box align-center">
-                        <span class="mbr-iconfont mobi-mbri-align-justify mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                        <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                            Detalhes
-                        </h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
                 <div class="card-wrapper" style="background-color: #555;">
                     <div class="card-box align-center">
                         <span class="mbr-iconfont mobi-mbri-paperclip mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
@@ -77,16 +55,44 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row justify-content-center">
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card-wrapper" style="background-color: #555;">
                     <div class="card-box align-center">
-                        <span class="mbr-iconfont mobi-mbri-logout mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                        <span class="mbr-iconfont mobi-mbri-alert mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                            Sair do Estágio
+                            Notificação / FOBS
                         </h4>
                     </div>
                 </div>
             </div>
+
+            <!--- AREA DE TREINAMENTO ---> 
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card-wrapper2" style="background-color: #555;">
+                    <div class="card-box align-center">
+                    <i class="fa fa-graduation-cap mbr-iconfont" style="color: #fff;"></i>
+                        <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
+                            Área de treinamento
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <!--- AREA DE TREINAMENTO --->
+
+            <!-- Avaliaçãoes, antigo sair do estágio -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card-wrapper" style="background-color: #555;">
+                    <div class="card-box align-center">
+                        <span class="mbr-iconfont mobi-mbri-contact-form mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                        <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
+                            Avaliações
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <!-- Avaliações -->
         </div>
     </div>
 </section>

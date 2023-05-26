@@ -18,7 +18,7 @@
                     <div class="card-box align-center">
                         <span class="mbr-iconfont mobi-mbri-camera mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                          Registrar Crachá
+                          Registrar Crachá 
                         </h4>
                     </div>
                 </div>
@@ -38,12 +38,12 @@
         </div>
         <div class="row justify-content-center">
             
-            <div class="col-12 col-md-6 col-lg-3" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg-4">
-                <div class="card-wrapper">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card-wrapper" style="background-color: #555;">
                     <div class="card-box align-center">
-                        <span class="mbr-iconfont mobi-mbri-align-justify mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                        <span class="mbr-iconfont mobi-mbri-alert mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                            Detalhes
+                            Notificação / FOBS
                         </h4>
                     </div>
                 </div>
@@ -62,16 +62,18 @@
                 </div>
             </div>
              
-            <div class="col-12 col-md-6 col-lg-3" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg-6">
-                <div class="card-wrapper">
+            <!-- Avaliaçãoes, antigo sair do estágio -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card-wrapper" style="background-color: #555;">
                     <div class="card-box align-center">
-                        <span class="mbr-iconfont mobi-mbri-logout mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                        <span class="mbr-iconfont mobi-mbri-contact-form mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                            Sair do Estágio
+                            Avaliações
                         </h4>
                     </div>
                 </div>
             </div>
+            <!-- Avaliações -->
             
             <!-- MODALS -->
             <div class="modal fade bd-example-modal-lg-1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

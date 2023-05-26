@@ -123,7 +123,7 @@
                     <div class="card-box align-center">
                         <span class="mbr-iconfont mobi-mbri-error mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                         Faltas
+                         Falta
                         </h4>
                     </div>
                 </div>

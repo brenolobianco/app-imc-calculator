@@ -29,6 +29,35 @@
 
     $avaliacoes = getAvaliacoes($conexao, $idLog);
 
+    function getAcademicoEst($conexao, $idLog){
+        $select = "SELECT est_id_mat FROM `matricula` WHERE acad_id_mat = :idLog";
+        try{
+            $result = $conexao->prepare($select);
+            $result ->bindParam(':idLog', $idLog, PDO::PARAM_INT);
+            $result ->execute();
+            $contar = $result->rowCount();
+            if($contar>0){
+                return $result->fetchAll()[0]['est_id_mat'];
+            }
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+    
+    function getIdByCPF($conexao, $cpf){
+        $select = "SELECT * FROM academico WHERE cpf_acad = :cpf_acad";
+        try{
+            $result = $conexao->prepare($select);
+            $result ->bindParam(':cpf_acad', $cpf, PDO::PARAM_STR);
+            $result ->execute();
+            $contar = $result->rowCount();
+            if($contar>0){
+                return $result->fetchAll()[0]['id_acad'];
+            }
+        }catch(PDOException $e){
+            echo $e;
+        }
+    } 
 ?>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -92,8 +121,8 @@
 
             <div class="col-sm-12 col-md-2 m-3 mt-4">
                 <button class="btn btn-dark"
-                    style="background-color: #231f20; border: none; width: 90%; border-radius: 10px 10px 10px;"
-                    onclick="document.location = history.back()">
+                    style="background-color: #231f20; border: none; width: 120%; border-radius: 10px 10px 10px;"
+                    onclick="history.back()">
                     <div style="width: 30%;" style="background-color: black;">
                         <img src="/assets/images/voltar-light.png" alt=""
                             style="background-color: #231f20; max-width: 100%;">
@@ -178,20 +207,14 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="modalExemploTitulo">Modal de Exemplo</h5>
+                                <h5 class="modal-title" id="modalExemploTitulo">AVISO IMPORTANTE</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body overflow-scroll">
                                 <div class="overflow-scroll">
-                                    <p>Texto de exemplo para o modal.</p>
-                                    <p>Texto de exemplo para o modal.</p>
-                                    <p>Texto de exemplo para o modal.</p>
-                                    <p>Texto de exemplo para o modal.</p>
-                                    <p>Texto de exemplo para o modal.</p>
-                                    <p>Texto de exemplo para o modal.</p>
-
+                                    <p>Para realizar o Login na plataforma Fiscallize, você deve inserir seu e-mail cadastrado na MedHub (usuário) e CPF (senha).</p>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -208,8 +231,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
             </div>
 

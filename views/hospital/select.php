@@ -84,7 +84,7 @@ if (isset($_SESSION['msg'])) {
                                             ';
                                             $btnsSimAprovado = '
                                             <a class="btn btn-white display-7" href="home.php?acao=treinamento&id_est='.$mostra->id_est.'">Treinamento</a>
-                                            <a class="btn btn-white display-7" href="home.php?acao=curso&id_est='.$mostra->id_est.'">Avaliações</a>
+                                            <a class="btn btn-white display-7" href="home.php?acao=avaliacao&id_est='.$mostra->id_est.'">Avaliações</a>
                                             ';
                                             if($mostra->class_mat == 'sim') {
                                                 echo $estagioClassificado;

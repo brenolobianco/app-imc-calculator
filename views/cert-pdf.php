@@ -1,6 +1,6 @@
 <?php
 	try{
-		$conexao = new PDO('mysql:host=localhost;dbname=medhub', '', '');
+		$conexao = new PDO('mysql:host=localhost;dbname=u883305113_medhub', 'u883305113_hub', 'Me34we1*90wsd');
 		$conexao ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}catch(PDOException $e){
 		echo 'Error:' . $e->getMessage();

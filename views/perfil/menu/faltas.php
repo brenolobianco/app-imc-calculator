@@ -15,7 +15,7 @@
         <div class="col-12 col-md">
             <div class="text-wrapper">
                 <h1 class="mbr-section-title mbr-fonts-style mb-3 display-2">
-                    <strong>Faltas</strong></h1>
+                    <strong>Falta</strong></h1>
                     <p class="mbr-text mbr-fonts-style display-7"><strong>
                         <?php
                             $query_pres = "SELECT COUNT(id_pres) AS qnt_pres FROM presenca WHERE sit_pres ='Ausente'";

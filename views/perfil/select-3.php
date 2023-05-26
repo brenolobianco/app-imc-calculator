@@ -103,7 +103,7 @@
                         <div class="text-wrapper">
                             <h6 class="card-title mbr-fonts-style display-5">
                                 <center><br>
-                                <strong>Faltas</strong> 
+                                <strong>Falta</strong> 
                                 </center>
                             </h6>
                         </div>

@@ -112,7 +112,7 @@
                     <div class="card-box align-center">
                         <span class="mbr-iconfont mobi-mbri-error mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                         Faltas
+                         Falta
                         </h4>
                     </div>
                 </div>
@@ -186,7 +186,7 @@
                     <div class="card-box align-center">
                         <span class="mbr-iconfont mobi-mbri-paperclip mobi-mbri" style="font-size: 64px; color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                         <h4 class="card-title align-center mbr-black mbr-fonts-style display-7">
-                            Visualizar Comprovante
+                            Visualizar Comprovant
                         </h4>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
                     <div class="text-wrapper">
                         <h6 class="card-title mbr-fonts-style display-5">
                             <center><br>
-                            <strong>Visualizar Comprovante</strong> 
+                            <strong>Visualizar Comprovant</strong> 
                             <br>
                             </center>
                         </h6>

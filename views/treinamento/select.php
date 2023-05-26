@@ -18,7 +18,7 @@ require_once($dir);
                             style="background-color: #231f20; max-width: 100%;">
                     </div>
                 </button>
-                <p style="color: #88E450; font-weight: 800; text-align:center;">AREA DE TREINAMENTO</p>
+                <p style="color: #88E450; font-weight: 800; text-align:center;">ÁREA DE TREINAMENTO</p>
             </div>
 
             <div class="col-sm-12 col-md-5 mt-5 ml-2" style="margin-right: 5%;">
