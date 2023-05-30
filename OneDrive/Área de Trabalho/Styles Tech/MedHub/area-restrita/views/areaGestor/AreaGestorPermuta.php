@@ -320,10 +320,10 @@ section.ranking .continue:active {
                         <button type="button" class="btn btn btn-sm text-light w-100" style="background: #00063f; border-radius: 20px;">
                             <a rel="abas" class="btn btn me-2" itens="COMPORTAMENTO">COMPORTAMENTO</a></button><br><br>
                         <button type="button" class="btn btn btn-sm text-light w-100" style="background: #00063f; border-radius: 20px;">
-                            <a rel="abas"  class="btn btn desempenho" itens="DESEMPENHO">DESEMPENHO</a>
+                            <a rel="abas" class="btn btn desempenho" itens="DESEMPENHO">DESEMPENHO</a>
                         </button><br><br>
                         <button type="button" class="btn btn btn-sm text-light w-100" style="background: #00063f; border-radius: 20px;">
-                            <a rel="abas"  href="home.php?acao=area-gestor-frequencia" class="btn btn" itens="FREQUÊNCIA">FREQUÊNCIA</a>
+                            <a rel="abas" class="btn btn" itens="FREQUÊNCIA">FREQUÊNCIA</a>
                         </button><br><br>
                         <button type="button" class="btn btn btn-sm text-light w-100" style="background: #00063f; border-radius: 20px;">
                             <a rel="abas" class="btn btn" itens="PERMUTA">PERMUTA</a>

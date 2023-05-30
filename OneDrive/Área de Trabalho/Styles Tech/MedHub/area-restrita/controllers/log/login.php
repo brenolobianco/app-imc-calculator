@@ -1,18 +1,18 @@
 <?php
 
-        if(isset($_GET['acao'])){
+        // if(isset($_GET['acao'])){
           
-          if(!isset($_POST['logar'])){
+        //   if(!isset($_POST['logar'])){
           
-            $acao = $_GET['acao'];
-            if($acao=='negado'){
-              echo '<div class="alert alert-danger">
-                      <button type="button" class="close" data-dismiss="alert">×</button>
-                      <strong>Erro ao acessar!</strong> Você precisa estar logado p/ acessar o Sistema.
-                  </div>';  
-            }
-          }
-        }
+        //   //   $acao = $_GET['acao'];
+        //   //   if($acao=='negado'){
+        //   //     echo '<div class="alert alert-danger">
+        //   //             <button type="button" class="close" data-dismiss="alert">×</button>
+        //   //             <strong>Erro ao acessar!</strong> Você precisa estar logado p/ acessar o Sistema.
+        //   //         </div>';  
+        //   //   }
+        //   // }
+        // }
 
         if(isset($_POST['logar'])){
             // RECUPERAR DADOS FORM

@@ -1,9 +1,9 @@
 <?php
 ob_start();
 session_start();
-if(!isset($_SESSION['usuariowva']) && (!isset($_SESSION['senhawva']))){
-    header("Location: index.php?acao=negado");exit;
-}
+// if(!isset($_SESSION['usuariowva']) && (!isset($_SESSION['senhawva']))){
+//     header("Location: index.php?acao=negado");exit;
+// }
     include("models/conecta.php");
     include("controllers/log/logout.php");
     
