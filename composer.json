@@ -1,0 +1,17 @@
+{
+    "name": "paulo/clone",
+    "autoload": {
+        "psr-4": {
+            "Paulo\\Clone\\": "/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Paulo Roberto da Silva",
+            "email": "paulo@floripaserver.com.br"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.6"
+    }
+}

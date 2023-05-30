@@ -1,0 +1,19 @@
+videos/
+CachedData/
+Cache/
+Code Cache/
+CachedExtensions/
+anotacoes.txt
+CachedProfilesData/
+Cookies/
+Cookies-journal/
+Local Storage/
+Local Storage-journal/
+Session Storage/
+Session Storage-journal/
+Storage/
+Service Worker/
+User/
+Cookies-journal/
+~
+logs/
